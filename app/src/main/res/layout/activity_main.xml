@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:srcCompat="@drawable/backgroundsgn" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="555dp"
+        android:layout_height="447dp"
+        android:layout_marginLeft="-73dp"
+        android:layout_marginTop="-70dp"
+        app:srcCompat="@drawable/landingpgdsg" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="80dp"
+        app:srcCompat="@drawable/supplycratelanding" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="410dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="Select to Begin!"
+        android:textColor="@color/textblack"
+        android:textSize="35sp" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="226dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="500dp"
+        android:ellipsize="none"
+        android:requiresFadingEdge="horizontal|vertical"
+        android:text="Merchant"
+        app:backgroundTint="@color/btcolor"
+        app:backgroundTintMode="add"
+        app:cornerRadius="30dp"
+        app:elevation="20dp" />
+
+    <Button
+        android:id="@+id/button3"
+        android:layout_width="226dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="570dp"
+        android:ellipsize="none"
+        android:requiresFadingEdge="horizontal|vertical"
+        android:text="Customer"
+        app:backgroundTint="@color/btcolor"
+        app:backgroundTintMode="add"
+        app:cornerRadius="30dp"
+        app:elevation="20dp" />
+
+
+</FrameLayout>
+
+

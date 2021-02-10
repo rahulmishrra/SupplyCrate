@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundsgn"
+    tools:context=".mainretailer3op">
+
+
+
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="125dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="Sign Up"
+        android:textColor="@color/purple_200"
+        android:textSize="50sp"/>
+
+    <EditText
+        android:id="@+id/bname"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="220dp"
+        android:ems="10"
+        android:hint="Business Name"
+        android:inputType="textPersonName"
+        android:textColor="#B6B5B5" />
+    <EditText
+        android:id="@+id/editTextusername"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="270dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Full Name"
+        android:textColor="#B6B5B5" />
+
+    <EditText
+        android:id="@+id/editTextemailaddress"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="320dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:hint="Email Address"
+        android:textColor="#B8B8B8" />
+
+    <EditText
+        android:id="@+id/editTextpassword2"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="370dp"
+        android:ems="10"
+        android:hint="Pasword"
+        android:inputType="textPassword" />
+
+    <EditText
+        android:id="@+id/editTextPhone"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="420dp"
+        android:ems="10"
+        android:hint="Phone No."
+        android:inputType="phone" />
+
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/raleway_bold"
+        android:text="You will get an OTP for verification on this No."
+        android:textColor="@color/textblack"
+        android:textSize="10sp"
+        android:layout_marginTop="470dp"
+        android:layout_marginLeft="20dp"/>
+
+    <Button
+        android:id="@+id/BTN1"
+        android:layout_width="226dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="500dp"
+        android:ellipsize="none"
+        android:requiresFadingEdge="horizontal|vertical"
+        android:text="Sign Up"
+        app:backgroundTint="@color/btcolor"
+        app:backgroundTintMode="add"
+        app:cornerRadius="30dp"
+        app:elevation="20dp" />
+
+    <TextView
+        android:id="@+id/textsignin"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="580dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="Or Back To Sign in"
+        android:textColor="@color/btcolor"
+        android:textSize="18sp" />
+
+    <ImageView
+        android:layout_width="800dp"
+        android:layout_height="504dp"
+        android:layout_marginLeft="-35dp"
+        android:layout_marginTop="440dp"
+        android:layout_marginRight="-35dp"
+        android:layout_marginBottom="-30dp"
+        android:background="@drawable/landingpgdsg"
+        android:rotation="190" />
+
+
+</FrameLayout>

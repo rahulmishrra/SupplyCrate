@@ -1,0 +1,18 @@
+<resources>
+    <string name="app_name">SupplyCrate</string>
+    <string name="title_activity_form22">Map</string>
+    <string name="bookmark">bookmark</string>
+    <string name="settings">settings</string>
+    <string name="location">location</string>
+    <string name="cart">cart</string>
+    <string name="todo">TODO</string>
+    <string name="ginger">Ginger</string>
+
+    <string-array name="duration">
+        <item>Today</item>
+        <item>Yesterday</item>
+        <item>This Week</item>
+        <item>This Month</item>
+        <item>This Year</item>
+    </string-array>
+</resources>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+             <item android:id="@+id/settings"
+                 android:icon="@drawable/emailicon"
+                 android:title="@string/settings"
+                 app:showAsAction="ifRoom"/>
+
+             <item android:title="@string/bookmark"
+                 android:icon="@drawable/emailicon"
+                 android:id="@+id/bookmark"
+                 app:showAsAction="ifRoom"/>
+
+             <item android:title="@string/location"
+                 android:icon="@drawable/emailicon"
+                 android:id="@+id/location"
+                 app:showAsAction="ifRoom"/>
+    <item android:title="@string/location"
+        android:icon="@drawable/emailicon"
+        android:id="@+id/location1"
+        app:showAsAction="ifRoom"/>
+
+
+</menu>

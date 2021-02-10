@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "405801342631",
+    "firebase_url": "https://supply-crate33-default-rtdb.firebaseio.com",
+    "project_id": "supply-crate33",
+    "storage_bucket": "supply-crate33.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:405801342631:android:668c35a95cb4f96857ad82",
+        "android_client_info": {
+          "package_name": "com.example.supplycrate1"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "405801342631-f2m4sa0nes9vosod1o66bbh137hugn6b.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.supplycrate1",
+            "certificate_hash": "c88dafadd90bd815a67a2bdfc4b19215466fb205"
+          }
+        },
+        {
+          "client_id": "405801342631-kqnhdb21ldqkki284fvo7sgjvils0obq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDL6mwxLypOYnz_J39eCRHzsx50f1IQXyY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "405801342631-kqnhdb21ldqkki284fvo7sgjvils0obq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

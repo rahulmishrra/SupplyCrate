@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/backgroundsgn"
+    tools:context=".mainretailer2op"
+    >
+
+
+
+
+    <EditText
+        android:id="@+id/editTextpassword1"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="240dp"
+        android:ems="10"
+        android:fontFamily="@font/raleway"
+        android:hint="password"
+        android:inputType="textPassword" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="125dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="Sign In"
+        android:textColor="@color/purple_200"
+        android:textSize="50sp" />
+
+    <EditText
+        android:id="@+id/editTextusername1"
+        android:layout_width="250dp"
+        android:hint="email address"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="195dp"
+        android:ems="10"
+        android:fontFamily="@font/raleway"
+        android:inputType="textPersonName"
+        android:textColor="#D4D2D2" />
+
+    <Button
+        android:id="@+id/BTN1"
+        android:layout_width="226dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="340dp"
+        android:ellipsize="none"
+        android:requiresFadingEdge="horizontal|vertical"
+        android:text="Sign In"
+        app:backgroundTint="@color/btcolor"
+        app:backgroundTintMode="add"
+        app:cornerRadius="30dp"
+        app:elevation="20dp" />
+
+    <TextView
+        android:id="@+id/gotosignup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="420dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="Don't have an account? Sign Up"
+        android:textColor="@color/btcolor" />
+
+    <TextView
+        android:id="@+id/textforgotpassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="300dp"
+        android:fontFamily="@font/raleway_bold"
+        android:text="Forgot Password?"
+        android:textColor="@color/textblack" />
+
+    <ImageView
+        android:layout_width="800dp"
+        android:layout_height="504dp"
+        android:layout_marginLeft="-35dp"
+        android:layout_marginTop="440dp"
+        android:layout_marginRight="-35dp"
+        android:layout_marginBottom="-30dp"
+        android:background="@drawable/landingpgdsg"
+        android:rotation="190" />
+
+
+</FrameLayout>
