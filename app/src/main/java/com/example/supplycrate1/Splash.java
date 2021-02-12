@@ -42,7 +42,7 @@ public class Splash extends AppCompatActivity {
             @Override
             public void run() {
                 /* Create an Intent that will start the MainActivity. */
-                Intent mainIntent = new Intent(Splash.this, RetailerDashboard.class);
+                Intent mainIntent = new Intent(Splash.this, MainActivity.class);
                 startActivity(mainIntent);
                 finish();
             }

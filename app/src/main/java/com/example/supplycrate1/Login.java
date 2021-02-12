@@ -60,6 +60,9 @@ public class Login extends AppCompatActivity {
                             .addOnCompleteListener(Login.this, task -> {
                                 if (task.isSuccessful()) {
                                     startActivity(new Intent(getApplicationContext(), opop.class));
+                                    SessionManager sessionManager = new SessionManager(Login.this);
+                                    sessionManager.createLoginSession(custEmail,password);
+
 
                                 } else {
                                     Toast.makeText(Login.this, "Login Failed or User not available",Toast.LENGTH_SHORT).show();

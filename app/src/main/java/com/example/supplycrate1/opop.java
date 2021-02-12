@@ -7,13 +7,17 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.HashMap;
 
 public class opop extends AppCompatActivity {
 
     private ImageView cart;
     private FloatingActionButton create;
+    TextView sessiontext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,8 +26,16 @@ public class opop extends AppCompatActivity {
         getSupportActionBar().hide(); // hide the title bar
 
 
-
+        sessiontext = findViewById(R.id.sessiontext);
         create = findViewById(R.id.floatbtn);
+
+        SessionManager sessionManager = new SessionManager(this);
+        HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
+
+        String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
+        String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
+
+        sessiontext.setText(_custemail + "/n" + _custpassword);
 
         create.setOnClickListener(new View.OnClickListener() {
             @Override

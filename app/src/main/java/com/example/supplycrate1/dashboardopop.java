@@ -28,11 +28,7 @@ public class dashboardopop extends AppCompatActivity {
         profile = findViewById(R.id.profilebtn);
         loc = findViewById(R.id.imageView);
         upload = findViewById(R.id.add);
-        spinner = findViewById(R.id.durationspin);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(dashboardopop.this, android.R.layout.simple_list_item_1,getResources().getStringArray(R.array.duration));
-        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(arrayAdapter);
 
 
 
