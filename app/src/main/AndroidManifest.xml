@@ -7,7 +7,6 @@
          location permissions for the "MyLocation" functionality.
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
@@ -17,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SupplyCrate1">
-        <activity android:name=".RetailerDashboard"></activity>
+        <activity android:name=".CategoryForm"/>
+        <activity android:name=".ProductForm" />
+        <activity android:name=".RetailerDashboard" />
         <activity android:name=".dashboardopop" />
         <activity android:name=".crate" />
         <activity android:name=".testop" />

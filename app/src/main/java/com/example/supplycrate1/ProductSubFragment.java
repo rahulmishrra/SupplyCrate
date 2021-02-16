@@ -1,12 +1,20 @@
 package com.example.supplycrate1;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Spinner;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +22,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class ProductSubFragment extends Fragment {
+
+    FloatingActionButton prdctfrmbtn;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +71,20 @@ public class ProductSubFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_product_sub, container, false);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        prdctfrmbtn = getView().findViewById(R.id.productbtn);
+
+        prdctfrmbtn.setOnClickListener(v -> startActivity(new Intent(getContext(),ProductForm.class)));
     }
 }
