@@ -9,12 +9,20 @@
         android:id="@+id/orders2"
         android:name="com.example.supplycrate1.orders"
         android:label="fragment_orders"
-        tools:layout="@layout/fragment_orders" />
+        tools:layout="@layout/fragment_orders" >
+        <action
+            android:id="@+id/action_orders2_to_products"
+            app:destination="@id/products" />
+    </fragment>
     <fragment
         android:id="@+id/products"
         android:name="com.example.supplycrate1.products"
         android:label="fragment_products"
-        tools:layout="@layout/fragment_products" />
+        tools:layout="@layout/fragment_products" >
+        <action
+            android:id="@+id/action_products_to_queue"
+            app:destination="@id/queue" />
+    </fragment>
     <fragment
         android:id="@+id/queue"
         android:name="com.example.supplycrate1.queue"
@@ -24,5 +32,9 @@
         android:id="@+id/merchantdashboard"
         android:name="com.example.supplycrate1.merchantdashboard"
         android:label="fragment_merchantdashboard"
-        tools:layout="@layout/fragment_merchantdashboard" />
+        tools:layout="@layout/fragment_merchantdashboard" >
+        <action
+            android:id="@+id/action_merchantdashboard_to_orders2"
+            app:destination="@id/orders2" />
+    </fragment>
 </navigation>

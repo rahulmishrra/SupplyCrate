@@ -73,9 +73,10 @@ public class mainretailer2op extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful())
                             {
-
+                                SessionManager sessionManager = new SessionManager(mainretailer2op.this,SessionManager.SESSION_MERCHANT);
+                                sessionManager.createmrchLoginSession(email,password);
                                 Toast.makeText(com.example.supplycrate1.mainretailer2op.this, "Login Successful", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(getApplicationContext(),dashboardopop.class));
+                                startActivity(new Intent(getApplicationContext(),RetailerDashboard.class));
 
                             }
                             else

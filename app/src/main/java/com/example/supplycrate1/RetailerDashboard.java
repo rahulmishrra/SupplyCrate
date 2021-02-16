@@ -24,7 +24,7 @@ public class RetailerDashboard extends AppCompatActivity {
         setContentView(R.layout.activity_retailer_dashboard);
 
         bottomNavigationView = findViewById(R.id.merchantnavigation);
-        bottomNavigationView.setSelectedItemId(R.id.merchantdashboard);
+        //bottomNavigationView.setSelectedItemId(R.id.merchantdashboard);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.framecontainer,new merchantdashboard()).commit();
 

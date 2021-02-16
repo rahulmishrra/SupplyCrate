@@ -31,6 +31,8 @@ public class Login extends AppCompatActivity {
     FirebaseAuth firebaseAuth;
     TextView Signup;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +62,7 @@ public class Login extends AppCompatActivity {
                             .addOnCompleteListener(Login.this, task -> {
                                 if (task.isSuccessful()) {
                                     startActivity(new Intent(getApplicationContext(), opop.class));
-                                    SessionManager sessionManager = new SessionManager(Login.this);
+                                    SessionManager sessionManager = new SessionManager(Login.this,SessionManager.SESSION_CUSTOMER);
                                     sessionManager.createLoginSession(custEmail,password);
 
 
