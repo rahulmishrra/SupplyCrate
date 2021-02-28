@@ -15,6 +15,20 @@
         <item>This Month</item>
         <item>This Year</item>
     </string-array>
+
+    <string-array name="units">
+        <item>piece</item>
+        <item>kg</item>
+        <item>gram</item>
+        <item>ml</item>
+        <item>liter</item>
+        <item>packet</item>
+        <item>bunch</item>
+        <item>ton</item>
+
+    </string-array>
+
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

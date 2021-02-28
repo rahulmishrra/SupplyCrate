@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/customer_nav"
+    app:startDestination="@id/custDashboard">
+
+    <fragment
+        android:id="@+id/custDashboard"
+        android:name="com.example.supplycrate1.CustDashboard"
+        android:label="fragment_cust_dashboard"
+        tools:layout="@layout/fragment_cust_dashboard" />
+    <fragment
+        android:id="@+id/custlocation"
+        android:name="com.example.supplycrate1.custlocation"
+        android:label="fragment_custlocation"
+        tools:layout="@layout/fragment_custlocation" />
+    <fragment
+        android:id="@+id/custQueues"
+        android:name="com.example.supplycrate1.CustQueues"
+        android:label="fragment_cust_queues"
+        tools:layout="@layout/fragment_cust_queues" />
+    <fragment
+        android:id="@+id/custorders"
+        android:name="com.example.supplycrate1.custorders"
+        android:label="fragment_custorders"
+        tools:layout="@layout/fragment_custorders" />
+    <fragment
+        android:id="@+id/custSettings"
+        android:name="com.example.supplycrate1.CustSettings"
+        android:label="fragment_cust_settings"
+        tools:layout="@layout/fragment_cust_settings" />
+</navigation>

@@ -12,9 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,7 +32,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  */
 public class ProductSubFragment extends Fragment {
 
-    FloatingActionButton prdctfrmbtn;
+    private FloatingActionButton prdctfrmbtn;
+    private ListView prdctListview;
+
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -84,7 +95,54 @@ public class ProductSubFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         prdctfrmbtn = getView().findViewById(R.id.productbtn);
+        prdctListview = getView().findViewById(R.id.procductlistview);
 
-        prdctfrmbtn.setOnClickListener(v -> startActivity(new Intent(getContext(),ProductForm.class)));
+        List<String> productlist,productunit;
+        List<String> productprice;
+        productlist = new ArrayList<>();
+        productunit = new ArrayList<>();
+        productprice = new ArrayList<>();
+
+
+        ProductAdapter productAdapter = new ProductAdapter(getContext(),productlist,productunit,productprice);
+
+        FirebaseDatabase fdb = FirebaseDatabase.getInstance();
+        DatabaseReference dbreference = fdb.getReference("Pradeep").child("Products");
+
+        dbreference.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                productlist.add(snapshot.getValue(ProductHelper.class).getProductName());
+                productunit.add(snapshot.getValue(ProductHelper.class).getProductUnit());
+                productprice.add(snapshot.getValue(ProductHelper.class).getSellingprice());
+                productAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                productAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                productlist.remove(snapshot.getValue(ProductHelper.class).getProductName());
+                productunit.remove(snapshot.getValue(ProductHelper.class).getProductUnit());
+                productprice.remove(snapshot.getValue(ProductHelper.class).getSellingprice());
+                productAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        prdctListview.setAdapter(productAdapter);
+
+        prdctfrmbtn.setOnClickListener(v -> startActivity(new Intent(getActivity(),ProductForm.class)));
     }
 }

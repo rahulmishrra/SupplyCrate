@@ -4,33 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RetailerDashboard">
+    tools:context=".CustomerDashboard">
 
     <FrameLayout
-        android:id="@+id/framecontainer"
+        android:id="@+id/custFrame"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@id/merchantnavigation"
+        app:layout_constraintBottom_toTopOf="@id/customernavigation"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
 
-
         />
+
     <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/merchantnavigation"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/customernavigation"
         android:background="@color/btcolor"
+        app:itemTextColor="@color/white"
         app:itemIconTint="@color/ic_launcher_background"
-        app:itemTextColor="#FFFFFF"
-        android:layout_alignParentBottom="true"
-        app:menu="@menu/navigation"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        />
-
-
+        app:menu="@menu/cust_navigation"
+         />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/custQueues"
+        android:icon="@drawable/ic_baseline_escalator_warning_24"
+        android:title="Queue"/>
+
+    <item
+        android:id="@+id/custlocation"
+        android:icon="@drawable/locationicon"
+        android:title="Location"/>
+
+    <item
+        android:id="@+id/custDashboard"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home"/>
+
+    <item
+        android:id="@+id/custorders"
+        android:icon="@drawable/ic_baseline_shopping_cart_24"
+        android:title="Orders" />
+
+    <item
+        android:id="@+id/custSettings"
+        android:icon="@drawable/settingsicon"
+        android:title="Settings" />
+</menu>

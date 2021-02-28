@@ -38,11 +38,15 @@ public class Splash extends AppCompatActivity {
         boolean mrchlogin = mrchsession.checkMerchantLogin();
 
         if(custlogin == true){
-            startActivity(new Intent(getApplicationContext(), opop.class));
+            startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
         }
         else if(mrchlogin == true){
             startActivity(new Intent(getApplicationContext(), RetailerDashboard.class));
         }
+        else{
+            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        }
+
     }
 
     @Override

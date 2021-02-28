@@ -3,15 +3,27 @@ package com.example.supplycrate1;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -20,7 +32,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
  */
 public class CategorySubFragment extends Fragment {
 
+    private ListView ctgryListview;
     private FloatingActionButton ctgryfrmbtn;
+    private ArrayAdapter arrayAdapter;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -70,16 +84,86 @@ public class CategorySubFragment extends Fragment {
     }
 
     @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
         ctgryfrmbtn = getView().findViewById(R.id.categorybtn);
+        ctgryListview = (ListView) getView().findViewById(R.id.categorylistview);
+
+        List<String> categorieslist = new ArrayList<>();
+
+
+
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(),categorieslist);
+
+
+        //arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,categorieslist);
+        //ctgryListview.setAdapter(arrayAdapter);
+
+        FirebaseDatabase firedb = FirebaseDatabase.getInstance();
+        DatabaseReference dataref = firedb.getReference("Pradeep").child("Categories");
+
+        dataref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                categorieslist.add(snapshot.getValue(String.class));
+                categoryAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                categoryAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                categorieslist.remove(snapshot.getValue(String.class));
+                categoryAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        ctgryListview.setAdapter(categoryAdapter);
+
+        /*dataref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    categorieslist.add(dataSnapshot.getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });*/
+
+//        categoryAdapter.notifyDataSetChanged();
 
         ctgryfrmbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getContext(),CategorySubFragment.class));
+                startActivity(new Intent(getActivity(),CategoryForm.class));
             }
         });
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+       // ctgryfrmbtn = getView().findViewById(R.id.categorybtn);
+
+
     }
 }

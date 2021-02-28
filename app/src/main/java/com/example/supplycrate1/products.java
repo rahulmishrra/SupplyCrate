@@ -117,7 +117,7 @@ public class products extends Fragment {
 
             }
         });
-        
+
     }
 
     private void setUpViewPager(ViewPager viewPager) {

@@ -24,9 +24,38 @@ public class RetailerDashboard extends AppCompatActivity {
         setContentView(R.layout.activity_retailer_dashboard);
 
         bottomNavigationView = findViewById(R.id.merchantnavigation);
-        //bottomNavigationView.setSelectedItemId(R.id.merchantdashboard);
+        bottomNavigationView.setSelectedItemId(R.id.merchantdashboard);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.framecontainer,new merchantdashboard()).commit();
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+
+                Fragment temp =null;
+
+                switch (item.getItemId())
+                {
+                    case R.id.merchantdashboard:
+                        temp = new merchantdashboard();
+                        break;
+                    case R.id.orders2:
+                        temp = new orders();
+                        break;
+                    case R.id.products:
+                        temp = new products();
+                        break;
+                    case R.id.queue:
+                        temp = new queue();
+                        break;
+
+                }
+                getSupportFragmentManager().beginTransaction().replace(R.id.framecontainer,temp).commit();
+
+
+                return true;
+            }
+        });
 
         bottomNavigationView.setOnNavigationItemReselectedListener(new BottomNavigationView.OnNavigationItemReselectedListener() {
             @Override
@@ -54,6 +83,8 @@ public class RetailerDashboard extends AppCompatActivity {
 
             }
         });
+
+
 
     }
 }

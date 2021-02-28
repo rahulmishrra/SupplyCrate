@@ -32,7 +32,7 @@ public class dashboardopop extends AppCompatActivity {
 
 
 
-
+    /*
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -52,7 +52,7 @@ public class dashboardopop extends AppCompatActivity {
             public void onClick(View view) {
                 startActivity(new Intent(getApplicationContext(),uploadscreen.class));
             }
-        });
+        });*/
 
 
 

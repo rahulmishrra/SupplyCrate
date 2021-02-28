@@ -10,7 +10,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.HashMap;
@@ -20,7 +23,7 @@ import java.util.HashMap;
  * Use the {@link merchantdashboard#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class merchantdashboard extends Fragment {
+public class merchantdashboard extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,6 +33,7 @@ public class merchantdashboard extends Fragment {
     View view;
     Button merchantlogoutbtn;
     TextView textView;
+    private Spinner dspinner;
 
 
     // TODO: Rename and change types of parameters
@@ -80,7 +84,15 @@ public class merchantdashboard extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
+        dspinner = (Spinner) getView().findViewById(R.id.durationspin);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.duration, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        dspinner.setAdapter(adapter);
+        dspinner.setOnItemSelectedListener(this);
+
+
+
+       SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
         HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
 
         String mmail  = mrchDetails.get(SessionManager.KEY_MERCHANTEMAIL);
@@ -88,7 +100,7 @@ public class merchantdashboard extends Fragment {
 
 
 
-        textView = getView().findViewById(R.id.textView12);
+        textView = getView().findViewById(R.id.ordertext);
         textView.setText(mmail + "\n"+ mpass);
         merchantlogoutbtn  = getView().findViewById(R.id.mrchlogoutbtn);
         merchantlogoutbtn.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +110,22 @@ public class merchantdashboard extends Fragment {
                 startActivity(new Intent(getContext(), mainretailer2op.class));
             }
         });
+
+    }
+
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
+
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
     }
 }
