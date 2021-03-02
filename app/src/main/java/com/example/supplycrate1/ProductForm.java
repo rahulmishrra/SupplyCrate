@@ -1,16 +1,19 @@
 package com.example.supplycrate1;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -20,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductForm extends AppCompatActivity {
+public class ProductForm extends AppCompatActivity{
     EditText prdctname,prdctfile,mrp,sellingprice,quantity;
     Button productrgstbtn;
     Spinner unit,category;
@@ -46,25 +49,33 @@ public class ProductForm extends AppCompatActivity {
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unit.setAdapter(arrayAdapter);
 
-         firebaseDatabase = FirebaseDatabase.getInstance();
-         dataref = firebaseDatabase.getReference("Pradeep").child("Categories");
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        dataref = firebaseDatabase.getReference("Pradeep").child("Categories");
 
-        dataref.addValueEventListener(new ValueEventListener() {
+        List<String> categories = new ArrayList<>();
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        dataref.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                final ArrayList<String> categories = new ArrayList<String>();
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                categories.add(snapshot.getValue(String.class));
+                adapter.notifyDataSetChanged();
+            }
 
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                adapter.notifyDataSetChanged();
+            }
 
-                    categories.add(dataSnapshot.getValue().toString());
-                }
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                categories.remove(snapshot.getValue(String.class));
+                adapter.notifyDataSetChanged();
+            }
 
-
-
-                ArrayAdapter<String> adapter = new ArrayAdapter<>(ProductForm.this, android.R.layout.simple_spinner_item, categories);
-                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                category.setAdapter(adapter);
-
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
             }
 
@@ -73,6 +84,48 @@ public class ProductForm extends AppCompatActivity {
 
             }
         });
+
+        category.setAdapter(adapter);
+
+        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = parent.getItemAtPosition(position).toString();
+                //Toast.makeText(ProductForm.this,item,Toast.LENGTH_SHORT).show();
+                category.setSelection(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+
+
+/*
+        dataref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                final ArrayList<String> categories = new ArrayList<String>();
+
+                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+
+                    categories.add(dataSnapshot.getValue().toString());
+
+                }
+
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(ProductForm.this, android.R.layout.simple_spinner_item, categories);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                category.setAdapter(adapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });*/
 
         productrgstbtn.setOnClickListener(new View.OnClickListener() {
             @Override

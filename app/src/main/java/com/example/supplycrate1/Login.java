@@ -61,7 +61,7 @@ public class Login extends AppCompatActivity {
                     firebaseAuth.signInWithEmailAndPassword(custEmail, password)
                             .addOnCompleteListener(Login.this, task -> {
                                 if (task.isSuccessful()) {
-                                    startActivity(new Intent(getApplicationContext(), opop.class));
+                                    startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
                                     SessionManager sessionManager = new SessionManager(Login.this,SessionManager.SESSION_CUSTOMER);
                                     sessionManager.createLoginSession(custEmail,password);
 

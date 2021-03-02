@@ -26,7 +26,7 @@ public class opop extends AppCompatActivity {
 
         getSupportActionBar().hide(); // hide the title bar
 
-        custlogout = findViewById(R.id.custlogoutbtn);
+        custlogout = findViewById(R.id.btnnnoon);
         sessiontext = findViewById(R.id.sessiontext);
         create = findViewById(R.id.floatbtn);
 
