@@ -23,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -96,18 +97,21 @@ public class ProductSubFragment extends Fragment {
 
         prdctfrmbtn = getView().findViewById(R.id.productbtn);
         prdctListview = getView().findViewById(R.id.procductlistview);
-
         List<String> productlist,productunit;
         List<String> productprice;
         productlist = new ArrayList<>();
         productunit = new ArrayList<>();
         productprice = new ArrayList<>();
 
+        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
+        HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
+        String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
+
 
         ProductAdapter productAdapter = new ProductAdapter(getContext(),productlist,productunit,productprice);
 
         FirebaseDatabase fdb = FirebaseDatabase.getInstance();
-        DatabaseReference dbreference = fdb.getReference("Pradeep").child("Products");
+        DatabaseReference dbreference = fdb.getReference("Merchants").child(mbname).child("Products");
 
         dbreference.addChildEventListener(new ChildEventListener() {
             @Override

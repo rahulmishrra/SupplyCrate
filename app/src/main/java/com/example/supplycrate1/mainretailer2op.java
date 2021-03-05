@@ -21,12 +21,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 public class mainretailer2op extends AppCompatActivity {
-    EditText editemail, editpassword;
+    EditText editemail, editpassword,editbname;
     Button Login;
     TextView signup, forgotpass;
     FirebaseAuth fAuth;
+    FirebaseDatabase dbrootnode;
+    DatabaseReference dbref;
 
 
 
@@ -36,6 +44,7 @@ public class mainretailer2op extends AppCompatActivity {
         getSupportActionBar().hide();
         setContentView(R.layout.activity_mainretailer2op);
 
+        editbname = findViewById(R.id.editbusinessname);
         editemail = findViewById(R.id.editTextusername1);
         editpassword = findViewById(R.id.editTextpassword1);
         signup = findViewById(R.id.gotosignup);
@@ -47,9 +56,42 @@ public class mainretailer2op extends AppCompatActivity {
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String email = editemail.getText().toString().trim();
-                String password = editpassword.getText().toString().trim();
+
+                String bname = editbname.getText().toString();
+                String email = editemail.getText().toString();
+                String password = editpassword.getText().toString();
                 fAuth = FirebaseAuth.getInstance();
+                dbrootnode = FirebaseDatabase.getInstance();
+                dbref = dbrootnode.getReference("Merchants");
+                Query checkUser = dbref.orderByChild("bName").equalTo(bname);
+
+                checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if(snapshot.exists()){
+                            String _b_name = snapshot.child(bname).child("bName").getValue().toString();
+                            String _b_email = snapshot.child(bname).child("email").getValue().toString();
+                            String _name = snapshot.child(bname).child("name").getValue().toString();
+                            String _b_pass = snapshot.child(bname).child("pass").getValue().toString();
+                            String _b_phone = snapshot.child(bname).child("phone").getValue().toString();
+                            SessionManager sessionManager = new SessionManager(mainretailer2op.this,SessionManager.SESSION_MERCHANT);
+                            sessionManager.createmrchLoginSession(_b_email,_b_pass,_b_name,_name,_b_phone);
+                            merchLogin(email,password);
+                        }
+                        else {
+                            editbname.setError("No such user exist");
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+
+            private void merchLogin(String email, String password) {
                 if(TextUtils.isEmpty(email))
                 {
                     editemail.setError("Email is needed");
@@ -73,8 +115,6 @@ public class mainretailer2op extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful())
                             {
-                                SessionManager sessionManager = new SessionManager(mainretailer2op.this,SessionManager.SESSION_MERCHANT);
-                                sessionManager.createmrchLoginSession(email,password);
                                 Toast.makeText(com.example.supplycrate1.mainretailer2op.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(),RetailerDashboard.class));
 
@@ -91,15 +131,7 @@ public class mainretailer2op extends AppCompatActivity {
                     });
                 }
 
-
-
-
-
-
-
-
             }
-
 
 
         });

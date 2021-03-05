@@ -25,6 +25,9 @@ public class SessionManager {
     private static final String IS_MERCHANTLOGIN = "IsMerchantLoggedIn";
     public static final String KEY_MERCHANTEMAIL = "memail";
     public static final String KEY_MERCHANTPASSWORD = "mpassword";
+    public static final String KEY_MERCHANTBNAME = "bname";
+    public static final String KEY_MERCHANTNAME = "mownername";
+    public static final String KEY_MERCHANTPHONE = "mphone";
 
     public SessionManager(Context _context,String sessionName){
         context = _context;
@@ -70,11 +73,14 @@ public class SessionManager {
     Merchant Session
     * */
 
-    public void createmrchLoginSession(String _memail, String _mpassword){
+    public void createmrchLoginSession(String _memail, String _mpassword, String _bname, String _mownername, String _mphone){
         editor.putBoolean(IS_MERCHANTLOGIN,true);
 
         editor.putString(KEY_MERCHANTEMAIL,_memail);
         editor.putString(KEY_MERCHANTPASSWORD,_mpassword);
+        editor.putString(KEY_MERCHANTBNAME,_bname);
+        editor.putString(KEY_MERCHANTNAME,_mownername);
+        editor.putString(KEY_MERCHANTPHONE,_mphone);
 
         editor.commit();
     }
@@ -84,6 +90,9 @@ public class SessionManager {
 
         merchData.put(KEY_MERCHANTEMAIL,usersSession.getString(KEY_MERCHANTEMAIL,null));
         merchData.put(KEY_MERCHANTPASSWORD,usersSession.getString(KEY_MERCHANTPASSWORD,null));
+        merchData.put(KEY_MERCHANTBNAME,usersSession.getString(KEY_MERCHANTBNAME,null));
+        merchData.put(KEY_MERCHANTNAME,usersSession.getString(KEY_MERCHANTNAME,null));
+        merchData.put(KEY_MERCHANTPHONE,usersSession.getString(KEY_MERCHANTPHONE,null));
 
         return merchData;
     }

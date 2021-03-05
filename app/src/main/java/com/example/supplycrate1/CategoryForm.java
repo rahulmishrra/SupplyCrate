@@ -27,23 +27,22 @@ public class CategoryForm extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_form);
+        getSupportActionBar().hide();
 
         ctgryname = findViewById(R.id.categoryname);
         catergstbtn = findViewById(R.id.cateformbtn);
 
-        SessionManager sessionManager = new SessionManager(CategoryForm.this,SessionManager.SESSION_MERCHANT);
-        HashMap<String,String> merchDetails = sessionManager.getMerchantDetailFromSession();
-
-        String mrmail  = merchDetails.get(SessionManager.KEY_MERCHANTEMAIL);
-        String mrpass  = merchDetails.get(SessionManager.KEY_MERCHANTPASSWORD);
+        SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_MERCHANT);
+        HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
+        String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
 
         catergstbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String categoryname = ctgryname.getText().toString();
                 firebaseDatabase = FirebaseDatabase.getInstance();
-                dbref = firebaseDatabase.getReference("Pradeep");
-                databaseReference = firebaseDatabase.getReference("Pradeep").child("Categories");
+                dbref = firebaseDatabase.getReference("Merchants").child(mbname);
+                databaseReference = firebaseDatabase.getReference("Merchants").child(mbname).child("Categories");
 
 
                 dbref.addListenerForSingleValueEvent(new ValueEventListener() {

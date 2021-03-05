@@ -31,8 +31,7 @@ public class merchantdashboard extends Fragment implements AdapterView.OnItemCli
     private static final String ARG_PARAM2 = "param2";
 
     View view;
-    Button merchantlogoutbtn;
-    TextView textView;
+
     private Spinner dspinner;
 
 
@@ -97,19 +96,13 @@ public class merchantdashboard extends Fragment implements AdapterView.OnItemCli
 
         String mmail  = mrchDetails.get(SessionManager.KEY_MERCHANTEMAIL);
         String mpass  = mrchDetails.get(SessionManager.KEY_MERCHANTPASSWORD);
+        String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
+        String mname = mrchDetails.get(SessionManager.KEY_MERCHANTNAME);
+        String mphone = mrchDetails.get(SessionManager.KEY_MERCHANTPHONE);
 
 
 
-        textView = getView().findViewById(R.id.ordertext);
-        textView.setText(mmail + "\n"+ mpass);
-        merchantlogoutbtn  = getView().findViewById(R.id.mrchlogoutbtn);
-        merchantlogoutbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sessionManager.logoutMerchantFromSession();
-                startActivity(new Intent(getContext(), mainretailer2op.class));
-            }
-        });
+
 
     }
 

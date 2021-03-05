@@ -4,10 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CategoryForm">
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+    tools:context=".CategoryForm"
+    android:background="@drawable/backgroundsgn">
+
 
     <EditText
         android:id="@+id/categoryname"
@@ -19,7 +18,7 @@
         android:ems="10"
         android:fontFamily="@font/raleway"
         android:hint="Category Name"
-        android:textColor="@color/black"
+        android:textColor="#d4d2d2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
 
@@ -36,5 +35,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    </FrameLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_keyboard_backspace_24"
+
+        app:titleTextColor="@color/white"
+        app:title="Add New Category"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

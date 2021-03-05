@@ -5,13 +5,22 @@
     android:layout_height="match_parent"
     tools:context=".queue">
 
-    <!-- TODO: Update blank fragment layout -->
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="queue fragment"
-        android:textAllCaps="true"
-        android:textSize="36sp"
-        android:textStyle="bold" />
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="TextView" />
+
+    <Button
+
+        android:id="@+id/mrchlogoutbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:text="LOGOUT"
+
+        />
 
 </FrameLayout>

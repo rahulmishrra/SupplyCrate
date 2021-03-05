@@ -1,12 +1,19 @@
 package com.example.supplycrate1;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -14,6 +21,9 @@ import android.view.ViewGroup;
  * create an instance of this fragment.
  */
 public class queue extends Fragment {
+
+    Button merchantlogoutbtn;
+    TextView textView;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -60,5 +70,31 @@ public class queue extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_queue, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
+        HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
+
+        String mmail  = mrchDetails.get(SessionManager.KEY_MERCHANTEMAIL);
+        String mpass  = mrchDetails.get(SessionManager.KEY_MERCHANTPASSWORD);
+        String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
+        String mname = mrchDetails.get(SessionManager.KEY_MERCHANTNAME);
+        String mphone = mrchDetails.get(SessionManager.KEY_MERCHANTPHONE);
+
+        textView = getView().findViewById(R.id.textView12);
+        textView.setText(mmail + "\n"+ mpass + "\n"+ mbname + "\n"+ mname + "\n"+ mphone);
+        merchantlogoutbtn  = getView().findViewById(R.id.mrchlogoutbtn);
+        merchantlogoutbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sessionManager.logoutMerchantFromSession();
+                startActivity(new Intent(getContext(), mainretailer2op.class));
+            }
+        });
+
     }
 }

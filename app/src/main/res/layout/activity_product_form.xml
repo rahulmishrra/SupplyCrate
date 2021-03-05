@@ -8,6 +8,21 @@
     android:background="@drawable/backgroundsgn">
 
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/merchantproduct"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_keyboard_backspace_24"
+
+        app:titleTextColor="@color/white"
+        app:title="Add New Products"/>
+
     <EditText
         android:id="@+id/productname"
         android:layout_width="0dp"
@@ -19,7 +34,7 @@
         android:fontFamily="@font/raleway"
         android:hint="Product name"
         android:inputType="text"
-        android:textColor="@color/black"
+        android:textColor="#d4d2d2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -33,7 +48,7 @@
         android:ems="10"
         android:fontFamily="@font/raleway"
         android:hint="Product Details"
-        android:textColor="@color/black"
+        android:textColor="#d4d2d2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -50,7 +65,7 @@
         android:inputType="number"
         android:fontFamily="@font/raleway"
         android:hint="MRP"
-        android:textColor="@color/black"
+        android:textColor="#d4d2d2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -67,7 +82,7 @@
         android:fontFamily="@font/raleway"
         android:hint="Selling Price"
         android:inputType="number"
-        android:textColor="@color/black"
+        android:textColor="#d4d2d2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -82,7 +97,7 @@
         android:ems="10"
         android:fontFamily="@font/raleway"
         android:hint="Quantity"
-        android:textColor="@color/black"
+        android:textColor="#d4d2d2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 

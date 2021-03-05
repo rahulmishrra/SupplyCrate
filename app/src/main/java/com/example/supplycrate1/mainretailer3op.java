@@ -29,7 +29,7 @@ public class mainretailer3op extends AppCompatActivity {
     TextView Goback;
     private FirebaseAuth fAuth;
     private FirebaseDatabase rootnode;
-    private DatabaseReference dbref;
+    private DatabaseReference dbref,dbr;
 
 
     @Override
@@ -67,6 +67,7 @@ public class mainretailer3op extends AppCompatActivity {
                 BusinessHelperClass Bhclass = new BusinessHelperClass(businessName,name,email,phone,password);
                 rootnode = FirebaseDatabase.getInstance();
                 dbref = rootnode.getReference("Merchants");
+                dbr = rootnode.getReference("MerchantLogin");
                 fAuth = FirebaseAuth.getInstance();
 
 
@@ -95,6 +96,7 @@ public class mainretailer3op extends AppCompatActivity {
                             if (task.isSuccessful())
                             {
                                 dbref.child(businessName).setValue(Bhclass);
+                                //dbr.child(email).setValue(Bhclass);
                                 Toast.makeText(com.example.supplycrate1.mainretailer3op.this, "User Created", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(),dashboardopop.class));
                             }

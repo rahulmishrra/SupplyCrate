@@ -10,8 +10,10 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -123,6 +125,17 @@ public class CustDashboard extends Fragment {
             }
         });
         merchNamelistview.setAdapter(merchantAdapter);
+
+        merchNamelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String businessName = merchnamelist.get(position).toString();
+                Toast.makeText(getContext(),businessName,Toast.LENGTH_SHORT).show();
+                Intent intentdash = new Intent(getContext(),CustMerhInfo.class);
+                intentdash.putExtra("StoreName",businessName);
+                startActivity(intentdash);
+            }
+        });
 
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();

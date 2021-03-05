@@ -2,11 +2,13 @@ package com.example.supplycrate1;
 
 public class ProductHelper {
     String ProductName,ProductDetails,ProductQuantity,ProductUnit,ProductCategory,Mrp,Sellingprice;
+    boolean stock;
+
 
     public ProductHelper() {
     }
 
-    public ProductHelper(String productName, String productDetails, String productQuantity, String productUnit, String productCategory, String mrp, String sellingprice) {
+    public ProductHelper(String productName, String productDetails, String productQuantity, String productUnit, String productCategory, String mrp, String sellingprice, boolean stock) {
         ProductName = productName;
         ProductDetails = productDetails;
         ProductQuantity = productQuantity;
@@ -14,6 +16,15 @@ public class ProductHelper {
         ProductCategory = productCategory;
         Mrp = mrp;
         Sellingprice = sellingprice;
+        this.stock = stock;
+    }
+
+    public boolean isStock() {
+        return stock;
+    }
+
+    public void setStock(boolean stock) {
+        this.stock = stock;
     }
 
     public String getProductName() {

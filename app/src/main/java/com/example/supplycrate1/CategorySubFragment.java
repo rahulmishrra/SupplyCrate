@@ -23,6 +23,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -96,12 +97,13 @@ public class CategorySubFragment extends Fragment {
 
         CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(),categorieslist);
 
+        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
+        HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
+        String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
 
-        //arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,categorieslist);
-        //ctgryListview.setAdapter(arrayAdapter);
 
         FirebaseDatabase firedb = FirebaseDatabase.getInstance();
-        DatabaseReference dataref = firedb.getReference("Pradeep").child("Categories");
+        DatabaseReference dataref = firedb.getReference("Merchants").child(mbname).child("Categories");
 
         dataref.addChildEventListener(new ChildEventListener() {
             @Override

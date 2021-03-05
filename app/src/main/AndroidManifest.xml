@@ -16,6 +16,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SupplyCrate1">
+        <activity android:name=".CustMerhInfo"></activity>
         <activity android:name=".CustomerDashboard" />
         <activity android:name=".CategoryForm" />
         <activity android:name=".ProductForm" />

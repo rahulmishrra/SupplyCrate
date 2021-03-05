@@ -21,6 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class ProductForm extends AppCompatActivity{
@@ -34,6 +35,7 @@ public class ProductForm extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_form);
+        getSupportActionBar().hide();
 
 
         prdctname = findViewById(R.id.productname);
@@ -49,8 +51,12 @@ public class ProductForm extends AppCompatActivity{
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         unit.setAdapter(arrayAdapter);
 
+        SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_MERCHANT);
+        HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
+        String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
+
         firebaseDatabase = FirebaseDatabase.getInstance();
-        dataref = firebaseDatabase.getReference("Pradeep").child("Categories");
+        dataref = firebaseDatabase.getReference("Merchants").child(mbname).child("Categories");
 
         List<String> categories = new ArrayList<>();
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categories);
@@ -137,16 +143,17 @@ public class ProductForm extends AppCompatActivity{
                 String _quantity = quantity.getText().toString();
                 String _unit = unit.getSelectedItem().toString();
                 String _category = category.getSelectedItem().toString();
-                ProductHelper productHelper = new ProductHelper(_prdctname,_prdctfile,_quantity,_unit,_category,_mrp,_sellingprice);
+                boolean stock = true;
+                ProductHelper productHelper = new ProductHelper(_prdctname,_prdctfile,_quantity,_unit,_category,_mrp,_sellingprice,stock);
 
-                dbr = firebaseDatabase.getReference("Pradeep");
+                dbr = firebaseDatabase.getReference("Merchants").child(mbname);
 
 
                 dbr.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.hasChild("Products")){
-                            newProducts(_prdctname,_prdctfile,_quantity,_unit,_category,_mrp,_sellingprice);
+                            newProducts(_prdctname,_prdctfile,_quantity,_unit,_category,_mrp,_sellingprice,stock);
                         }
                         else{
                             dbr.child("Products").child("1").setValue(productHelper);
@@ -165,10 +172,10 @@ public class ProductForm extends AppCompatActivity{
                 Toast.makeText(ProductForm.this,_prdctname+" "+ _prdctfile + " " + _mrp + " " + _sellingprice + " " + _quantity + " " + _unit + " " +_category,Toast.LENGTH_SHORT).show();
             }
 
-            private void newProducts(String productName, String productDetails, String productQuantity, String productUnit, String productCategory, String mrp, String sellingprice) {
+            private void newProducts(String productName, String productDetails, String productQuantity, String productUnit, String productCategory, String mrp, String sellingprice, boolean Stock) {
 
-                ProductHelper producthelper = new ProductHelper(productName,productDetails,productQuantity,productUnit,productCategory,mrp,sellingprice);
-                dbrefer = firebaseDatabase.getReference("Pradeep").child("Products");
+                ProductHelper producthelper = new ProductHelper(productName,productDetails,productQuantity,productUnit,productCategory,mrp,sellingprice,Stock);
+                dbrefer = firebaseDatabase.getReference("Merchants").child(mbname).child("Products");
                 dbrefer.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {

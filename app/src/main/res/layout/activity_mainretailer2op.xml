@@ -27,11 +27,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="125dp"
+        android:layout_marginTop="80dp"
         android:fontFamily="@font/raleway_bold"
         android:text="Sign In"
         android:textColor="@color/purple_200"
         android:textSize="50sp" />
+
+    <EditText
+        android:id="@+id/editbusinessname"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:hint="Your Business name"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="150dp"
+        android:ems="10"
+        android:fontFamily="@font/raleway"
+        android:inputType="textPersonName"
+        android:textColor="#d4d2d2"
+        />
 
     <EditText
         android:id="@+id/editTextusername1"
