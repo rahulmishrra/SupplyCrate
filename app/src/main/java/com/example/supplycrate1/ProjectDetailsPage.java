@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -19,7 +20,7 @@ import com.squareup.picasso.Picasso;
 
 public class ProjectDetailsPage extends AppCompatActivity {
     private DatabaseReference prddbref;
-    private TextView productNameText, productPriceText,productQuantity, productDesc;
+    TextView productNameText, productPriceText,productQuantity, productDesc;
     private String _productNameText, _productPriceText, _productQuantity, _productUnit, _productDesc, _productImgUrl;
     private ImageView productImage;
     private Button addCratebtn;
@@ -30,7 +31,7 @@ public class ProjectDetailsPage extends AppCompatActivity {
         setContentView(R.layout.activity_project_details_page);
         getSupportActionBar().hide();
 
-        productNameText = findViewById(R.id.pdtlname);
+        productNameText = (TextView) findViewById(R.id.pdtlname);
         productPriceText = findViewById(R.id.pdtlprice);
         productDesc = findViewById(R.id.pdtldescription);
         productQuantity = findViewById(R.id.pdtlquantity);
@@ -46,12 +47,12 @@ public class ProjectDetailsPage extends AppCompatActivity {
         prddbref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                _productNameText = snapshot.getValue(ProductHelper.class).getProductName();
-                _productPriceText = snapshot.getValue(ProductHelper.class).getSellingprice();
-                _productDesc = snapshot.getValue(ProductHelper.class).getProductDetails();
-                _productQuantity = snapshot.getValue(ProductHelper.class).getProductQuantity();
-                _productUnit = snapshot.getValue(ProductHelper.class).getProductUnit();
-                _productImgUrl = snapshot.getValue(ProductHelper.class).getProductImageUrl();
+
+                productNameText.setText(snapshot.getValue(ProductHelper.class).getProductName());
+                productPriceText.setText("\u20B9"+snapshot.getValue(ProductHelper.class).getSellingprice());
+                productDesc.setText(snapshot.getValue(ProductHelper.class).getProductDetails());
+                productQuantity.setText(snapshot.getValue(ProductHelper.class).getProductQuantity() + " " + snapshot.getValue(ProductHelper.class).getProductUnit());
+                Picasso.get().load(Uri.parse(snapshot.getValue(ProductHelper.class).getProductImageUrl())).into(productImage);
             }
 
             @Override
@@ -60,12 +61,15 @@ public class ProjectDetailsPage extends AppCompatActivity {
             }
         });
 
-        productNameText.setText(_productNameText);
-        productPriceText.setText(_productPriceText);
-        productDesc.setText(_productDesc);
-       // productQuantity.setText(_productQuantity+ " "+_productUnit );
-       // Picasso.get().load(Uri.parse(_productImgUrl)).into(productImage);
 
+
+
+        addCratebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(ProjectDetailsPage.this,_productNameText+ " "+_productImgUrl,Toast.LENGTH_SHORT).show();
+            }
+        });
 
     }
 
