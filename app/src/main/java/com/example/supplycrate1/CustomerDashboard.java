@@ -23,7 +23,7 @@ public class CustomerDashboard extends AppCompatActivity {
         setContentView(R.layout.activity_customer_dashboard);
 
         custnavigationview = findViewById(R.id.customernavigation);
-        //custnavigationview.setSelectedItemId(R.id.custDashboard);
+        custnavigationview.setSelectedItemId(R.id.custDashboard);
 
         getSupportFragmentManager().beginTransaction().replace(R.id.custFrame,new CustDashboard()).commit();
 

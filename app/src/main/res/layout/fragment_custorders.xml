@@ -1,15 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".custorders">
+    android:layout_height="match_parent">
 
     <!-- TODO: Update blank fragment layout -->
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_alignParentBottom="true"
+
+        android:id="@+id/square"
+        >
+
     <TextView
+        android:id="@+id/custtotalcart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Total:"
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        android:layout_centerHorizontal="true"
+
+        />
+
+    <Button
+        android:id="@+id/checkoutbtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="CHECKOUT"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        app:icon="@drawable/ic_baseline_chevron_right_24"
+        app:iconGravity="end" />
+
+    </RelativeLayout>
+
+
+    <ListView
+        android:id="@+id/cartlistview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="orders"
-        android:textSize="36sp" />
+        android:layout_alignParentBottom="false"
+        android:layout_above="@+id/square"
+        android:layout_centerInParent="false"
+        android:layout_centerVertical="false"
+        android:divider="@null">
 
-</FrameLayout>
+    </ListView>
+
+</RelativeLayout>

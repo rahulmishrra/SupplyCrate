@@ -19,6 +19,7 @@ public class SessionManager {
     private static final String IS_LOGIN = "IsLoggedIn";
     public static final String KEY_EMAIL = "email";
     public static final String KEY_PASSWORD = "password";
+    public static final String KEY_NAME = "customer_name";
 
     //Merchant session variables
 
@@ -38,11 +39,12 @@ public class SessionManager {
     /*
     Customer Session
     * */
-    public void createLoginSession(String email, String password){
+    public void createLoginSession(String email, String password, String name){
         editor.putBoolean(IS_LOGIN,true);
 
         editor.putString(KEY_EMAIL,email);
         editor.putString(KEY_PASSWORD,password);
+        editor.putString(KEY_NAME,name);
 
         editor.commit();
     }
@@ -52,6 +54,7 @@ public class SessionManager {
 
         userData.put(KEY_EMAIL,usersSession.getString(KEY_EMAIL,null));
         userData.put(KEY_PASSWORD,usersSession.getString(KEY_PASSWORD,null));
+        userData.put(KEY_NAME,usersSession.getString(KEY_NAME,null));
 
         return userData;
     }

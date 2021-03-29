@@ -2,11 +2,28 @@ package com.example.supplycrate1;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -15,6 +32,9 @@ import android.view.ViewGroup;
  */
 public class custorders extends Fragment {
 
+    private ListView cartlistview;
+    int count=0;
+    int counter = 0;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -60,5 +80,127 @@ public class custorders extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_custorders, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        cartlistview = getView().findViewById(R.id.cartlistview);
+
+        Button checkoutbtn = getView().findViewById(R.id.checkoutbtn);
+
+
+        List<String> cartprdlist = new ArrayList<>();
+        List<String> cartprdunit = new ArrayList<>();
+        List<String> cartprdprice = new ArrayList<>();
+        List<String> cartprdctgry = new ArrayList<>();
+        List<String> cartprdqnty = new ArrayList<>();
+        List<String> cartprdimgurl = new ArrayList<>();
+        List<String> cartkey = new ArrayList<>();
+
+        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
+        HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
+
+        String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
+        String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
+        String _custname = userDetails.get(SessionManager.KEY_NAME);
+
+
+        custCartAdapter cartAdapter = new custCartAdapter(getContext(),cartprdlist,cartprdunit,cartprdprice,cartprdctgry,cartprdqnty,cartprdimgurl,cartkey,_custname);
+
+        DatabaseReference dtbref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart");
+
+
+        dtbref.addChildEventListener(new ChildEventListener() {
+            @Override
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                cartprdlist.add(snapshot.getValue(CartHelper.class).getProductname());
+                cartprdunit.add(snapshot.getValue(CartHelper.class).getProductunit());
+                cartprdprice.add(snapshot.getValue(CartHelper.class).getProductprice());
+                cartprdctgry.add(snapshot.getValue(CartHelper.class).getProductCategory());
+                cartprdqnty.add(snapshot.getValue(CartHelper.class).getProductQuantity());
+                cartprdimgurl.add(snapshot.getValue(CartHelper.class).getProductImageUrl());
+                cartkey.add(snapshot.getValue(CartHelper.class).getProductKey());
+                cartAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                cartAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                cartprdlist.remove(snapshot.getValue(CartHelper.class).getProductname());
+                cartprdunit.remove(snapshot.getValue(CartHelper.class).getProductunit());
+                cartprdprice.remove(snapshot.getValue(CartHelper.class).getProductprice());
+                cartprdctgry.remove(snapshot.getValue(CartHelper.class).getProductCategory());
+                cartprdqnty.remove(snapshot.getValue(CartHelper.class).getProductQuantity());
+                cartprdimgurl.remove(snapshot.getValue(CartHelper.class).getProductImageUrl());
+                cartkey.remove(snapshot.getValue(CartHelper.class).getProductKey());
+                cartAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        cartlistview.setAdapter(cartAdapter);
+
+        String quantitycounter;
+
+
+        TextView quantity;
+
+        for(int i=0; i<cartlistview.getChildCount(); i++){
+            quantity = (TextView) cartlistview.getChildAt(i).findViewById(R.id.cartprdctprice);
+            quantitycounter = quantity.getText().toString();
+
+            counter += Integer.valueOf(quantitycounter);
+
+
+        }
+
+        dtbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot: snapshot.getChildren())
+                {
+                    String price = dataSnapshot.getValue(CartHelper.class).getProductprice();
+                    String quantity = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
+                    int _pricen = Integer.valueOf(price);
+                    int _quantityn  = Integer.valueOf(quantity);
+                    counter += _pricen*_quantityn;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+        checkoutbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getContext(),String.valueOf(counter),Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+
+
+
     }
 }

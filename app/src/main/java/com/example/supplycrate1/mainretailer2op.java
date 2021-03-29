@@ -65,7 +65,7 @@ public class mainretailer2op extends AppCompatActivity {
                 dbref = dbrootnode.getReference("Merchants");
                 Query checkUser = dbref.orderByChild("bName").equalTo(bname);
 
-                checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
+                checkUser.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){

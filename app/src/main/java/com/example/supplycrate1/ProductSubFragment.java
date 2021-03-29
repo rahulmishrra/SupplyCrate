@@ -81,7 +81,7 @@ public class ProductSubFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        // Inflatae the layout for this fragment
         return inflater.inflate(R.layout.fragment_product_sub, container, false);
     }
 
@@ -97,18 +97,23 @@ public class ProductSubFragment extends Fragment {
 
         prdctfrmbtn = getView().findViewById(R.id.productbtn);
         prdctListview = getView().findViewById(R.id.procductlistview);
-        List<String> productlist,productunit;
-        List<String> productprice;
+        List<String> productlist,productunit,productkey;
+        List<String> productprice, productimage;
+        List<Boolean> productstock;
         productlist = new ArrayList<>();
         productunit = new ArrayList<>();
         productprice = new ArrayList<>();
+        productimage = new ArrayList<>();
+        productstock = new ArrayList<>();
+        productkey = new ArrayList<>();
+
 
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
         HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
         String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
 
 
-        ProductAdapter productAdapter = new ProductAdapter(getContext(),productlist,productunit,productprice);
+        ProductAdapter productAdapter = new ProductAdapter(getContext(),productlist,productunit,productprice,productimage,productstock,productkey);
 
         FirebaseDatabase fdb = FirebaseDatabase.getInstance();
         DatabaseReference dbreference = fdb.getReference("Merchants").child(mbname).child("Products");
@@ -119,6 +124,9 @@ public class ProductSubFragment extends Fragment {
                 productlist.add(snapshot.getValue(ProductHelper.class).getProductName());
                 productunit.add(snapshot.getValue(ProductHelper.class).getProductUnit());
                 productprice.add(snapshot.getValue(ProductHelper.class).getSellingprice());
+                productstock.add(snapshot.getValue(ProductHelper.class).isStock());
+                productimage.add(snapshot.getValue(ProductHelper.class).getProductImageUrl());
+                productkey.add(snapshot.getValue(ProductHelper.class).getProductkey());
                 productAdapter.notifyDataSetChanged();
             }
 
@@ -132,6 +140,9 @@ public class ProductSubFragment extends Fragment {
                 productlist.remove(snapshot.getValue(ProductHelper.class).getProductName());
                 productunit.remove(snapshot.getValue(ProductHelper.class).getProductUnit());
                 productprice.remove(snapshot.getValue(ProductHelper.class).getSellingprice());
+                productstock.remove(snapshot.getValue(ProductHelper.class).isStock());
+                productimage.remove(snapshot.getValue(ProductHelper.class).getProductImageUrl());
+                productkey.remove(snapshot.getValue(ProductHelper.class).getProductkey());
                 productAdapter.notifyDataSetChanged();
             }
 

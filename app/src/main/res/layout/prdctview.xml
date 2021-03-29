@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -15,7 +16,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="300dp"
             android:orientation="vertical">
 
             <TextView
@@ -24,7 +25,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="5dp"
+                android:layout_marginTop="205dp"
                 android:text="Product name"
                 android:textSize="24sp"
                 android:textStyle="bold" />
@@ -35,20 +36,21 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="37dp"
+                android:layout_marginTop="237dp"
                 android:text="unit"
                 android:textSize="14sp" />
 
             <Switch
-                android:id="@+id/switch2"
+                android:id="@+id/prdstockswitch"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:layout_marginLeft="5dp"
-                android:layout_marginTop="58dp"
+                android:layout_marginTop="258dp"
                 android:text=""
 
-                android:textColor="@android:color/holo_red_dark"
+
+                android:textColor="@color/red"
                 android:textOff="Out of Stock"
                 android:textOn="In Stock" />
 
@@ -57,13 +59,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="208dp"
                 android:layout_marginEnd="10dp"
                 android:layout_marginRight="10dp"
                 android:text="\u20B90"
                 android:textColor="@color/btcolor"
                 android:textSize="30sp"
                 android:textStyle="bold" />
+
+            <ImageView
+                android:id="@+id/prdctimgview"
+                android:layout_width="match_parent"
+                android:layout_height="189dp"
+                tools:srcCompat="@drawable/ginger" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>

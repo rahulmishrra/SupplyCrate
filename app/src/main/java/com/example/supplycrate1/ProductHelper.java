@@ -1,14 +1,10 @@
 package com.example.supplycrate1;
 
 public class ProductHelper {
-    String ProductName,ProductDetails,ProductQuantity,ProductUnit,ProductCategory,Mrp,Sellingprice;
+    String ProductName,ProductDetails,ProductQuantity,ProductUnit,ProductCategory,Mrp,Sellingprice,ProductImageUrl,Productkey;
     boolean stock;
 
-
-    public ProductHelper() {
-    }
-
-    public ProductHelper(String productName, String productDetails, String productQuantity, String productUnit, String productCategory, String mrp, String sellingprice, boolean stock) {
+    public ProductHelper(String productName, String productDetails, String productQuantity, String productUnit, String productCategory, String mrp, String sellingprice, String productImageUrl, String productkey, boolean stock) {
         ProductName = productName;
         ProductDetails = productDetails;
         ProductQuantity = productQuantity;
@@ -16,7 +12,28 @@ public class ProductHelper {
         ProductCategory = productCategory;
         Mrp = mrp;
         Sellingprice = sellingprice;
+        ProductImageUrl = productImageUrl;
+        Productkey = productkey;
         this.stock = stock;
+    }
+
+    public ProductHelper() {
+    }
+
+    public String getProductkey() {
+        return Productkey;
+    }
+
+    public void setProductkey(String productkey) {
+        Productkey = productkey;
+    }
+
+    public String getProductImageUrl() {
+        return ProductImageUrl;
+    }
+
+    public void setProductImageUrl(String productImageUrl) {
+        ProductImageUrl = productImageUrl;
     }
 
     public boolean isStock() {
