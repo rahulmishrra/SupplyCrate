@@ -3,7 +3,9 @@ package com.example.supplycrate1;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -46,12 +48,13 @@ public class ProductForm extends AppCompatActivity{
     Spinner unit,category;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference dataref,dbr,dbrefer;
+    Toolbar merchprdcttoolbar;
     private StorageReference ProductImageRef;
     private static final int GalleryPick = 1;
     private Uri ImageUri;
     private boolean stock;
     private String _prdctname, _prdctfile, _mrp, _sellingprice, _quantity, _unit,_category,productkey,productImageUrl,mbname;
-
+    private ProgressDialog loadingBar;
 
 
     @Override
@@ -60,10 +63,18 @@ public class ProductForm extends AppCompatActivity{
         setContentView(R.layout.activity_product_form);
         getSupportActionBar().hide();
 
+        merchprdcttoolbar = findViewById(R.id.merchantproduct);
+
         SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_MERCHANT);
         HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
          mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
 
+        merchprdcttoolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         prdctname = findViewById(R.id.productname);
         prdctfile = findViewById(R.id.productdetails);
@@ -74,6 +85,7 @@ public class ProductForm extends AppCompatActivity{
         unit = findViewById(R.id.unitspinner);
         category = findViewById(R.id.categoryspinner);
         productImage = findViewById(R.id.productimg);
+        loadingBar = new ProgressDialog(this);
 
         ProductImageRef = FirebaseStorage.getInstance().getReference().child("Products");
 
@@ -189,21 +201,27 @@ public class ProductForm extends AppCompatActivity{
 
         if(ImageUri == null){
             Toast.makeText(this,"Product Image is mandatory...",Toast.LENGTH_SHORT).show();
+            loadingBar.dismiss();
         }
         else if(TextUtils.isEmpty(_prdctfile)){
             prdctfile.setError("Product Details is required");
+            loadingBar.dismiss();
         }
         else if(TextUtils.isEmpty(_prdctname)){
             prdctname.setError("Product Name is required");
+            loadingBar.dismiss();
         }
         else if(TextUtils.isEmpty(_mrp)){
             mrp.setError("Mrp is required");
+            loadingBar.dismiss();
         }
         else if(TextUtils.isEmpty(_sellingprice)){
             sellingprice.setError("Selling price is required");
+            loadingBar.dismiss();
         }
         else if(TextUtils.isEmpty(_quantity)){
             quantity.setError("Quantity is required");
+            loadingBar.dismiss();
         }
         else {
             StoreProductInformation();
@@ -213,6 +231,10 @@ public class ProductForm extends AppCompatActivity{
     }
 
     private void StoreProductInformation() {
+        loadingBar.setTitle("Adding Your Product");
+        loadingBar.setMessage("Please wait while we are adding your products");
+        loadingBar.setCanceledOnTouchOutside(false);
+        loadingBar.show();
 
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat currentDate  = new SimpleDateFormat("MMM dd,yyyy");
@@ -230,6 +252,7 @@ public class ProductForm extends AppCompatActivity{
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(ProductForm.this,"Error: "+ e.toString(),Toast.LENGTH_SHORT).show();
+                loadingBar.dismiss();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -272,10 +295,13 @@ public class ProductForm extends AppCompatActivity{
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 dbr.child(productkey).setValue(productHelper);
+                loadingBar.dismiss();
+                onBackPressed();
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+                loadingBar.dismiss();
 
             }
         });

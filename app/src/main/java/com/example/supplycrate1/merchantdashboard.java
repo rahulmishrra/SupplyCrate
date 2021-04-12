@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -16,6 +17,12 @@ import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.HashMap;
 
 /**
@@ -23,7 +30,7 @@ import java.util.HashMap;
  * Use the {@link merchantdashboard#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class merchantdashboard extends Fragment implements AdapterView.OnItemClickListener, AdapterView.OnItemSelectedListener {
+public class merchantdashboard extends Fragment  {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,9 +94,9 @@ public class merchantdashboard extends Fragment implements AdapterView.OnItemCli
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.duration, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         dspinner.setAdapter(adapter);
-        dspinner.setOnItemSelectedListener(this);
 
-
+        TextView dashorders = getView().findViewById(R.id.dashorders);
+        Toolbar merchdashtoolbar = getView().findViewById(R.id.merchdashtoolbar);
 
        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
         HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
@@ -100,6 +107,21 @@ public class merchantdashboard extends Fragment implements AdapterView.OnItemCli
         String mname = mrchDetails.get(SessionManager.KEY_MERCHANTNAME);
         String mphone = mrchDetails.get(SessionManager.KEY_MERCHANTPHONE);
 
+        merchdashtoolbar.setTitle(mbname);
+
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname).child("orders");
+
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                dashorders.setText(String.valueOf(snapshot.getChildrenCount()));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
@@ -107,18 +129,4 @@ public class merchantdashboard extends Fragment implements AdapterView.OnItemCli
     }
 
 
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
-    }
-
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
-    }
 }

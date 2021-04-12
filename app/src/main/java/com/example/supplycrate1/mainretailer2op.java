@@ -1,5 +1,6 @@
 package com.example.supplycrate1;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -35,7 +36,7 @@ public class mainretailer2op extends AppCompatActivity {
     FirebaseAuth fAuth;
     FirebaseDatabase dbrootnode;
     DatabaseReference dbref;
-
+    private ProgressDialog loadingBar;
 
 
     @Override
@@ -50,12 +51,19 @@ public class mainretailer2op extends AppCompatActivity {
         signup = findViewById(R.id.gotosignup);
         forgotpass = findViewById(R.id.textforgotpassword);
         Login = findViewById(R.id.BTN1);
+        loadingBar = new ProgressDialog(this);
+
 
 
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                loadingBar.setTitle("Loging In");
+                loadingBar.setMessage("Please wait while we are checking your credentials");
+                loadingBar.setCanceledOnTouchOutside(false);
+                loadingBar.show();
 
                 String bname = editbname.getText().toString();
                 String email = editemail.getText().toString();
@@ -79,6 +87,7 @@ public class mainretailer2op extends AppCompatActivity {
                             merchLogin(email,password);
                         }
                         else {
+                            loadingBar.dismiss();
                             editbname.setError("No such user exist");
                         }
                     }
@@ -94,18 +103,21 @@ public class mainretailer2op extends AppCompatActivity {
             private void merchLogin(String email, String password) {
                 if(TextUtils.isEmpty(email))
                 {
+                    loadingBar.dismiss();
                     editemail.setError("Email is needed");
                     return;
                 }
 
                 if(TextUtils.isEmpty(password))
                 {
+                    loadingBar.dismiss();
                     editpassword.setError("Password is needed");
                     return;
                 }
 
                 if(password.length() < 6)
                 {
+                    loadingBar.dismiss();
                     editpassword.setError("Password must be more than 6 characters");
                     return;
                 }
@@ -115,12 +127,14 @@ public class mainretailer2op extends AppCompatActivity {
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful())
                             {
+                                loadingBar.dismiss();
                                 Toast.makeText(com.example.supplycrate1.mainretailer2op.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(),RetailerDashboard.class));
 
                             }
                             else
                             {
+                                loadingBar.dismiss();
                                 Toast.makeText(com.example.supplycrate1.mainretailer2op.this, "Error " + task.getException().getMessage(), Toast.LENGTH_SHORT).show();
                             }
 

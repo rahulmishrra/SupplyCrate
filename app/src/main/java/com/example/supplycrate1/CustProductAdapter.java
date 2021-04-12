@@ -6,19 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
@@ -52,7 +45,7 @@ public class CustProductAdapter extends ArrayAdapter {
         TextView prdctlist = view.findViewById(R.id.custprdnamecard);
         TextView prdctunit = view.findViewById(R.id.custunitcard);
         TextView prdctprice = view.findViewById(R.id.custprdctpricecard);
-        TextView prdctctgry = view.findViewById(R.id.custprdctctgrycard);
+        TextView prdctctgry = view.findViewById(R.id.prdctqntycarddetails);
         ImageView prdctimg = view.findViewById(R.id.custproductimg);
 
         String _prdctlist = ProductList.get(position);
@@ -70,7 +63,7 @@ public class CustProductAdapter extends ArrayAdapter {
 
         String cartkey = _currentDate +" "+ _currentTime;
 
-        CartHelper cartHelper = new CartHelper(_prdctlist,_prdctunit,_prdctprice,_prdctctgry,_prdctimgurl,_prdctkey,"1");
+        //CartHelper cartHelper = new CartHelper(_prdctlist,_prdctunit,_prdctprice,_prdctctgry,_prdctimgurl,_prdctkey,"1");
 
 
         prdctlist.setText(ProductList.get(position));

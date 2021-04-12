@@ -12,6 +12,8 @@ import android.view.WindowManager;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+import java.util.HashMap;
+
 public class RetailerDashboard extends AppCompatActivity {
     BottomNavigationView bottomNavigationView;
 
@@ -22,6 +24,12 @@ public class RetailerDashboard extends AppCompatActivity {
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_retailer_dashboard);
+
+        SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_MERCHANT);
+        HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
+
+        String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
+
 
         bottomNavigationView = findViewById(R.id.merchantnavigation);
         bottomNavigationView.setSelectedItemId(R.id.merchantdashboard);
@@ -48,6 +56,10 @@ public class RetailerDashboard extends AppCompatActivity {
                     case R.id.queue:
                         temp = new queue();
                         break;
+                    case R.id.merchAccount:
+                        temp = new merchAccount();
+                        break;
+
 
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.framecontainer,temp).commit();

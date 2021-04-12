@@ -37,4 +37,9 @@
             android:id="@+id/action_merchantdashboard_to_orders2"
             app:destination="@id/orders2" />
     </fragment>
+    <fragment
+        android:id="@+id/merchAccount"
+        android:name="com.example.supplycrate1.merchAccount"
+        android:label="fragment_merch_account"
+        tools:layout="@layout/fragment_merch_account" />
 </navigation>

@@ -1,12 +1,12 @@
 package com.example.supplycrate1;
 
 public class CartHelper {
-    String Productname,Productunit,Productprice,ProductCategory,ProductImageUrl,ProductKey,ProductQuantity;
+    String Productname,Productunit,Productprice,ProductCategory,ProductImageUrl,ProductKey,ProductQuantity,ProductCartKey;
 
     public CartHelper() {
     }
 
-    public CartHelper(String productname, String productunit, String productprice, String productCategory, String productImageUrl, String productKey, String productQuantity) {
+    public CartHelper(String productname, String productunit, String productprice, String productCategory, String productImageUrl, String productKey, String productQuantity, String productCartKey) {
         Productname = productname;
         Productunit = productunit;
         Productprice = productprice;
@@ -14,6 +14,15 @@ public class CartHelper {
         ProductImageUrl = productImageUrl;
         ProductKey = productKey;
         ProductQuantity = productQuantity;
+        ProductCartKey = productCartKey;
+    }
+
+    public String getProductCartKey() {
+        return ProductCartKey;
+    }
+
+    public void setProductCartKey(String productCartKey) {
+        ProductCartKey = productCartKey;
     }
 
     public String getProductImageUrl() {

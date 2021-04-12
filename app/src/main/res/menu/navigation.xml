@@ -14,11 +14,17 @@
 
     <item
         android:id="@+id/products"
-        android:icon="@drawable/ic_baseline_grid_on_24"
+        android:icon="@drawable/ic_baseline_grid_view_24"
         android:title="Products"/>
     <item
         android:id="@+id/queue"
-        android:icon="@drawable/ic_baseline_escalator_warning_24"
+        android:icon="@drawable/ic_baseline_supervised_user_circle_24"
         android:title="Queue" />
+
+    <item
+        android:id="@+id/merchAccount"
+        android:icon="@drawable/ic_baseline_manage_accounts_24"
+        android:title="Queue" />
+
 
 </menu>

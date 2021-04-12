@@ -3,6 +3,7 @@ package com.example.supplycrate1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -32,10 +34,11 @@ public class Login extends AppCompatActivity {
 
     Animation top,fade;
     ImageView topdesigngreen,logintext;
-    Button Signin;
-    EditText custemail, pass;
-    FirebaseAuth firebaseAuth;
-    TextView Signup;
+    private Button Signin;
+    private EditText custemail, pass;
+    private FirebaseAuth firebaseAuth;
+    private TextView Signup;
+    private ProgressDialog loadingbar;
 
 
 
@@ -52,16 +55,24 @@ public class Login extends AppCompatActivity {
         custemail = findViewById(R.id.txtemail);
         pass = findViewById(R.id.txtpassword);
         Signup = findViewById(R.id.textView5);
+        loadingbar = new ProgressDialog(this);
 
         Signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                loadingbar.setTitle("Customer Login");
+                loadingbar.setMessage("Please wait while we are checking your credentials");
+                loadingbar.setCanceledOnTouchOutside(false);
+                loadingbar.show();
 
                 String custEmail = custemail.getText().toString();
                 String password = pass.getText().toString();
+                String custName;
                 final String[] name = new String[1];
 
                 DatabaseReference dr = FirebaseDatabase.getInstance().getReference("Customers");
+                Query checkUser = dr.orderByChild("username").equalTo("");
+
                 dr.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -71,40 +82,25 @@ public class Login extends AppCompatActivity {
                             if(emaili.equals(custEmail)){
                                 String cname = dataSnapshot.getValue(CustHelperClass.class).getUsername();
                                 name[0] = cname;
-                                Toast.makeText(getApplicationContext(),"Yeh chal gya" + cname,Toast.LENGTH_SHORT).show();
+                               // Toast.makeText(getApplicationContext(),"Yeh chal gya" + cname,Toast.LENGTH_SHORT).show();
                             }
                         }
+
+                        authorizeUser(custEmail,password,name[0]);
                     }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
+                        loadingbar.dismiss();
 
                     }
                 });
 
-                firebaseAuth = FirebaseAuth.getInstance();
-                if(custEmail.equals("")||password.equals(""))
-                    Toast.makeText(Login.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
-                else{
-
-                    firebaseAuth.signInWithEmailAndPassword(custEmail, password)
-                            .addOnCompleteListener(Login.this, task -> {
-                                if (task.isSuccessful()) {
-                                    startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
-                                    SessionManager sessionManager = new SessionManager(Login.this,SessionManager.SESSION_CUSTOMER);
-                                    sessionManager.createLoginSession(custEmail,password,name[0]);
-                                    Toast.makeText(getApplicationContext(),name[0],Toast.LENGTH_SHORT).show();
 
 
-                                } else {
-                                    Toast.makeText(Login.this, "Login Failed or User not available",Toast.LENGTH_SHORT).show();
 
-                                }
 
-                            });
-
-                }
-
+                if( name[0]!= null){}
             }
         });
 
@@ -128,5 +124,29 @@ public class Login extends AppCompatActivity {
 
         topdesigngreen.setAnimation(top);
         logintext.setAnimation(fade);
+    }
+
+    private void authorizeUser(String custEmail, String password, String custName) {
+        firebaseAuth = FirebaseAuth.getInstance();
+        if(custEmail.equals("")||password.equals("")) {
+            Toast.makeText(Login.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
+            loadingbar.dismiss();
+        } else{
+
+            firebaseAuth.signInWithEmailAndPassword(custEmail, password)
+                    .addOnCompleteListener(Login.this, task -> {
+                        if (task.isSuccessful()) {
+                            SessionManager sessionManager = new SessionManager(Login.this,SessionManager.SESSION_CUSTOMER);
+                            sessionManager.createLoginSession(custEmail,password,custName);
+                            loadingbar.dismiss();
+                            startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
+                            Toast.makeText(getApplicationContext(),custName,Toast.LENGTH_SHORT).show();
+
+
+                        } else {
+                            Toast.makeText(Login.this, "Login Failed or User not available",Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        }
     }
 }

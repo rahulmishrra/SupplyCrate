@@ -5,15 +5,27 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -76,25 +88,63 @@ public class queue extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        Toolbar queuetool = getView().findViewById(R.id.mrchqueuetoolbar);
+
+        queuetool.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
+        ListView queuelist = getView().findViewById(R.id.queuelist);
+
+        List<String> custDetails = new ArrayList<>();
+
+        QueueAdapter queueAdapter = new QueueAdapter(getContext(),custDetails);
+
+
+
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
         HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
 
-        String mmail  = mrchDetails.get(SessionManager.KEY_MERCHANTEMAIL);
-        String mpass  = mrchDetails.get(SessionManager.KEY_MERCHANTPASSWORD);
         String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
-        String mname = mrchDetails.get(SessionManager.KEY_MERCHANTNAME);
-        String mphone = mrchDetails.get(SessionManager.KEY_MERCHANTPHONE);
 
-        textView = getView().findViewById(R.id.textView12);
-        textView.setText(mmail + "\n"+ mpass + "\n"+ mbname + "\n"+ mname + "\n"+ mphone);
-        merchantlogoutbtn  = getView().findViewById(R.id.mrchlogoutbtn);
-        merchantlogoutbtn.setOnClickListener(new View.OnClickListener() {
+        DatabaseReference drr = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname).child("Queue");
+
+        drr.addChildEventListener(new ChildEventListener() {
             @Override
-            public void onClick(View v) {
-                sessionManager.logoutMerchantFromSession();
-                startActivity(new Intent(getContext(), mainretailer2op.class));
+            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                custDetails.add(snapshot.child("customer").getValue(String.class));
+               // Toast.makeText(getContext(),snapshot.child("customer").getValue(String.class),Toast.LENGTH_SHORT).show();
+                queueAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    queueAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                custDetails.remove(snapshot.child("customer").getValue(String.class));
+                queueAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
+
+        queuelist.setAdapter(queueAdapter);
+
+
 
     }
 }

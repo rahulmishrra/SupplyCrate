@@ -6,43 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".CustMerhInfo">
 
-    <TextView
-        android:id="@+id/custmrchnametitle"
-        android:layout_width="wrap_content"
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/custprdctoolbar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="33dp"
-        android:fontFamily="@font/raleway_bold"
-        android:text="TextView"
-        android:textColor="@color/purple_200"
-        android:textSize="32sp"
+        android:background="?attr/colorPrimary"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_keyboard_backspace_24" />
 
     <ListView
         android:id="@+id/custproductlist"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
+        android:layout_height="0dp"
         android:divider="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginTop="12dp"
-        android:fontFamily="@font/raleway_bold"
-        android:text="Products:"
-        android:textSize="24sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/custmrchnametitle" />
+        app:layout_constraintTop_toBottomOf="@id/custprdctoolbar" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

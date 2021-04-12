@@ -52,56 +52,22 @@ public class custCartAdapter extends ArrayAdapter {
         TextView prdctunit = view.findViewById(R.id.cartunitcard);
         TextView prdctprice = view.findViewById(R.id.cartprdctprice);
         TextView prdctctgry = view.findViewById(R.id.cartprdctctgry);
-        TextView cartquantitytext = view.findViewById(R.id.cartquantitytext);
+        TextView prdctqnty = view.findViewById(R.id.cartprdctqnty);
         ImageView cartprdimgview = view.findViewById(R.id.cartprdctimgview);
-        Button cartincbtn = view.findViewById(R.id.cartincbtn);
-        Button cartdecbtn = view.findViewById(R.id.cartdecbtn);
+
 
         prdctlist.setText(ProductList.get(position));
         prdctunit.setText(ProductUnit.get(position));
-        prdctprice.setText(ProductPrice.get(position));
+        prdctprice.setText("\u20B9"+ProductPrice.get(position));
         prdctctgry.setText(ProductCategory.get(position));
-        cartquantitytext.setText(ProductQuantity.get(position));
+        prdctqnty.setText("Quantity: "+ProductQuantity.get(position));
+        //cartquantitytext.setText(ProductQuantity.get(position));
         Picasso.get().load(Uri.parse(ProductimageUrl.get(position))).into(cartprdimgview);
 
 
         String cartentry = String.valueOf(position+1);
 
         DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Customers").child(CustomerName).child("Cart").child(cartentry).child("productQuantity");
-
-        cartincbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int incrementer = Integer.parseInt(cartquantitytext.getText().toString());
-                incrementer++;
-                if(incrementer>10){
-                    Toast.makeText(getContext(),"Quantity cannot be greater than 10",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    setQuantity(String.valueOf(incrementer),dbr);
-                    cartquantitytext.setText(String.valueOf(incrementer));
-
-
-                }
-
-            }
-        });
-
-        cartdecbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int decrementer = Integer.parseInt(String.valueOf(cartquantitytext.getText().toString()));
-                decrementer--;
-
-                if(decrementer<0){
-                    Toast.makeText(getContext(),"Quantity cannot be less than 0",Toast.LENGTH_SHORT).show();
-                }
-                else{
-                    cartquantitytext.setText(String.valueOf(decrementer));
-                }
-
-            }
-        });
 
         return view;
     }

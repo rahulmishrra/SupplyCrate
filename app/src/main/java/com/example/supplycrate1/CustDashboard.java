@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -32,8 +33,9 @@ import java.util.List;
  */
 public class CustDashboard extends Fragment {
 
-    private ListView merchNamelistview;
+    private ListView custctgrylist;
     private Button custlogout;
+    private Toolbar custdashtoolbar;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -86,32 +88,40 @@ public class CustDashboard extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        merchNamelistview = getView().findViewById(R.id.merchantlistview);
+        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
+        HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
+
+        String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
+        String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
+        String _storename = userDetails.get(SessionManager.KEY_SELECTSTORENAME);
+
+        custdashtoolbar = getView().findViewById(R.id.custdashtoolbar);
+        custctgrylist = getView().findViewById(R.id.ctgrylistview);
         custlogout = getView().findViewById(R.id.customerlogoutbtn);
 
-        List<String> merchnamelist = new ArrayList<>();
+        custdashtoolbar.setTitle(_storename);
 
-        MerchantAdapter merchantAdapter = new MerchantAdapter(getContext(),merchnamelist);
+        DatabaseReference dbrefer = FirebaseDatabase.getInstance().getReference("Merchants").child(_storename).child("Categories");
+        List<String> custcategorieslist = new ArrayList<>();
 
-        FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
-        DatabaseReference db = firebaseDatabase.getReference("Merchants");
+        CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(),custcategorieslist);
 
-        db.addChildEventListener(new ChildEventListener() {
+        dbrefer.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                merchnamelist.add(snapshot.getValue(BusinessHelperClass.class).getbName());
-                merchantAdapter.notifyDataSetChanged();
+                custcategorieslist.add(snapshot.getValue(String.class));
+                categoryAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                merchantAdapter.notifyDataSetChanged();
+                categoryAdapter.notifyDataSetChanged();
             }
 
             @Override
             public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                merchnamelist.remove(snapshot.getValue(BusinessHelperClass.class).getbName());
-                merchantAdapter.notifyDataSetChanged();
+                custcategorieslist.remove(snapshot.getValue(String.class));
+                categoryAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -124,24 +134,23 @@ public class CustDashboard extends Fragment {
 
             }
         });
-        merchNamelistview.setAdapter(merchantAdapter);
+        custctgrylist.setAdapter(categoryAdapter);
 
-        merchNamelistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        custctgrylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String businessName = merchnamelist.get(position).toString();
-                Toast.makeText(getContext(),businessName,Toast.LENGTH_SHORT).show();
-                Intent intentdash = new Intent(getContext(),CustMerhInfo.class);
-                intentdash.putExtra("StoreName",businessName);
+                String category = custcategorieslist.get(position).toString();
+                //Toast.makeText(getApplicationContext(),category,Toast.LENGTH_SHORT).show();
+                Intent intentdash = new Intent(getContext(),custProductpage.class);
+                intentdash.putExtra("StoreName",_storename);
+                intentdash.putExtra("Category",category);
                 startActivity(intentdash);
             }
         });
 
-        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
-        HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
 
-        String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
-        String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
+
+
 
         custlogout.setOnClickListener(new View.OnClickListener() {
             @Override

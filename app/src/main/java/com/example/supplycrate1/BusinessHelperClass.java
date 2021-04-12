@@ -1,17 +1,26 @@
 package com.example.supplycrate1;
 
 public class BusinessHelperClass {
-    String bName,Name,Email,Phone,Pass;
+    String bName,Name,Email,Phone,Pass,MerchantImageUrl;
 
     public BusinessHelperClass() {
     }
 
-    public BusinessHelperClass(String bName, String name, String email, String phone, String pass) {
+    public BusinessHelperClass(String bName, String name, String email, String phone, String pass, String merchantImageUrl) {
         this.bName = bName;
         Name = name;
         Email = email;
         Phone = phone;
         Pass = pass;
+        MerchantImageUrl = merchantImageUrl;
+    }
+
+    public String getMerchantImageUrl() {
+        return MerchantImageUrl;
+    }
+
+    public void setMerchantImageUrl(String merchantImageUrl) {
+        MerchantImageUrl = merchantImageUrl;
     }
 
     public String getbName() {

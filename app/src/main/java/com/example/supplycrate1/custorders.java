@@ -1,14 +1,17 @@
 package com.example.supplycrate1;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -21,6 +24,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,8 +37,18 @@ import java.util.List;
 public class custorders extends Fragment {
 
     private ListView cartlistview;
-    int count=0;
+    //long count=0;
     int counter = 0;
+    DatabaseReference dtbref;
+    List<String> cartprdlist = new ArrayList<>();
+    List<String> cartprdunit = new ArrayList<>();
+    List<String> cartprdprice = new ArrayList<>();
+    List<String> cartprdctgry = new ArrayList<>();
+    List<String> cartprdqnty = new ArrayList<>();
+    List<String> cartprdimgurl = new ArrayList<>();
+    List<String> cartkey = new ArrayList<>();
+
+    Button checkoutbtn;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -88,16 +102,10 @@ public class custorders extends Fragment {
 
         cartlistview = getView().findViewById(R.id.cartlistview);
 
-        Button checkoutbtn = getView().findViewById(R.id.checkoutbtn);
+        checkoutbtn = getView().findViewById(R.id.checkoutbtn);
 
 
-        List<String> cartprdlist = new ArrayList<>();
-        List<String> cartprdunit = new ArrayList<>();
-        List<String> cartprdprice = new ArrayList<>();
-        List<String> cartprdctgry = new ArrayList<>();
-        List<String> cartprdqnty = new ArrayList<>();
-        List<String> cartprdimgurl = new ArrayList<>();
-        List<String> cartkey = new ArrayList<>();
+
 
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
@@ -105,12 +113,61 @@ public class custorders extends Fragment {
         String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
         String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
         String _custname = userDetails.get(SessionManager.KEY_NAME);
+        String _storename = userDetails.get(SessionManager.KEY_SELECTSTORENAME);
+
+        Toast.makeText(getContext(),_storename,Toast.LENGTH_SHORT).show();
 
 
         custCartAdapter cartAdapter = new custCartAdapter(getContext(),cartprdlist,cartprdunit,cartprdprice,cartprdctgry,cartprdqnty,cartprdimgurl,cartkey,_custname);
 
-        DatabaseReference dtbref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart");
+        dtbref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart").child(_storename);
+        DatabaseReference adtbref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart");
 
+        adtbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild(_storename)){
+                    getCartValues(cartAdapter,_storename);
+                }
+                else{
+                    //Toast.makeText(getContext(),"NO PRODUCTS FOUND...",Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+/*
+        String quantitycounter;
+        TextView quantity;
+
+        for(int i=0; i<cartlistview.getChildCount(); i++){
+            quantity = (TextView) cartlistview.getChildAt(i).findViewById(R.id.cartprdctprice);
+            quantitycounter = quantity.getText().toString();
+
+            counter += Integer.valueOf(quantitycounter);
+
+
+        }
+*/
+
+
+
+
+
+
+
+
+
+
+    }
+
+    private void getCartValues(ArrayAdapter cartAdapter, String storename) {
 
         dtbref.addChildEventListener(new ChildEventListener() {
             @Override
@@ -155,32 +212,11 @@ public class custorders extends Fragment {
 
         cartlistview.setAdapter(cartAdapter);
 
-        String quantitycounter;
-
-
-        TextView quantity;
-
-        for(int i=0; i<cartlistview.getChildCount(); i++){
-            quantity = (TextView) cartlistview.getChildAt(i).findViewById(R.id.cartprdctprice);
-            quantitycounter = quantity.getText().toString();
-
-            counter += Integer.valueOf(quantitycounter);
-
-
-        }
-
         dtbref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren())
-                {
-                    String price = dataSnapshot.getValue(CartHelper.class).getProductprice();
-                    String quantity = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
-                    int _pricen = Integer.valueOf(price);
-                    int _quantityn  = Integer.valueOf(quantity);
-                    counter += _pricen*_quantityn;
-                }
-
+                long count =  snapshot.getChildrenCount();
+                checkout(count,storename);
             }
 
             @Override
@@ -190,15 +226,58 @@ public class custorders extends Fragment {
         });
 
 
+    }
+
+    private void checkout(long counts, String _storename) {
+        //Toast.makeText(getContext(),String.valueOf(counts),Toast.LENGTH_SHORT).show();
+
+        String[] productkies = new String[(int)counts];
+        String[] quantities = new String[(int)counts];
+
+
+        TextView custcarttotal = getView().findViewById(R.id.custtotalcart);
+
+        dtbref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                int i=0;
+                for(DataSnapshot dataSnapshot: snapshot.getChildren())
+                {
+                    quantities[i] = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
+                    productkies[i] = dataSnapshot.getValue(CartHelper.class).getProductKey();
+                    i++;
+                    String price = dataSnapshot.getValue(CartHelper.class).getProductprice();
+                    String quantity = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
+                    int _pricen = Integer.valueOf(price);
+                    int _quantityn  = Integer.valueOf(quantity);
+                    counter += _pricen*_quantityn;
+                }
+
+                custcarttotal.setText("Item Total: "+"\u20B9"+String.valueOf(counter));
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         checkoutbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Toast.makeText(getContext(),String.valueOf(counter),Toast.LENGTH_SHORT).show();
+                
+                //Toast.makeText(getContext(),String.valueOf(productkies.length),Toast.LENGTH_SHORT).show();
+                Intent orderIntent = new Intent(getActivity(),OrderDetailsPage.class);
+                orderIntent.putExtra("Item total",String.valueOf(counter));
+                orderIntent.putExtra("StoreName",_storename);
+                orderIntent.putExtra("Productkey",productkies);
+                orderIntent.putExtra("Quantity",quantities);
+                startActivity(orderIntent);
+
+                //Toast.makeText(getContext(),String.valueOf(counter),Toast.LENGTH_SHORT).show();
             }
         });
-
-
 
 
 

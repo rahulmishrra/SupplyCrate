@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/custQueues"
-        android:icon="@drawable/ic_baseline_escalator_warning_24"
-        android:title="Queue"/>
+        android:icon="@drawable/ic_baseline_shopping_bag_24"
+        android:title="Orders"/>
 
     <item
         android:id="@+id/custlocation"
@@ -18,7 +18,7 @@
     <item
         android:id="@+id/custorders"
         android:icon="@drawable/ic_baseline_shopping_cart_24"
-        android:title="Orders" />
+        android:title="Crate" />
 
     <item
         android:id="@+id/custSettings"

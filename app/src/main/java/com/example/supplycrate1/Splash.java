@@ -22,7 +22,8 @@ public class Splash extends AppCompatActivity {
 
 
     private static int SPLASH_SCREEN = 4500;
-
+    private boolean custlogin;
+    private boolean mrchlogin;
 
     Animation topanime , bganime;
     ImageView logo, bg;
@@ -34,15 +35,11 @@ public class Splash extends AppCompatActivity {
         custsession = new SessionManager(this,SessionManager.SESSION_CUSTOMER);
         mrchsession = new SessionManager(this,SessionManager.SESSION_MERCHANT);
 
-        boolean custlogin = custsession.checkLogin();
-        boolean mrchlogin = mrchsession.checkMerchantLogin();
+        custlogin = custsession.checkLogin();
+        mrchlogin = mrchsession.checkMerchantLogin();
 
-        if(custlogin == true){
-            startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
-        }
-        else if(mrchlogin == true){
-            startActivity(new Intent(getApplicationContext(), RetailerDashboard.class));
-        }
+
+
 
     }
 
@@ -73,10 +70,23 @@ public class Splash extends AppCompatActivity {
                     }
                     else{
 
+                        if(custlogin == true){
+                            startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
+                            finish();
+                        }
+                        else if(mrchlogin == true){
+                            startActivity(new Intent(getApplicationContext(), RetailerDashboard.class));
+                            finish();
+                        }
+                        else{
+                            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                            finish();
+                        }
+
                     /* Create an Intent that will start the MainActivity. */
-                    Intent mainIntent = new Intent(Splash.this, MainActivity.class);
-                    startActivity(mainIntent);
-                    finish();
+                    //Intent mainIntent = new Intent(Splash.this, MainActivity.class);
+                    //startActivity(mainIntent);
+                    //finish();
                 }
             }
 

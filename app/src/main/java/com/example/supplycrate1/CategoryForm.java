@@ -3,12 +3,14 @@ package com.example.supplycrate1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -26,6 +28,7 @@ public class CategoryForm extends AppCompatActivity {
     Button catergstbtn;
     FirebaseDatabase firebaseDatabase;
     DatabaseReference dbref,databaseReference;
+    private ProgressDialog loadingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class CategoryForm extends AppCompatActivity {
 
         ctgryname = findViewById(R.id.categoryname);
         catergstbtn = findViewById(R.id.cateformbtn);
+        loadingBar = new ProgressDialog(this);
 
         SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_MERCHANT);
         HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
@@ -56,7 +60,12 @@ public class CategoryForm extends AppCompatActivity {
 
                 if(TextUtils.isEmpty(categoryname)){
                     ctgryname.setError("Category name is mandatory...");
+                    loadingBar.dismiss();
                 }
+                loadingBar.setTitle("Adding Your Product Category");
+                loadingBar.setMessage("Please wait while we are adding your product category");
+                loadingBar.setCanceledOnTouchOutside(false);
+                loadingBar.show();
 
                 firebaseDatabase = FirebaseDatabase.getInstance();
                 dbref = firebaseDatabase.getReference("Merchants").child(mbname).child("Categories");
@@ -65,7 +74,8 @@ public class CategoryForm extends AppCompatActivity {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         dbref.child(ctgrykey).setValue(categoryname);
-                        startActivity(new Intent(getApplicationContext(),products.class));
+                        loadingBar.dismiss();
+                        onBackPressed();
                     }
 
                     @Override

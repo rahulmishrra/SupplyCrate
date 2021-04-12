@@ -3,6 +3,7 @@ package com.example.supplycrate1;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class custProductpage extends AppCompatActivity {
 
     private TextView _custmerchnametitle;
     private ListView _custproductlist;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +36,12 @@ public class custProductpage extends AppCompatActivity {
         setContentView(R.layout.activity_cust_productpage);
         getSupportActionBar().hide();
 
-        _custmerchnametitle = findViewById(R.id.custmrchnametitle);
         _custproductlist = findViewById(R.id.custproductlist);
+        toolbar = findViewById(R.id.custprdctoolbar);
 
         String storetitle = getIntent().getStringExtra("StoreName");
         String category = getIntent().getStringExtra("Category");
+        toolbar.setTitle(category);
 
         SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
@@ -46,8 +49,7 @@ public class custProductpage extends AppCompatActivity {
         String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
         String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
         String _custname = userDetails.get(SessionManager.KEY_NAME);
-
-        _custmerchnametitle.setText(storetitle);
+        //String storetitle = userDetails.get(SessionManager.KEY_SELECTSTORENAME);
 
         DatabaseReference dbrefer = FirebaseDatabase.getInstance().getReference("Merchants").child(storetitle).child("Products");
         List<String> custproductslist,custunitlist,custpricelist,custcategorieslist,custprdctimageurl,custproductkey;

@@ -8,35 +8,40 @@
     <!-- TODO: Update blank fragment layout -->
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="100dp"
-        android:layout_alignParentBottom="true"
-
         android:id="@+id/square"
-        >
-
-    <TextView
-        android:id="@+id/custtotalcart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Total:"
-        android:textSize="20sp"
-        android:layout_marginTop="10dp"
-        android:layout_centerHorizontal="true"
-
-        />
-
-    <Button
-        android:id="@+id/checkoutbtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="CHECKOUT"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        app:icon="@drawable/ic_baseline_chevron_right_24"
-        app:iconGravity="end" />
+        android:layout_height="120dp"
+
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:id="@+id/custtotalcart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="Empty Cart"
+            android:textSize="20sp"
+
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/checkoutbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="10dp"
+            android:background="#2836A751"
+            android:text="CHECKOUT"
+            android:textColor="@color/btcolor"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:icon="@drawable/ic_baseline_chevron_right_24"
+            app:iconGravity="textEnd"
+            app:iconPadding="1dp"
+            app:iconSize="45dp"
+            app:iconTint="@color/btcolor" />
 
     </RelativeLayout>
 

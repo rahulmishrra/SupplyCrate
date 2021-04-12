@@ -6,13 +6,27 @@
     android:layout_height="match_parent"
     tools:context=".ProjectDetailsPage">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarproductdetials"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/btcolor"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:title="Product Details"
+        app:titleTextColor="@color/white"
+        app:titleMarginStart="30dp"/>
+
     <ScrollView
         android:id="@+id/scrollView5"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:background="@drawable/backgroundsgn"
+        app:layout_constraintBottom_toTopOf="@+id/Addtocrate"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/toolbarproductdetials">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -90,6 +104,27 @@
                 android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/textView20"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:text="Category:"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/pdtlctgry"
+                android:layout_width="match_parent"
+                android:layout_height="29dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="8dp"
+                android:text="product category"
+                android:textSize="18sp" />
+
+            <TextView
                 android:id="@+id/textView17"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -107,6 +142,7 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="8dp"
+                android:layout_marginBottom="15dp"
                 android:text="product descripion"
                 android:textSize="18sp" />
 
@@ -116,13 +152,61 @@
     <Button
         android:id="@+id/Addtocrate"
         android:layout_width="407dp"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:text="ADD TO CRATE"
         android:textAllCaps="false"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:icon="@drawable/carticon"
+        app:iconGravity="textStart"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/cartdecbtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="88dp"
+        android:layout_marginLeft="88dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/btcolor"
+        android:foreground="@drawable/ic_baseline_horizontal_rule_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+    <TextView
+        android:id="@+id/cratequantitybtntext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerInParent="false"
+        android:layout_marginStart="156dp"
+        android:layout_marginLeft="156dp"
+        android:layout_marginBottom="12dp"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="center"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/cartincbtn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="208dp"
+        android:layout_marginLeft="208dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/btcolor"
+        android:foreground="@drawable/ic_baseline_add_24"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
 

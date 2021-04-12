@@ -14,7 +14,7 @@
         app:cardCornerRadius="10dp"
         app:cardElevation="8dp">
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="100dp"
             android:orientation="vertical">
@@ -23,14 +23,22 @@
                 android:id="@+id/merchantnameview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_marginLeft="10dp"
+                android:layout_centerVertical="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
+                android:layout_toRightOf="@id/merchcustImage"
                 android:text="ghhgghggh"
                 android:textSize="24sp" />
 
+            <ImageView
+                android:id="@+id/merchcustImage"
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/_70627_better_grocery_store_main_se_539p_80a9ba9c8d466788799ca27568ee0d43" />
 
-        </LinearLayout>
+
+        </RelativeLayout>
 
 
     </androidx.cardview.widget.CardView>

@@ -3,6 +3,7 @@ package com.example.supplycrate1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -27,13 +28,14 @@ public class SignUp extends AppCompatActivity {
 
     Animation top,fade;
     ImageView topdesigngreen, signuptext;
-    Button Signup;
-    EditText name,email,pass,phone;
+    private Button Signup;
+    private EditText name,email,pass,phone;
 
-    TextView login;
-    FirebaseAuth firebaseAuth;
-    FirebaseDatabase rootNode;
-    DatabaseReference dbref;
+    private TextView login;
+    private FirebaseAuth firebaseAuth;
+    private FirebaseDatabase rootNode;
+    private DatabaseReference dbref;
+    private ProgressDialog loadingbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,11 +54,16 @@ public class SignUp extends AppCompatActivity {
         phone = (EditText)findViewById(R.id.txtphone);
 
         login = (TextView) findViewById(R.id.textView5);
+        loadingbar = new ProgressDialog(this);
 
 
        Signup.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
+               loadingbar.setTitle("Customer Registration");
+               loadingbar.setMessage("Please wait while we are registering your account");
+               loadingbar.setCanceledOnTouchOutside(false);
+               loadingbar.show();
 
                String username = name.getText().toString();
                String mail = email.getText().toString();
@@ -69,7 +76,7 @@ public class SignUp extends AppCompatActivity {
 
                if (username.equals("") || mail.equals("") || password.equals("") || phoneno.equals("")){
                    Toast.makeText(SignUp.this, "Please enter all fields", Toast.LENGTH_SHORT).show();
-               System.out.println("-----------Inside if part--------");
+                    loadingbar.dismiss();
                }
                else{
 
@@ -79,26 +86,18 @@ public class SignUp extends AppCompatActivity {
 
 
                                if (task.isSuccessful()) {
+                                   SessionManager sessionManager = new SessionManager(SignUp.this,SessionManager.SESSION_CUSTOMER);
+                                   sessionManager.createLoginSession(mail,password,username);
                                    dbref.child(username).setValue(custHelper);
+                                   loadingbar.dismiss();
                                    Toast.makeText(SignUp.this,"Registration Complete", Toast.LENGTH_SHORT).show();
-                                   startActivity(new Intent(getApplicationContext(), opop.class));
-
-
-
+                                   startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
                                } else {
                                    Toast.makeText(SignUp.this,"Authentication Failed", Toast.LENGTH_SHORT).show();
-
+                                   loadingbar.dismiss();
                                }
-
-
                            });
-
-
-
                }
-
-
-
            }
        });
 
