@@ -111,52 +111,32 @@ public class custorders extends Fragment {
         String _custname = userDetails.get(SessionManager.KEY_NAME);
         String _storename = userDetails.get(SessionManager.KEY_SELECTSTORENAME);
 
-        Toast.makeText(getContext(),_storename,Toast.LENGTH_SHORT).show();
+        if(_storename!=null){
+            custCartAdapter cartAdapter = new custCartAdapter(getContext(),cartprdlist,cartprdunit,cartprdprice,cartprdctgry,cartprdqnty,cartprdimgurl,cartkey,_custname);
 
+            dtbref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart").child(_storename);
+            DatabaseReference adtbref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart");
 
-        custCartAdapter cartAdapter = new custCartAdapter(getContext(),cartprdlist,cartprdunit,cartprdprice,cartprdctgry,cartprdqnty,cartprdimgurl,cartkey,_custname);
-
-        dtbref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart").child(_storename);
-        DatabaseReference adtbref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart");
-
-        adtbref.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(snapshot.hasChild(_storename)){
-                    getCartValues(cartAdapter,_storename);
+            adtbref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.hasChild(_storename)){
+                        getCartValues(cartAdapter,_storename);
+                    }
+                    else{
+                        //Toast.makeText(getContext(),"NO PRODUCTS FOUND...",Toast.LENGTH_SHORT).show();
+                    }
                 }
-                else{
-                    //Toast.makeText(getContext(),"NO PRODUCTS FOUND...",Toast.LENGTH_SHORT).show();
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
                 }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
-
-
-/*
-        String quantitycounter;
-        TextView quantity;
-
-        for(int i=0; i<cartlistview.getChildCount(); i++){
-            quantity = (TextView) cartlistview.getChildAt(i).findViewById(R.id.cartprdctprice);
-            quantitycounter = quantity.getText().toString();
-
-            counter += Integer.valueOf(quantitycounter);
-
-
+            });
         }
-*/
-
-
-
-
-
-
+        else{
+            Toast.makeText(getContext(),"Please select the store first",Toast.LENGTH_SHORT).show();
+        }
 
 
 

@@ -140,13 +140,20 @@ public class custlocation extends Fragment  implements OnMapReadyCallback, Googl
         String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
         String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
         String _custname = userDetails.get(SessionManager.KEY_NAME);
-        String _custloc = userDetails.get(SessionManager.KEY_LOCATION);
+        //String _custloc = userDetails.get(SessionManager.KEY_LOCATION);
 
         List<String> merchnamelist = new ArrayList<>();
         List<String> merchImglist = new ArrayList<>();
 
         MerchantAdapter merchantAdapter = new MerchantAdapter(getContext(),merchnamelist,merchImglist);
 
+
+        String _custlocality = userDetails.get(SessionManager.KEY_LOCALITY);
+        String _custlocation = userDetails.get(SessionManager.KEY_LOCATION);
+
+        if(_custlocation!=null){
+            setLocationMarker(_custlocation);
+        }
 
         checkMyPermission();
 
@@ -157,13 +164,14 @@ public class custlocation extends Fragment  implements OnMapReadyCallback, Googl
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference db = firebaseDatabase.getReference("Merchants");
-        DatabaseReference dbr  = firebaseDatabase.getReference("Customers");
 
         db.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
                 String locality = snapshot.child("Locality").getValue().toString();
-                if(locality.equals(_custloc)){
+
+                if(locality.equals(_custlocality)){
+                    Toast.makeText(getContext(),"This one"+locality,Toast.LENGTH_SHORT).show();
                     merchnamelist.add(snapshot.getValue(BusinessHelperClass.class).getbName());
                     merchImglist.add(snapshot.child("merchantImageUrl").getValue().toString());
                 }
@@ -226,7 +234,7 @@ public class custlocation extends Fragment  implements OnMapReadyCallback, Googl
                     dtbr.child("Locality").setValue(finallocality);
                     dtbr.child("PostalCode").setValue(finalpostalcode);
                     SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
-                    sessionManager.setLocation(finallocality);
+                    sessionManager.setLocation(finaladrress,finallocality);
                 }
             }
         });
@@ -235,8 +243,33 @@ public class custlocation extends Fragment  implements OnMapReadyCallback, Googl
 
     }
 
-    private void addMerchants() {
+    private void setLocationMarker(String custlocation) {
+        Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+
+        try {
+            List<Address> addressList = geocoder.getFromLocationName(custlocation, 1);
+
+            if (addressList.size() > 0) {
+                Address address = addressList.get(0);
+
+                double latitude = 0,longitude = 0;
+                latitude = address.getLatitude();
+                longitude = address.getLongitude();
+                if(latitude>0 && longitude>0){
+                    //gotoLocation(address.getLatitude(), address.getLongitude());
+
+                    //gMap.addMarker(new MarkerOptions().position(new LatLng(address.getLatitude(), address.getLongitude())));
+                }
+
+
+
+                Toast.makeText(getContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
+
 
     private void geoLocate(View view) {
         String locationName = locSearch.getText().toString();

@@ -7,30 +7,7 @@
     tools:context=".products"
     android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="products fragment"
-        android:textAllCaps="true"
-        android:textSize="36sp"
-        android:textStyle="bold" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/productstablayout"
-        app:tabTextColor="@color/white"
-        app:tabIndicatorColor="@color/white"
-        app:tabSelectedTextColor="@color/white"
-        android:background="@color/btcolor"
-        />
-
-    <androidx.viewpager.widget.ViewPager
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/viewpager"
-        />-->
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/mrchprdctstoolbar"
         android:layout_width="match_parent"

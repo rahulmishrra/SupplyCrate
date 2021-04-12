@@ -39,6 +39,8 @@ public class Login extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private TextView Signup;
     private ProgressDialog loadingbar;
+    private String locality,location;
+    private boolean dataAvailable= false;
 
 
 
@@ -71,7 +73,6 @@ public class Login extends AppCompatActivity {
                 final String[] name = new String[1];
 
                 DatabaseReference dr = FirebaseDatabase.getInstance().getReference("Customers");
-                Query checkUser = dr.orderByChild("username").equalTo("");
 
                 dr.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -82,6 +83,11 @@ public class Login extends AppCompatActivity {
                             if(emaili.equals(custEmail)){
                                 String cname = dataSnapshot.getValue(CustHelperClass.class).getUsername();
                                 name[0] = cname;
+                                if(dataSnapshot.hasChild("Locality")){
+                                    locality = dataSnapshot.child("Locality").getValue().toString();
+                                    location = dataSnapshot.child("Location").getValue().toString();
+                                    dataAvailable = true;
+                                }
                                // Toast.makeText(getApplicationContext(),"Yeh chal gya" + cname,Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -95,12 +101,6 @@ public class Login extends AppCompatActivity {
 
                     }
                 });
-
-
-
-
-
-                if( name[0]!= null){}
             }
         });
 
@@ -138,6 +138,9 @@ public class Login extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             SessionManager sessionManager = new SessionManager(Login.this,SessionManager.SESSION_CUSTOMER);
                             sessionManager.createLoginSession(custEmail,password,custName);
+                            if(dataAvailable){
+                                sessionManager.setLocation(location,locality);
+                            }
                             loadingbar.dismiss();
                             startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
                             Toast.makeText(getApplicationContext(),custName,Toast.LENGTH_SHORT).show();

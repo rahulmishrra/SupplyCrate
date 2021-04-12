@@ -34,20 +34,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/custdashtoolbar" />
 
-    <Button
-        android:id="@+id/customerlogoutbtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="false"
-        android:layout_alignParentBottom="false"
-        android:layout_centerHorizontal="false"
-        android:layout_marginBottom="30dp"
-        android:text="LOGOUT"
-        app:icon="@drawable/ic_baseline_logout_24"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <ListView
         android:id="@+id/ctgrylistview"
         android:layout_width="match_parent"

@@ -97,7 +97,6 @@ public class CustDashboard extends Fragment {
 
         custdashtoolbar = getView().findViewById(R.id.custdashtoolbar);
         custctgrylist = getView().findViewById(R.id.ctgrylistview);
-        custlogout = getView().findViewById(R.id.customerlogoutbtn);
 
         custdashtoolbar.setTitle(_storename);
         if(_storename!=null){
@@ -158,13 +157,6 @@ public class CustDashboard extends Fragment {
 
 
 
-        custlogout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sessionManager.logoutUserFromSession();
-                startActivity(new Intent(getContext(), Login.class));
-            }
-        });
 
 
     }

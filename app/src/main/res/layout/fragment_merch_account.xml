@@ -48,7 +48,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/accbname"
+                android:id="@+id/custsettingname"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -96,7 +96,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/accbemail"
+                android:id="@+id/custsettingemail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -120,7 +120,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/accbphone"
+                android:id="@+id/custsettingphone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -144,7 +144,7 @@
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/accbaddress"
+                android:id="@+id/custsettingaddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -157,7 +157,7 @@
                 android:textSize="30sp" />
 
             <Button
-                android:id="@+id/acclogout"
+                android:id="@+id/custacclogout"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:text="LOGOUT"

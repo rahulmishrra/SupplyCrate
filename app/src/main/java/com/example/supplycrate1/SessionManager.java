@@ -22,6 +22,7 @@ public class SessionManager {
     public static final String KEY_NAME = "customer_name";
     public static final String KEY_SELECTSTORENAME = "STORE_NAME";
     public static final String KEY_LOCATION = "location";
+    public static final String KEY_LOCALITY = "locality";
 
     //Merchant session variables
 
@@ -58,9 +59,10 @@ public class SessionManager {
         editor.commit();
     }
 
-    public void setLocation(String location){
+        public void setLocation(String location, String locality){
         editor.putBoolean(IS_LOGIN,true);
         editor.putString(KEY_LOCATION,location);
+        editor.putString(KEY_LOCALITY,locality);
         editor.commit();
     }
 
@@ -72,9 +74,13 @@ public class SessionManager {
         userData.put(KEY_NAME,usersSession.getString(KEY_NAME,null));
         userData.put(KEY_SELECTSTORENAME,usersSession.getString(KEY_SELECTSTORENAME,null));
         userData.put(KEY_LOCATION,usersSession.getString(KEY_LOCATION,null));
+        userData.put(KEY_LOCALITY,usersSession.getString(KEY_LOCALITY,null));
+
 
         return userData;
     }
+
+
 
     public boolean checkLogin(){
         if(usersSession.getBoolean(IS_LOGIN,false)){

@@ -147,7 +147,7 @@ public class MerchLocation extends AppCompatActivity implements OnMapReadyCallba
                 finaladrress = address.getAddressLine(0);
                 finallat = address.getLatitude();
                 finallong = address.getLongitude();
-                finallocality = address.getLocality();
+                finallocality = address.getSubLocality();
                 finalpostalcode = address.getPostalCode();
 
                 //Toast.makeText(this, finaladrress,Toast.LENGTH_SHORT).show();
@@ -180,7 +180,7 @@ public class MerchLocation extends AppCompatActivity implements OnMapReadyCallba
                 finaladrress = cityName;
                 finallat = location.getLatitude();
                 finallong = location.getLongitude();
-                finallocality = addresses.get(0).getLocality();
+                finallocality = addresses.get(0).getSubLocality();
                 finalpostalcode = addresses.get(0).getPostalCode();
 
                 Toast.makeText(getApplicationContext(),moreadd,Toast.LENGTH_SHORT).show();

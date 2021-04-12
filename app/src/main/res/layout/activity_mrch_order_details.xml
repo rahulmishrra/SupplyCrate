@@ -7,7 +7,7 @@
     tools:context=".mrchOrderDetails">
 
     <androidx.appcompat.widget.Toolbar
-        android:id="@+id/mrchqueuedetailtoolbar"
+        android:id="@+id/mrchorderdetailtoolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -25,19 +25,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mrchqueuedetailtoolbar">
+        app:layout_constraintTop_toBottomOf="@id/mrchorderdetailtoolbar">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/queuedatedetail"
+                    android:id="@+id/orderdatedetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
@@ -84,7 +84,7 @@
                 android:textStyle="bold" />
 
             <ListView
-                android:id="@+id/qprdctlistdetails"
+                android:id="@+id/orderprdctlistdetails"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:divider="@null"
@@ -121,7 +121,7 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/custnamequeuedetail"
+                    android:id="@+id/custnameorderdetail"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="false"
@@ -145,7 +145,18 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/custemailqueuedetails"
+                    android:id="@+id/txtview5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="70dp"
+                    android:text="Phone:"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/custemailorderdetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="false"
@@ -158,24 +169,37 @@
                     android:textSize="18sp" />
 
                 <TextView
-                    android:id="@+id/txtview6"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="20dp"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="70dp"
-                    android:text="Address:"
-                    android:textColor="#000000"
-                    android:textSize="18sp" />
-
-                <TextView
-                    android:id="@+id/custaddqueuedetails"
+                    android:id="@+id/custphoneorderdetails"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="false"
                     android:layout_marginStart="100dp"
                     android:layout_marginLeft="100dp"
                     android:layout_marginTop="70dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="phone"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txtview6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="100dp"
+                    android:text="Address:"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/custaddorderdetails"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="false"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="100dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginRight="20dp"
                     android:text="Address"

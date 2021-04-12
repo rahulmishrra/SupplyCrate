@@ -6,12 +6,15 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.HashMap;
 
@@ -22,7 +25,10 @@ import java.util.HashMap;
  */
 public class CustQueues extends Fragment {
 
+    private View myFragment;
 
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -75,5 +81,44 @@ public class CustQueues extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        viewPager = getView().findViewById(R.id.custview_pager);
+        tabLayout = getActivity().findViewById(R.id.custtablayout);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
+        setUpViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
+
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+
             }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            };
+        });
+
+    }
+
+    private void setUpViewPager(ViewPager viewPager) {
+        ProductSectionAdapter productSectionAdapter = new ProductSectionAdapter(getChildFragmentManager());
+
+        productSectionAdapter.addFragment(new OrderSubFragment(),"Orders");
+        productSectionAdapter.addFragment(new QueueSubFragment(),"Queue");
+
+        viewPager.setAdapter(productSectionAdapter);
+    }
+
+
 }

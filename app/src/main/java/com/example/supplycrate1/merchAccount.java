@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -85,12 +84,12 @@ public class merchAccount extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        storename = getView().findViewById(R.id.accbname);
+        storename = getView().findViewById(R.id.custsettingname);
         storeownername = getView().findViewById(R.id.accbownername);
-        storeemail = getView().findViewById(R.id.accbemail);
-        storephone = getView().findViewById(R.id.accbphone);
-        storelocation = getView().findViewById(R.id.accbaddress);
-        mlogout = getView().findViewById(R.id.acclogout);
+        storeemail = getView().findViewById(R.id.custsettingemail);
+        storephone = getView().findViewById(R.id.custsettingphone);
+        storelocation = getView().findViewById(R.id.custsettingaddress);
+        mlogout = getView().findViewById(R.id.custacclogout);
 
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
         HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();

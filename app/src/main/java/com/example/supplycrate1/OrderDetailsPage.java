@@ -24,7 +24,7 @@ import java.util.List;
 public class OrderDetailsPage extends AppCompatActivity {
 
     private TextView itemtotal,ordertotal,address;
-    private String _itemtotal,_deliveryfee,_address;
+    private String _itemtotal,_deliveryfee,_address,phoneno;
     private Button takeawaybtn,orderbtn;
     private String _custloc;
 
@@ -68,12 +68,13 @@ public class OrderDetailsPage extends AppCompatActivity {
         String _custname = userDetails.get(SessionManager.KEY_NAME);
 
 
-        DatabaseReference data = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Location");
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("Customers").child(_custname);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                address.setText(snapshot.getValue().toString());
-                _custloc = snapshot.getValue().toString();
+                address.setText(snapshot.child("Location").getValue().toString());
+                _custloc = snapshot.child("Location").getValue().toString();
+                phoneno = snapshot.child("phoneno").getValue().toString();
             }
 
             @Override
@@ -101,7 +102,7 @@ public class OrderDetailsPage extends AppCompatActivity {
                 bdr.child("orders").child(orderkey).child("Address").setValue(_custloc);
                 bdr.child("orders").child(orderkey).child("orderId").setValue(orderkey);
                 bdr.child("orders").child(orderkey).child("orderStatus").setValue("Pending");
-
+                bdr.child("orders").child(orderkey).child("phoneno").setValue(phoneno);
                 Toast.makeText(getApplicationContext(),"Order Sent",Toast.LENGTH_SHORT).show();
             }
         });
@@ -129,7 +130,7 @@ public class OrderDetailsPage extends AppCompatActivity {
                             bdr.child("Queue").child(orderkey).child("custEmail").setValue(_custemail);
                             bdr.child("Queue").child(orderkey).child("Address").setValue(_custloc);
                             bdr.child("Queue").child(orderkey).child("orderId").setValue(orderkey);
-
+                            Toast.makeText(getApplicationContext(),"Check your token number in orders section",Toast.LENGTH_SHORT).show();
                         }
                     }
 

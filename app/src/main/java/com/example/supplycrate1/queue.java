@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -100,6 +101,7 @@ public class queue extends Fragment {
         ListView queuelist = getView().findViewById(R.id.queuelist);
 
         List<String> custDetails = new ArrayList<>();
+        List<String> orderIdlist = new ArrayList<>();
 
         QueueAdapter queueAdapter = new QueueAdapter(getContext(),custDetails);
 
@@ -115,7 +117,8 @@ public class queue extends Fragment {
         drr.addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                custDetails.add(snapshot.child("customer").getValue(String.class));
+                custDetails.add(snapshot.child("customerName").getValue(String.class));
+                orderIdlist.add(snapshot.child("orderId").getValue().toString());
                // Toast.makeText(getContext(),snapshot.child("customer").getValue(String.class),Toast.LENGTH_SHORT).show();
                 queueAdapter.notifyDataSetChanged();
             }
@@ -144,7 +147,15 @@ public class queue extends Fragment {
 
         queuelist.setAdapter(queueAdapter);
 
-
+        queuelist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String orderid =  orderIdlist.get(position);
+                Intent orderdetails = new Intent(getContext(),mrchQueueDetails.class);
+                orderdetails.putExtra("OrderId",orderid);
+                startActivity(orderdetails);
+            }
+        });
 
     }
 }

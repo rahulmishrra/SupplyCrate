@@ -26,10 +26,10 @@ import java.util.List;
  */
 public class products extends Fragment {
 
-    View myFragment;
+    private View myFragment;
 
-    TabLayout tabLayout;
-    ViewPager viewPager;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER

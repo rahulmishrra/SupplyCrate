@@ -24,7 +24,7 @@ import java.util.List;
 
 public class mrchOrderDetails extends AppCompatActivity {
 
-    private TextView date,orderStatus,name,email,address;
+    private TextView date,orderStatus,name,email,address,phone;
     private ListView productlistdetails;
     long count;
 
@@ -34,19 +34,20 @@ public class mrchOrderDetails extends AppCompatActivity {
         setContentView(R.layout.activity_mrch_order_details);
         getSupportActionBar().hide();
 
-        Toolbar mrchorderdetailtool = findViewById(R.id.mrchqueuedetailtoolbar);
+        Toolbar mrchorderdetailtool = findViewById(R.id.mrchorderdetailtoolbar);
         String orderid = getIntent().getStringExtra("OrderId");
 
         SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_MERCHANT);
         HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
         String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
 
-        date = findViewById(R.id.queuedatedetail);
+        date = findViewById(R.id.orderdatedetail);
         orderStatus = findViewById(R.id.orderstatusdetails);
-        name = findViewById(R.id.custnamequeuedetail);
-        email = findViewById(R.id.custemailqueuedetails);
-        address = findViewById(R.id.custaddqueuedetails);
-        productlistdetails = findViewById(R.id.qprdctlistdetails);
+        name = findViewById(R.id.custnameorderdetail);
+        email = findViewById(R.id.custemailorderdetails);
+        address = findViewById(R.id.custaddorderdetails);
+        productlistdetails = findViewById(R.id.orderprdctlistdetails);
+        phone = findViewById(R.id.custphoneorderdetails);
 
         mrchorderdetailtool.setTitle("Order #"+orderid);
 
@@ -61,7 +62,9 @@ public class mrchOrderDetails extends AppCompatActivity {
                 name.setText(snapshot.child("customerName").getValue(String.class));
                 email.setText(snapshot.child("custEmail").getValue(String.class));
                 address.setText(snapshot.child("Address").getValue(String.class));
+                phone.setText(snapshot.child("phoneno").getValue().toString());
                 count = snapshot.child("products").getChildrenCount();
+
                 setHeight(count);
                 Toast.makeText(getApplicationContext(),String.valueOf(count),Toast.LENGTH_SHORT).show();
             }
