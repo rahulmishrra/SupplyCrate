@@ -100,53 +100,59 @@ public class CustDashboard extends Fragment {
         custlogout = getView().findViewById(R.id.customerlogoutbtn);
 
         custdashtoolbar.setTitle(_storename);
+        if(_storename!=null){
+            DatabaseReference dbrefer = FirebaseDatabase.getInstance().getReference("Merchants").child(_storename).child("Categories");
+            List<String> custcategorieslist = new ArrayList<>();
 
-        DatabaseReference dbrefer = FirebaseDatabase.getInstance().getReference("Merchants").child(_storename).child("Categories");
-        List<String> custcategorieslist = new ArrayList<>();
+            CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(),custcategorieslist);
 
-        CategoryAdapter categoryAdapter = new CategoryAdapter(getContext(),custcategorieslist);
+            dbrefer.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    custcategorieslist.add(snapshot.getValue(String.class));
+                    categoryAdapter.notifyDataSetChanged();
+                }
 
-        dbrefer.addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                custcategorieslist.add(snapshot.getValue(String.class));
-                categoryAdapter.notifyDataSetChanged();
-            }
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    categoryAdapter.notifyDataSetChanged();
+                }
 
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
-                categoryAdapter.notifyDataSetChanged();
-            }
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                    custcategorieslist.remove(snapshot.getValue(String.class));
+                    categoryAdapter.notifyDataSetChanged();
+                }
 
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot snapshot) {
-                custcategorieslist.remove(snapshot.getValue(String.class));
-                categoryAdapter.notifyDataSetChanged();
-            }
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
 
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                }
 
-            }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
+                }
+            });
+            custctgrylist.setAdapter(categoryAdapter);
 
-            }
-        });
-        custctgrylist.setAdapter(categoryAdapter);
+            custctgrylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String category = custcategorieslist.get(position).toString();
+                    //Toast.makeText(getApplicationContext(),category,Toast.LENGTH_SHORT).show();
+                    Intent intentdash = new Intent(getContext(),custProductpage.class);
+                    intentdash.putExtra("StoreName",_storename);
+                    intentdash.putExtra("Category",category);
+                    startActivity(intentdash);
+                }
+            });
 
-        custctgrylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String category = custcategorieslist.get(position).toString();
-                //Toast.makeText(getApplicationContext(),category,Toast.LENGTH_SHORT).show();
-                Intent intentdash = new Intent(getContext(),custProductpage.class);
-                intentdash.putExtra("StoreName",_storename);
-                intentdash.putExtra("Category",category);
-                startActivity(intentdash);
-            }
-        });
+        }
+        else{
+            Toast.makeText(getContext(),"Please select the store first",Toast.LENGTH_SHORT).show();
+        }
+
 
 
 

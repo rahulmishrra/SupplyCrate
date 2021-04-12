@@ -101,11 +101,7 @@ public class custorders extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         cartlistview = getView().findViewById(R.id.cartlistview);
-
         checkoutbtn = getView().findViewById(R.id.checkoutbtn);
-
-
-
 
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();

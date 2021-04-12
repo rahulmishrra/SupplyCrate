@@ -157,26 +157,7 @@ public class custlocation extends Fragment  implements OnMapReadyCallback, Googl
 
         FirebaseDatabase firebaseDatabase = FirebaseDatabase.getInstance();
         DatabaseReference db = firebaseDatabase.getReference("Merchants");
-/*
-        db.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                    String locality = dataSnapshot.child("Locality").getValue().toString();
-
-                    if(locality.equals(_custloc)){
-                        addMerchants();
-                    }
-                }
-                merchListview.setAdapter(merchantAdapter);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });*/
-
+        DatabaseReference dbr  = firebaseDatabase.getReference("Customers");
 
         db.addChildEventListener(new ChildEventListener() {
             @Override

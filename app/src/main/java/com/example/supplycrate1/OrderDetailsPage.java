@@ -26,6 +26,7 @@ public class OrderDetailsPage extends AppCompatActivity {
     private TextView itemtotal,ordertotal,address;
     private String _itemtotal,_deliveryfee,_address;
     private Button takeawaybtn,orderbtn;
+    private String _custloc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +49,7 @@ public class OrderDetailsPage extends AppCompatActivity {
         itemtotal.setText("\u20B9"+_itemtotal);
         ordertotal.setText("\u20B9"+String.valueOf(total));
 
+
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat currentDate  = new SimpleDateFormat("MMM dd,yyyy");
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
@@ -65,7 +67,21 @@ public class OrderDetailsPage extends AppCompatActivity {
         String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
         String _custname = userDetails.get(SessionManager.KEY_NAME);
 
-        address.setText(_custloc);
+
+        DatabaseReference data = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Location");
+        data.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                address.setText(snapshot.getValue().toString());
+                _custloc = snapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        //
 
         DatabaseReference bdr = FirebaseDatabase.getInstance().getReference("Merchants").child(storename);
         DatabaseReference bdref = FirebaseDatabase.getInstance().getReference("Merchants").child(storename).child("Queue");
@@ -100,8 +116,20 @@ public class OrderDetailsPage extends AppCompatActivity {
                             getToken();
                         }
                         else{
-                            bdr.child("Queue").child(orderkey).child("customer").setValue(_custname);
+
                             bdr.child("Queue").child(orderkey).child("token").setValue("1");
+                            for(int i=0; i<productkeys.length;i++){
+                                bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Productkey").setValue(productkeys[i]);
+                                bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities[i]);
+                            }
+                            bdr.child("Queue").child(orderkey).child("customerName").setValue(_custname);
+                            bdr.child("Queue").child(orderkey).child("ordertotal").setValue(String.valueOf(total));
+                            bdr.child("Queue").child(orderkey).child("Date").setValue(_currentDate);
+                            bdr.child("Queue").child(orderkey).child("Time").setValue(_currentTime);
+                            bdr.child("Queue").child(orderkey).child("custEmail").setValue(_custemail);
+                            bdr.child("Queue").child(orderkey).child("Address").setValue(_custloc);
+                            bdr.child("Queue").child(orderkey).child("orderId").setValue(orderkey);
+
                         }
                     }
 
@@ -112,8 +140,19 @@ public class OrderDetailsPage extends AppCompatActivity {
                                 long count = snapshot.getChildrenCount();
                                 String tokennum = String.valueOf(count);
 
-                                bdref.child(orderkey).child("customer").setValue(_custname);
                                 bdref.child(orderkey).child("token").setValue(tokennum);
+                                for(int i=0; i<productkeys.length;i++){
+                                    bdref.child(orderkey).child("products").child(String.valueOf(i)).child("Productkey").setValue(productkeys[i]);
+                                    bdref.child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities[i]);
+                                }
+                                bdref.child(orderkey).child("customerName").setValue(_custname);
+                                bdref.child(orderkey).child("ordertotal").setValue(String.valueOf(total));
+                                bdref.child(orderkey).child("Date").setValue(_currentDate);
+                                bdref.child(orderkey).child("Time").setValue(_currentTime);
+                                bdref.child(orderkey).child("custEmail").setValue(_custemail);
+                                bdref.child(orderkey).child("Address").setValue(_custloc);
+                                bdref.child(orderkey).child("orderId").setValue(orderkey);
+                                bdref.child(orderkey).child("orderStatus").setValue("Pending");
                             }
 
                             @Override
