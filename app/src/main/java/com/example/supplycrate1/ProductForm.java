@@ -29,6 +29,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ThrowOnExtraProperties;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
@@ -49,6 +50,8 @@ public class ProductForm extends AppCompatActivity{
     FirebaseDatabase firebaseDatabase;
     DatabaseReference dataref,dbr,dbrefer;
     Toolbar merchprdcttoolbar;
+    private int mrpnum;
+    private int sellingpricenum;
     private StorageReference ProductImageRef;
     private static final int GalleryPick = 1;
     private Uri ImageUri;
@@ -198,6 +201,8 @@ public class ProductForm extends AppCompatActivity{
         _quantity = quantity.getText().toString();
         _unit = unit.getSelectedItem().toString();
         _category = category.getSelectedItem().toString();
+        mrpnum = Integer.valueOf(_mrp);
+        sellingpricenum = Integer.valueOf(_sellingprice);
 
         if(ImageUri == null){
             Toast.makeText(this,"Product Image is mandatory...",Toast.LENGTH_SHORT).show();
@@ -218,6 +223,9 @@ public class ProductForm extends AppCompatActivity{
         else if(TextUtils.isEmpty(_sellingprice)){
             sellingprice.setError("Selling price is required");
             loadingBar.dismiss();
+        }
+        else if(mrpnum<sellingpricenum){
+            sellingprice.setError("Selling price cannot be greater than mrp");
         }
         else if(TextUtils.isEmpty(_quantity)){
             quantity.setError("Quantity is required");
@@ -287,7 +295,13 @@ public class ProductForm extends AppCompatActivity{
     }
     private void SaveProductInfoToDatabase() {
         stock = true;
-        ProductHelper productHelper = new ProductHelper(_prdctname,_prdctfile,_quantity,_unit,_category,_mrp,_sellingprice,productImageUrl,productkey,stock);
+
+        int offer = (mrpnum-sellingpricenum)*100;
+        int offerpercent = offer/mrpnum;
+        String discount = String.valueOf(offerpercent);
+        Toast.makeText(getApplicationContext(), String.valueOf(offerpercent), Toast.LENGTH_SHORT).show();
+
+        ProductHelper productHelper = new ProductHelper(_prdctname,_prdctfile,_quantity,_unit,_category,_mrp,_sellingprice,productImageUrl,productkey,discount,stock);
 
         dbr = firebaseDatabase.getReference("Merchants").child(mbname).child("Products");
 

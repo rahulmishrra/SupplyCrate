@@ -10,4 +10,6 @@
     <color name="btcolor">#36A751</color>
     <color name="textblack">#3B3B3B</color>
     <color name="red">#FF0000</color>
+    <color name="orange">#FF6600</color>
+    <color name="orderblue">#3792CB</color>
 </resources>

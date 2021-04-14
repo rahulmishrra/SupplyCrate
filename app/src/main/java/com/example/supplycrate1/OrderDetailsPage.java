@@ -3,6 +3,7 @@ package com.example.supplycrate1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -83,7 +84,8 @@ public class OrderDetailsPage extends AppCompatActivity {
             }
         });
         //
-
+        DatabaseReference custdb = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("orders");
+        DatabaseReference cstdb = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart");
         DatabaseReference bdr = FirebaseDatabase.getInstance().getReference("Merchants").child(storename);
         DatabaseReference bdref = FirebaseDatabase.getInstance().getReference("Merchants").child(storename).child("Queue");
 
@@ -103,7 +105,11 @@ public class OrderDetailsPage extends AppCompatActivity {
                 bdr.child("orders").child(orderkey).child("orderId").setValue(orderkey);
                 bdr.child("orders").child(orderkey).child("orderStatus").setValue("Pending");
                 bdr.child("orders").child(orderkey).child("phoneno").setValue(phoneno);
-                Toast.makeText(getApplicationContext(),"Order Sent",Toast.LENGTH_SHORT).show();
+                bdr.child("orders").child(orderkey).child("itemTotal").setValue(_itemtotal);
+                custdb.child(storename).child(orderkey).child("orderId").setValue(orderkey);
+                cstdb.removeValue();
+                Toast.makeText(getApplicationContext(),"Order Sent, Track your order in orders section",Toast.LENGTH_SHORT).show();
+                //startActivity(new Intent(getApplicationContext(),CustDashboard.class));
             }
         });
 
@@ -124,7 +130,7 @@ public class OrderDetailsPage extends AppCompatActivity {
                                 bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities[i]);
                             }
                             bdr.child("Queue").child(orderkey).child("customerName").setValue(_custname);
-                            bdr.child("Queue").child(orderkey).child("ordertotal").setValue(String.valueOf(total));
+                            bdr.child("Queue").child(orderkey).child("ordertotal").setValue(_itemtotal);
                             bdr.child("Queue").child(orderkey).child("Date").setValue(_currentDate);
                             bdr.child("Queue").child(orderkey).child("Time").setValue(_currentTime);
                             bdr.child("Queue").child(orderkey).child("custEmail").setValue(_custemail);

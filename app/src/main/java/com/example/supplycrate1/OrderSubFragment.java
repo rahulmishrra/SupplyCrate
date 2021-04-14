@@ -2,11 +2,26 @@ package com.example.supplycrate1;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import android.widget.Toast;
+
+import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,5 +75,69 @@ public class OrderSubFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_order_sub, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        ListView orderlist = getView().findViewById(R.id.custorderlist);
+
+        List<String> orderIdlist = new ArrayList<>();
+
+
+
+
+        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
+        HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
+
+        String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
+        String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
+        String _custname = userDetails.get(SessionManager.KEY_NAME);
+        String storetitle = userDetails.get(SessionManager.KEY_SELECTSTORENAME);
+
+        CustorderAdapter adapter = new CustorderAdapter(getContext(),orderIdlist,storetitle);
+
+        if(storetitle!=null){
+            DatabaseReference custdataref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("orders").child(storetitle);
+            custdataref.addChildEventListener(new ChildEventListener() {
+                @Override
+                public void onChildAdded(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    orderIdlist.add(snapshot.child("orderId").getValue().toString());
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChildChanged(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChildRemoved(@NonNull DataSnapshot snapshot) {
+                    orderIdlist.remove(snapshot.child("orderId").getValue().toString());
+                    adapter.notifyDataSetChanged();
+                }
+
+                @Override
+                public void onChildMoved(@NonNull DataSnapshot snapshot, @Nullable String previousChildName) {
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+            orderlist.setAdapter(adapter);
+        }
+        else{
+            Toast.makeText(getContext(),"Please select the store first",Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+
     }
 }

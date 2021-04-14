@@ -26,12 +26,12 @@ import java.util.List;
 public class ProductAdapter extends ArrayAdapter {
 
     List<String> ProductList,ProductUnit,ProductKey;
-    List<String> ProductPrice,ProductImage;
+    List<String> ProductPrice,ProductImage,ProductDiscount;
     List<Boolean> ProductStock;
     Context _pcontext;
     ProductHelper productHelper;
 
-    public ProductAdapter(@NonNull Context context, List<String> productList, List<String> productUnit, List<String> productPrice,List<String> productImage, List<Boolean> productStock, List<String> productKey) {
+    public ProductAdapter(@NonNull Context context, List<String> productList, List<String> productUnit, List<String> productPrice,List<String> productImage, List<Boolean> productStock, List<String> productKey, List<String> productDiscount) {
         super(context, R.layout.prdctview,productList);
 
         this.ProductList = productList;
@@ -41,6 +41,7 @@ public class ProductAdapter extends ArrayAdapter {
         this._pcontext = context;
         this.ProductStock = productStock;
         this.ProductKey = productKey;
+        this.ProductDiscount = productDiscount;
     }
 
     SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
@@ -59,13 +60,17 @@ public class ProductAdapter extends ArrayAdapter {
         TextView prdctprice = view.findViewById(R.id.prdctpricecard);
         ImageView prdctimg = view.findViewById(R.id.prdctimgview);
         Switch prdstockprice = view.findViewById(R.id.prdstockswitch);
+        TextView prddiscount = view.findViewById(R.id.offerview);
         Picasso.get().load(Uri.parse(ProductImage.get(position))).into(prdctimg);
 
         prdctlist.setText(ProductList.get(position));
         prdctunit.setText(ProductUnit.get(position));
         prdctprice.setText("\u20B9"+ProductPrice.get(position));
         prdstockprice.setChecked(ProductStock.get(position));
-
+        prddiscount.setText(ProductDiscount.get(position)+"% OFF");
+        if(ProductDiscount.get(position).equals("0")){
+            prddiscount.setVisibility(View.INVISIBLE);
+        }
 
         boolean prdstk = prdstockprice.isChecked();
         String post = ProductKey.get(position);

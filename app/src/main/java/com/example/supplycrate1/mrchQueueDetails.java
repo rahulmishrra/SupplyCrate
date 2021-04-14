@@ -6,7 +6,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.os.Bundle;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ public class mrchQueueDetails extends AppCompatActivity {
 
     private TextView date,orderStatus,name,email,address,phone;
     private ListView productlistdetails;
+    private Button donebtn;
     long count;
 
     @Override
@@ -46,6 +49,7 @@ public class mrchQueueDetails extends AppCompatActivity {
         email = findViewById(R.id.custemailqueuedetails);
         address = findViewById(R.id.custaddqueuedetails);
         productlistdetails = findViewById(R.id.qprdctlistdetails);
+        donebtn = findViewById(R.id.queuedonebtn);
 
         DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname).child("Queue").child(orderid);
         DatabaseReference dtbr = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname).child("Queue").child(orderid).child("products");
@@ -114,6 +118,13 @@ public class mrchQueueDetails extends AppCompatActivity {
         });
         productlistdetails.setAdapter(adapter);
 
+        donebtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dbr.removeValue();
+                onBackPressed();
+            }
+        });
 
     }
 }

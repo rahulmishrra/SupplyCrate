@@ -3,6 +3,7 @@ package com.example.supplycrate1;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
@@ -24,9 +25,10 @@ import java.util.HashMap;
 
 public class ProjectDetailsPage extends AppCompatActivity {
     private DatabaseReference prddbref,addcartdb,adcartdb;
-    private TextView productNameText, productPriceText,productQuantity, productDesc, productCategory;
-    private String _productNameText, _productCategory, _productPriceText, _productQuantity, _productUnit, _productDesc, _productImgUrl;
+    private TextView productNameText, productPriceText,productQuantity, productDesc, productCategory,productDiscount;
+    private String _productNameText, _productCategory, _productPriceText, _productQuantity, _productUnit, _productDesc, _productImgUrl,_productDiscount;
     private ImageView productImage;
+    private boolean productstock;
     private TextView cratequantitytext;
 
     private Button addCratebtn,crateincbtn,cratedecbtn;
@@ -46,9 +48,11 @@ public class ProjectDetailsPage extends AppCompatActivity {
         productImage = findViewById(R.id.pdtlImage);
         addCratebtn = findViewById(R.id.Addtocrate);
         productCategory = findViewById(R.id.pdtlctgry);
+        productDiscount = findViewById(R.id.pdtloffer);
         cratequantitytext = findViewById(R.id.cratequantitybtntext);
         crateincbtn = findViewById(R.id.cartincbtn);
         cratedecbtn = findViewById(R.id.cartdecbtn);
+
 
         SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
@@ -78,8 +82,8 @@ public class ProjectDetailsPage extends AppCompatActivity {
         cratedecbtn.setVisibility(View.INVISIBLE);
 
         String ProductKey = getIntent().getStringExtra("Productkey");
-        String StoreName = getIntent().getStringExtra("StoreName");
-        prddbref = FirebaseDatabase.getInstance().getReference("Merchants").child(StoreName).child("Products").child(ProductKey);
+//        String StoreName = getIntent().getStringExtra("StoreName");
+        prddbref = FirebaseDatabase.getInstance().getReference("Merchants").child(_storename).child("Products").child(ProductKey);
         addcartdb = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart").child(_storename);
         adcartdb = FirebaseDatabase.getInstance().getReference("Customers").child(_custname);
 
@@ -125,9 +129,19 @@ public class ProjectDetailsPage extends AppCompatActivity {
                 _productNameText = snapshot.getValue(ProductHelper.class).getProductName();
                 _productPriceText = snapshot.getValue(ProductHelper.class).getSellingprice();
                 _productUnit = snapshot.getValue(ProductHelper.class).getProductUnit();
+                productstock = snapshot.getValue(ProductHelper.class).isStock();
+                if(!productstock){
+                    addCratebtn.setText("OUT OF STOCK");
+                    addCratebtn.setEnabled(false);
+                }
 
-                cratequantitytext.setText(snapshot.getValue(ProductHelper.class).getProductQuantity());
+                //cratequantitytext.setText(snapshot.getValue(ProductHelper.class).getProductQuantity());
                 productCategory.setText(snapshot.getValue(ProductHelper.class).getProductCategory());
+                _productDiscount = snapshot.getValue(ProductHelper.class).getProductDiscount();
+                productDiscount.setText(_productDiscount+"% OFF");
+                if(_productDiscount.equals("0")){
+                    productDiscount.setVisibility(View.INVISIBLE);
+                }
                 productNameText.setText(snapshot.getValue(ProductHelper.class).getProductName());
                 productPriceText.setText("\u20B9"+snapshot.getValue(ProductHelper.class).getSellingprice());
                 productDesc.setText(snapshot.getValue(ProductHelper.class).getProductDetails());
@@ -163,9 +177,12 @@ public class ProjectDetailsPage extends AppCompatActivity {
                 int counter = Integer.parseInt(cratequantitytext.getText().toString());
                 counter--;
                 if(counter<1){
-
-                    Toast.makeText(getApplicationContext(),"Quantity cannot be less than 1",Toast.LENGTH_SHORT).show();
-
+                    addcartdb.child(productcartkey[0]).removeValue();
+                    Toast.makeText(getApplicationContext(),"Product is removed from the cart",Toast.LENGTH_SHORT).show();
+                    addCratebtn.setVisibility(View.VISIBLE);
+                    cratequantitytext.setVisibility(View.INVISIBLE);
+                    crateincbtn.setVisibility(View.INVISIBLE);
+                    cratedecbtn.setVisibility(View.INVISIBLE);
                 }
                 else{
                     setQuantityonDB(counter,ProductKey,productcartkey[0]);
@@ -180,7 +197,7 @@ public class ProjectDetailsPage extends AppCompatActivity {
         addCratebtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Toast.makeText(ProjectDetailsPage.this,_productNameText+ " "+_productImgUrl,Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProjectDetailsPage.this,"Product is added in the crate",Toast.LENGTH_SHORT).show();
                 CartHelper cartHelper = new CartHelper(_productNameText,_productUnit,_productPriceText,_productCategory,_productImgUrl,ProductKey,"1",cartkey);
                 adcartdb.child("Cart").child(_storename).child(cartkey).setValue(cartHelper);
             }

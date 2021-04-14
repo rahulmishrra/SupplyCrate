@@ -171,7 +171,7 @@ public class custlocation extends Fragment  implements OnMapReadyCallback, Googl
                 String locality = snapshot.child("Locality").getValue().toString();
 
                 if(locality.equals(_custlocality)){
-                    Toast.makeText(getContext(),"This one"+locality,Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(),"This one"+locality,Toast.LENGTH_SHORT).show();
                     merchnamelist.add(snapshot.getValue(BusinessHelperClass.class).getbName());
                     merchImglist.add(snapshot.child("merchantImageUrl").getValue().toString());
                 }

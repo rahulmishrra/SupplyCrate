@@ -28,7 +28,7 @@ import java.util.HashMap;
  */
 public class QueueSubFragment extends Fragment {
 
-    private TextView tokennum;
+    private TextView tokennum,textView;
     private Button refreshbtn;
 
     // TODO: Rename parameter arguments, choose names that match
@@ -84,6 +84,7 @@ public class QueueSubFragment extends Fragment {
 
         tokennum = getView().findViewById(R.id.custtokennumber);
         refreshbtn = getView().findViewById(R.id.custrefreshbtn);
+        textView = getView().findViewById(R.id.textView21);
 
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
@@ -105,12 +106,42 @@ public class QueueSubFragment extends Fragment {
 
                             tokennum.setText(dataSnapshot.child("token").getValue().toString());
                         }
+                        else{
+                            textView.setText("You do not have any take away from"+_storename);
+                            tokennum.setVisibility(View.INVISIBLE);
+                            refreshbtn.setVisibility(View.INVISIBLE);
+                        }
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
 
+                }
+            });
+            refreshbtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dbr.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            int tokencount = 0;
+                            for(DataSnapshot dataSnapshot: snapshot.getChildren()){
+                                String customer = dataSnapshot.child("customerName").getValue().toString();
+                                tokencount += 1;
+                                if(customer.equals(_custname)){
+                                    String orderid = snapshot.child("orderId").getValue().toString();
+                                    dbr.child(orderid).child("token").setValue(String.valueOf(tokencount));
+                                    tokennum.setText(String.valueOf(tokencount));
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
                 }
             });
 

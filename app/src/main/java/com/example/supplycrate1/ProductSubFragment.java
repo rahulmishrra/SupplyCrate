@@ -98,7 +98,7 @@ public class ProductSubFragment extends Fragment {
         prdctfrmbtn = getView().findViewById(R.id.productbtn);
         prdctListview = getView().findViewById(R.id.procductlistview);
         List<String> productlist,productunit,productkey;
-        List<String> productprice, productimage;
+        List<String> productprice, productimage,productdisc;
         List<Boolean> productstock;
         productlist = new ArrayList<>();
         productunit = new ArrayList<>();
@@ -106,6 +106,7 @@ public class ProductSubFragment extends Fragment {
         productimage = new ArrayList<>();
         productstock = new ArrayList<>();
         productkey = new ArrayList<>();
+        productdisc = new ArrayList<>();
 
 
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
@@ -113,7 +114,7 @@ public class ProductSubFragment extends Fragment {
         String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
 
 
-        ProductAdapter productAdapter = new ProductAdapter(getContext(),productlist,productunit,productprice,productimage,productstock,productkey);
+        ProductAdapter productAdapter = new ProductAdapter(getContext(),productlist,productunit,productprice,productimage,productstock,productkey,productdisc);
 
         FirebaseDatabase fdb = FirebaseDatabase.getInstance();
         DatabaseReference dbreference = fdb.getReference("Merchants").child(mbname).child("Products");
@@ -127,6 +128,7 @@ public class ProductSubFragment extends Fragment {
                 productstock.add(snapshot.getValue(ProductHelper.class).isStock());
                 productimage.add(snapshot.getValue(ProductHelper.class).getProductImageUrl());
                 productkey.add(snapshot.getValue(ProductHelper.class).getProductkey());
+                productdisc.add(snapshot.getValue(ProductHelper.class).getProductDiscount());
                 productAdapter.notifyDataSetChanged();
             }
 

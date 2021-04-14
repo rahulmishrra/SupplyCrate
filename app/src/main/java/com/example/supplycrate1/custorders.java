@@ -11,6 +11,7 @@ import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -37,6 +38,7 @@ import java.util.List;
 public class custorders extends Fragment {
 
     private ListView cartlistview;
+    TextView custcarttotal;
     //long count=0;
     int counter = 0;
     DatabaseReference dtbref;
@@ -102,6 +104,8 @@ public class custorders extends Fragment {
 
         cartlistview = getView().findViewById(R.id.cartlistview);
         checkoutbtn = getView().findViewById(R.id.checkoutbtn);
+
+        custcarttotal = getView().findViewById(R.id.custtotalcart);
 
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
@@ -188,11 +192,25 @@ public class custorders extends Fragment {
 
         cartlistview.setAdapter(cartAdapter);
 
+        cartlistview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String _custproductkey = cartkey.get(position).toString();
+                Intent intentProductdetails = new Intent(getContext(),ProjectDetailsPage.class);
+                intentProductdetails.putExtra("Productkey",_custproductkey);
+
+                startActivity(intentProductdetails);
+            }
+        });
+
         dtbref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 long count =  snapshot.getChildrenCount();
-                checkout(count,storename);
+                if(count!=0){
+                    checkout(count,storename);
+                }
+
             }
 
             @Override
@@ -211,7 +229,6 @@ public class custorders extends Fragment {
         String[] quantities = new String[(int)counts];
 
 
-        TextView custcarttotal = getView().findViewById(R.id.custtotalcart);
 
         dtbref.addValueEventListener(new ValueEventListener() {
             @Override

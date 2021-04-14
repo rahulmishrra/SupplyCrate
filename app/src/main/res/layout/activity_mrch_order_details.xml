@@ -115,10 +115,77 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="140dp"
                     android:text="Name:"
                     android:textColor="#000000"
                     android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txtview7"
+                    android:layout_width="113dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
+                    android:text="Item Total"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/itemtotalordertotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="\u20B90"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/ordertotalordertotal"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="70dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="\u20B90"
+                    android:textColor="#000"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/txtdeliveryorderdetail"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginTop="40dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="\u20B950"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txtview8"
+                    android:layout_width="113dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="40dp"
+                    android:text="Delivery Fee"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txtview9"
+                    android:layout_width="113dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="70dp"
+                    android:text="Order Total"
+                    android:textColor="#000"
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/custnameorderdetail"
@@ -127,7 +194,7 @@
                     android:layout_alignParentRight="false"
                     android:layout_marginStart="100dp"
                     android:layout_marginLeft="100dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="140dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginRight="20dp"
                     android:text="Name"
@@ -139,7 +206,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="170dp"
                     android:text="Email:"
                     android:textColor="#000000"
                     android:textSize="18sp" />
@@ -150,7 +217,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="200dp"
                     android:text="Phone:"
                     android:textColor="#000000"
                     android:textSize="18sp" />
@@ -162,7 +229,7 @@
                     android:layout_alignParentRight="false"
                     android:layout_marginStart="100dp"
                     android:layout_marginLeft="100dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="170dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginRight="20dp"
                     android:text="Email"
@@ -175,7 +242,7 @@
                     android:layout_alignParentRight="false"
                     android:layout_marginStart="100dp"
                     android:layout_marginLeft="100dp"
-                    android:layout_marginTop="70dp"
+                    android:layout_marginTop="200dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginRight="20dp"
                     android:text="phone"
@@ -187,8 +254,19 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="20dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginTop="230dp"
                     android:text="Address:"
+                    android:textColor="#000000"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/txtview11"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="105dp"
+                    android:text="Payment:"
                     android:textColor="#000000"
                     android:textSize="18sp" />
 
@@ -199,12 +277,72 @@
                     android:layout_alignParentRight="false"
                     android:layout_marginStart="100dp"
                     android:layout_marginLeft="100dp"
-                    android:layout_marginTop="100dp"
+                    android:layout_marginTop="230dp"
                     android:layout_marginEnd="20dp"
                     android:layout_marginRight="20dp"
                     android:text="Address"
                     android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/custaddorderdetails2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="false"
+                    android:layout_marginStart="100dp"
+                    android:layout_marginLeft="100dp"
+                    android:layout_marginTop="105dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginRight="20dp"
+                    android:text="Cash on delivery"
+                    android:textSize="18sp" />
+
+                <View
+                    android:id="@+id/divider2"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="100dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="?android:attr/listDivider" />
+
+                <View
+                    android:id="@+id/divider3"
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="135dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="?android:attr/listDivider" />
             </RelativeLayout>
+
+            <Button
+                android:id="@+id/orderstatusbtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:text="ACCEPT ORDER" />
+
+            <Button
+                android:id="@+id/cancelorderbutton"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="3dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="CANCEL ORDER"
+                android:textColor="@color/btcolor"
+                app:backgroundTint="#00FFFFFF" />
 
         </LinearLayout>
     </ScrollView>

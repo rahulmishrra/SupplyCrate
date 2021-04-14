@@ -44,7 +44,19 @@ public class orderAdapter extends ArrayAdapter {
         orderid.setText("Order #"+OrderId.get(position));
         orderdate.setText(OrderDate.get(position));
         orderstatus.setText(OrderStatus.get(position));
-        return view;
+        if(OrderStatus.get(position).equals("Shipped")){
+            orderstatus.setTextColor(orderstatus.getContext().getResources().getColor(R.color.orange));
+
+        }
+        if(OrderStatus.get(position).equals("Delivered")){
+            orderstatus.setTextColor(orderstatus.getContext().getResources().getColor(R.color.orderblue));
+
+        }
+        if(OrderStatus.get(position).equals("Order Cancelled")) {
+
+            orderstatus.setTextColor(orderstatus.getContext().getResources().getColor(R.color.red));
+        }
+            return view;
     }
 
 }

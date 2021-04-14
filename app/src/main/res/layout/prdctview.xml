@@ -72,6 +72,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="189dp"
                 tools:srcCompat="@drawable/ginger" />
+
+            <TextView
+                android:id="@+id/offerview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/offerbar"
+                android:padding="10dp"
+                android:text="5% OFF"
+                android:textColor="#FFFFFF"
+                android:textSize="20sp"
+                android:textStyle="bold" />
         </RelativeLayout>
 
     </androidx.cardview.widget.CardView>
