@@ -117,6 +117,7 @@ public class CustDashboard extends Fragment {
 
         custdashtoolbar.setTitle(_storename);
         if(_storename!=null){
+            Toast.makeText(getContext(),_storename,Toast.LENGTH_SHORT).show();
             DatabaseReference dbrefer = FirebaseDatabase.getInstance().getReference("Merchants").child(_storename);
 
 

@@ -138,6 +138,7 @@ public class Login extends AppCompatActivity {
                             }
                             loadingbar.dismiss();
                             startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
+                            finish();
                             Toast.makeText(getApplicationContext(),custName,Toast.LENGTH_SHORT).show();
 
 

@@ -130,7 +130,7 @@ public class mainretailer2op extends AppCompatActivity {
                                 loadingBar.dismiss();
                                 Toast.makeText(com.example.supplycrate1.mainretailer2op.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(),RetailerDashboard.class));
-
+                                finish();
                             }
                             else
                             {

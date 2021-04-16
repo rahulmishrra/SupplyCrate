@@ -236,8 +236,8 @@ public class custorders extends Fragment {
                 int i=0;
                 for(DataSnapshot dataSnapshot: snapshot.getChildren())
                 {
-                    quantities[i] = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
-                    productkies[i] = dataSnapshot.getValue(CartHelper.class).getProductKey();
+                    //quantities[i] = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
+                    //productkies[i] = dataSnapshot.getValue(CartHelper.class).getProductKey();
                     i++;
                     String price = dataSnapshot.getValue(CartHelper.class).getProductprice();
                     String quantity = dataSnapshot.getValue(CartHelper.class).getProductQuantity();

@@ -76,7 +76,7 @@ public class ProjectDetailsPage extends AppCompatActivity {
 
 
         String ProductKey = getIntent().getStringExtra("Productkey");
-//        String StoreName = getIntent().getStringExtra("StoreName");
+//      String _storename = getIntent().getStringExtra("StoreName");
         prddbref = FirebaseDatabase.getInstance().getReference("Merchants").child(_storename).child("Products").child(ProductKey);
         addcartdb = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart").child(_storename);
         adcartdb = FirebaseDatabase.getInstance().getReference("Customers").child(_custname);
