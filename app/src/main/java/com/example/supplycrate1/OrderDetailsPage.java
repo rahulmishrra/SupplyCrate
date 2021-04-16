@@ -25,9 +25,12 @@ import java.util.List;
 public class OrderDetailsPage extends AppCompatActivity {
 
     private TextView itemtotal,ordertotal,address;
-    private String _itemtotal,_deliveryfee,_address,phoneno;
+    private String _itemtotal,_deliveryfee,_address,phoneno,_custname,_currentDate,_currentTime,_custemail;
     private Button takeawaybtn,orderbtn;
     private String _custloc;
+    private DatabaseReference custdb,cstdb,bdr,bdref;
+    private String[] productkeys ,Quantities;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,8 +46,8 @@ public class OrderDetailsPage extends AppCompatActivity {
 
         _itemtotal = getIntent().getStringExtra("Item total");
         String storename = getIntent().getStringExtra("StoreName");
-        String[] productkeys = getIntent().getStringArrayExtra("Productkey");
-        String[] Quantities = getIntent().getStringArrayExtra("Quantity");
+        productkeys = getIntent().getStringArrayExtra("Productkey");
+        Quantities = getIntent().getStringArrayExtra("Quantity");
 
         int total = Integer.valueOf(_itemtotal) + 50;
         itemtotal.setText("\u20B9"+_itemtotal);
@@ -56,25 +59,25 @@ public class OrderDetailsPage extends AppCompatActivity {
         SimpleDateFormat currentTime = new SimpleDateFormat("HH:mm:ss a");
 
         SimpleDateFormat orderKeyGenerator = new SimpleDateFormat("yyMMddHHmmss");
-        String _currentDate = currentDate.format(calendar.getTime());
-        String _currentTime = currentTime.format(calendar.getTime());
+         _currentDate = currentDate.format(calendar.getTime());
+         _currentTime = currentTime.format(calendar.getTime());
 
         String orderkey = orderKeyGenerator.format(calendar.getTime());
 
         SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
 
-        String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
+         _custemail = userDetails.get(SessionManager.KEY_EMAIL);
         String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
-        String _custname = userDetails.get(SessionManager.KEY_NAME);
-
+         _custname = userDetails.get(SessionManager.KEY_NAME);
+        _custloc = userDetails.get(SessionManager.KEY_LOCATION);
 
         DatabaseReference data = FirebaseDatabase.getInstance().getReference("Customers").child(_custname);
         data.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 address.setText(snapshot.child("Location").getValue().toString());
-                _custloc = snapshot.child("Location").getValue().toString();
+                //_custloc = snapshot.child("Location").getValue().toString();
                 phoneno = snapshot.child("phoneno").getValue().toString();
             }
 
@@ -84,10 +87,10 @@ public class OrderDetailsPage extends AppCompatActivity {
             }
         });
         //
-        DatabaseReference custdb = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("orders");
-        DatabaseReference cstdb = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart");
-        DatabaseReference bdr = FirebaseDatabase.getInstance().getReference("Merchants").child(storename);
-        DatabaseReference bdref = FirebaseDatabase.getInstance().getReference("Merchants").child(storename).child("Queue");
+        custdb = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("orders");
+        cstdb = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart");
+        bdr = FirebaseDatabase.getInstance().getReference("Merchants").child(storename);
+        bdref = FirebaseDatabase.getInstance().getReference("Merchants").child(storename).child("Queue");
 
         orderbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -107,7 +110,7 @@ public class OrderDetailsPage extends AppCompatActivity {
                 bdr.child("orders").child(orderkey).child("phoneno").setValue(phoneno);
                 bdr.child("orders").child(orderkey).child("itemTotal").setValue(_itemtotal);
                 custdb.child(storename).child(orderkey).child("orderId").setValue(orderkey);
-                cstdb.removeValue();
+                cstdb.child(storename).removeValue();
                 Toast.makeText(getApplicationContext(),"Order Sent, Track your order in orders section",Toast.LENGTH_SHORT).show();
                 //startActivity(new Intent(getApplicationContext(),CustDashboard.class));
             }
@@ -123,20 +126,9 @@ public class OrderDetailsPage extends AppCompatActivity {
                             getToken();
                         }
                         else{
+                            setQueueValues(orderkey);
 
-                            bdr.child("Queue").child(orderkey).child("token").setValue("1");
-                            for(int i=0; i<productkeys.length;i++){
-                                bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Productkey").setValue(productkeys[i]);
-                                bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities[i]);
-                            }
-                            bdr.child("Queue").child(orderkey).child("customerName").setValue(_custname);
-                            bdr.child("Queue").child(orderkey).child("ordertotal").setValue(_itemtotal);
-                            bdr.child("Queue").child(orderkey).child("Date").setValue(_currentDate);
-                            bdr.child("Queue").child(orderkey).child("Time").setValue(_currentTime);
-                            bdr.child("Queue").child(orderkey).child("custEmail").setValue(_custemail);
-                            bdr.child("Queue").child(orderkey).child("Address").setValue(_custloc);
-                            bdr.child("Queue").child(orderkey).child("orderId").setValue(orderkey);
-                            Toast.makeText(getApplicationContext(),"Check your token number in orders section",Toast.LENGTH_SHORT).show();
+
                         }
                     }
 
@@ -145,7 +137,7 @@ public class OrderDetailsPage extends AppCompatActivity {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
                                 long count = snapshot.getChildrenCount();
-                                String tokennum = String.valueOf(count);
+                                String tokennum = String.valueOf(count+1);
 
                                 bdref.child(orderkey).child("token").setValue(tokennum);
                                 for(int i=0; i<productkeys.length;i++){
@@ -153,13 +145,13 @@ public class OrderDetailsPage extends AppCompatActivity {
                                     bdref.child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities[i]);
                                 }
                                 bdref.child(orderkey).child("customerName").setValue(_custname);
-                                bdref.child(orderkey).child("ordertotal").setValue(String.valueOf(total));
+                                bdref.child(orderkey).child("ordertotal").setValue(_itemtotal);
                                 bdref.child(orderkey).child("Date").setValue(_currentDate);
                                 bdref.child(orderkey).child("Time").setValue(_currentTime);
                                 bdref.child(orderkey).child("custEmail").setValue(_custemail);
                                 bdref.child(orderkey).child("Address").setValue(_custloc);
                                 bdref.child(orderkey).child("orderId").setValue(orderkey);
-                                bdref.child(orderkey).child("orderStatus").setValue("Pending");
+                                Toast.makeText(getApplicationContext(),"Check your token number in orders section",Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
@@ -176,5 +168,21 @@ public class OrderDetailsPage extends AppCompatActivity {
                 });
             }
         });
+    }
+
+    private void setQueueValues(String orderkey) {
+        bdr.child("Queue").child(orderkey).child("token").setValue("1");
+        for(int i=0; i<productkeys.length;i++){
+            bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Productkey").setValue(productkeys[i]);
+            bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities[i]);
+        }
+        bdr.child("Queue").child(orderkey).child("customerName").setValue(_custname);
+        bdr.child("Queue").child(orderkey).child("ordertotal").setValue(_itemtotal);
+        bdr.child("Queue").child(orderkey).child("Date").setValue(_currentDate);
+        bdr.child("Queue").child(orderkey).child("Time").setValue(_currentTime);
+        bdr.child("Queue").child(orderkey).child("custEmail").setValue(_custemail);
+        bdr.child("Queue").child(orderkey).child("Address").setValue(_custloc);
+        bdr.child("Queue").child(orderkey).child("orderId").setValue(orderkey);
+        Toast.makeText(getApplicationContext(),"Check your token number in orders section",Toast.LENGTH_SHORT).show();
     }
 }

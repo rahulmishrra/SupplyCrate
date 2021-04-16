@@ -26,7 +26,7 @@ import java.util.HashMap;
 public class ProjectDetailsPage extends AppCompatActivity {
     private DatabaseReference prddbref,addcartdb,adcartdb;
     private TextView productNameText, productPriceText,productQuantity, productDesc, productCategory,productDiscount;
-    private String _productNameText, _productCategory, _productPriceText, _productQuantity, _productUnit, _productDesc, _productImgUrl,_productDiscount;
+    private String _productNameText, _productCategory, _productPriceText, _productQuantity, _productUnit, _productDesc, _productImgUrl,_productDiscount,productcartkey,prdQnty;
     private ImageView productImage;
     private boolean productstock;
     private TextView cratequantitytext;
@@ -57,8 +57,6 @@ public class ProjectDetailsPage extends AppCompatActivity {
         SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
 
-        final String[] productcartkey = new String[1];
-        final String[] prdQnty = new String[1];
 
         String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
         String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
@@ -75,11 +73,7 @@ public class ProjectDetailsPage extends AppCompatActivity {
 
         String cartkey = _currentDate +" "+ _currentTime;
 
-        addCratebtn.setVisibility(View.VISIBLE);
 
-        cratequantitytext.setVisibility(View.INVISIBLE);
-        crateincbtn.setVisibility(View.INVISIBLE);
-        cratedecbtn.setVisibility(View.INVISIBLE);
 
         String ProductKey = getIntent().getStringExtra("Productkey");
 //        String StoreName = getIntent().getStringExtra("StoreName");
@@ -93,14 +87,14 @@ public class ProjectDetailsPage extends AppCompatActivity {
                 for(DataSnapshot dataSnapshot: snapshot.getChildren()){
                     if(ProductKey.equals(dataSnapshot.getValue(CartHelper.class).getProductKey())){
 
-                        productcartkey[0] = dataSnapshot.getValue(CartHelper.class).getProductCartKey();
-                        prdQnty[0] = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
+                        productcartkey = dataSnapshot.getValue(CartHelper.class).getProductCartKey();
+                        prdQnty = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
                         addCratebtn.setVisibility(View.INVISIBLE);
                         cratequantitytext.setVisibility(View.VISIBLE);
                         crateincbtn.setVisibility(View.VISIBLE);
                         cratedecbtn.setVisibility(View.VISIBLE);
                         //Toast.makeText(getApplicationContext(),prdQnty[0],Toast.LENGTH_SHORT).show();
-                        setQuantitytext(prdQnty[0]);
+                        setQuantitytext(prdQnty);
 
                     }
 
@@ -160,12 +154,12 @@ public class ProjectDetailsPage extends AppCompatActivity {
             public void onClick(View v) {
                 int counter = Integer.parseInt(cratequantitytext.getText().toString());
                 counter++;
-                if(counter>10){
+                if(counter>100){
 
-                    Toast.makeText(getApplicationContext(),"Quantity cannot be greater than 10",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"Quantity cannot be greater than 100",Toast.LENGTH_SHORT).show();
                 }
                 else{
-                    setQuantityonDB(counter,ProductKey,productcartkey[0]);
+                    setQuantityonDB(counter,ProductKey,productcartkey);
                     cratequantitytext.setText(String.valueOf(counter));
                 }
             }
@@ -177,7 +171,7 @@ public class ProjectDetailsPage extends AppCompatActivity {
                 int counter = Integer.parseInt(cratequantitytext.getText().toString());
                 counter--;
                 if(counter<1){
-                    addcartdb.child(productcartkey[0]).removeValue();
+                    addcartdb.child(productcartkey).removeValue();
                     Toast.makeText(getApplicationContext(),"Product is removed from the cart",Toast.LENGTH_SHORT).show();
                     addCratebtn.setVisibility(View.VISIBLE);
                     cratequantitytext.setVisibility(View.INVISIBLE);
@@ -185,7 +179,7 @@ public class ProjectDetailsPage extends AppCompatActivity {
                     cratedecbtn.setVisibility(View.INVISIBLE);
                 }
                 else{
-                    setQuantityonDB(counter,ProductKey,productcartkey[0]);
+                    setQuantityonDB(counter,ProductKey,productcartkey);
                     cratequantitytext.setText(String.valueOf(counter));
                 }
             }
@@ -200,6 +194,7 @@ public class ProjectDetailsPage extends AppCompatActivity {
                 Toast.makeText(ProjectDetailsPage.this,"Product is added in the crate",Toast.LENGTH_SHORT).show();
                 CartHelper cartHelper = new CartHelper(_productNameText,_productUnit,_productPriceText,_productCategory,_productImgUrl,ProductKey,"1",cartkey);
                 adcartdb.child("Cart").child(_storename).child(cartkey).setValue(cartHelper);
+
             }
         });
 

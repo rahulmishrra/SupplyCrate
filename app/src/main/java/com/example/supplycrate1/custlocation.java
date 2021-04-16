@@ -153,6 +153,8 @@ public class custlocation extends Fragment  implements OnMapReadyCallback, Googl
 
         if(_custlocation!=null){
             setLocationMarker(_custlocation);
+        }else{
+            Toast.makeText(getContext(),"Please set your Location",Toast.LENGTH_SHORT).show();
         }
 
         checkMyPermission();

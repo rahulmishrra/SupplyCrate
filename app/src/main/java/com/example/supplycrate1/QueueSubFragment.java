@@ -95,22 +95,25 @@ public class QueueSubFragment extends Fragment {
         String _storename = userDetails.get(SessionManager.KEY_SELECTSTORENAME);
 
         if(_storename!=null){
-            DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Merchants").child(_storename).child("Queue");
+            DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Merchants").child(_storename);
             dbr.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    for(DataSnapshot dataSnapshot: snapshot.getChildren()){
-                        String customer = dataSnapshot.child("customerName").getValue().toString();
-                        Toast.makeText(getContext(),customer,Toast.LENGTH_SHORT).show();
-                        if(customer.equals(_custname)){
+                    if(snapshot.hasChild("Queue")){
+                        for(DataSnapshot dataSnapshot: snapshot.child("Queue").getChildren()){
+                            String customer = dataSnapshot.child("customerName").getValue().toString();
+                            Toast.makeText(getContext(),customer,Toast.LENGTH_SHORT).show();
+                            if(customer.equals(_custname)){
 
-                            tokennum.setText(dataSnapshot.child("token").getValue().toString());
+                                tokennum.setText(dataSnapshot.child("token").getValue().toString());
+                            }
+
                         }
-                        else{
-                            textView.setText("You do not have any take away from"+_storename);
-                            tokennum.setVisibility(View.INVISIBLE);
-                            refreshbtn.setVisibility(View.INVISIBLE);
-                        }
+                    }
+                    else{
+                        textView.setText("You do not have any take away from "+_storename);
+                        tokennum.setVisibility(View.INVISIBLE);
+                        refreshbtn.setVisibility(View.INVISIBLE);
                     }
                 }
 
@@ -119,10 +122,11 @@ public class QueueSubFragment extends Fragment {
 
                 }
             });
+
             refreshbtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    dbr.addValueEventListener(new ValueEventListener() {
+                    dbr.child("Queue").addValueEventListener(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             int tokencount = 0;
@@ -130,8 +134,10 @@ public class QueueSubFragment extends Fragment {
                                 String customer = dataSnapshot.child("customerName").getValue().toString();
                                 tokencount += 1;
                                 if(customer.equals(_custname)){
-                                    String orderid = snapshot.child("orderId").getValue().toString();
-                                    dbr.child(orderid).child("token").setValue(String.valueOf(tokencount));
+
+                                    String orderid = dataSnapshot.child("orderId").getValue(String.class);
+                                    //Toast.makeText(getContext(),orderid,Toast.LENGTH_SHORT).show();
+                                    dbr.child("Queue").child(orderid).child("token").setValue(String.valueOf(tokencount));
                                     tokennum.setText(String.valueOf(tokencount));
                                 }
                             }

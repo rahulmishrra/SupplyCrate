@@ -1,5 +1,6 @@
 package com.example.supplycrate1;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -130,6 +132,16 @@ public class OrderSubFragment extends Fragment {
             });
 
             orderlist.setAdapter(adapter);
+
+            orderlist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String orderid =  orderIdlist.get(position);
+                    Intent orderdetails = new Intent(getContext(),custOrderDetail.class);
+                    orderdetails.putExtra("OrderId",orderid);
+                    startActivity(orderdetails);
+                }
+            });
         }
         else{
             Toast.makeText(getContext(),"Please select the store first",Toast.LENGTH_SHORT).show();

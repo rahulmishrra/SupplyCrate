@@ -112,11 +112,6 @@ public class Login extends AppCompatActivity {
             }
         });
 
-
-
-
-
-
         topdesigngreen=findViewById(R.id.imageView8);
         logintext=findViewById(R.id.imageView5);
         top = AnimationUtils.loadAnimation(this,R.anim.topdown);
@@ -148,6 +143,7 @@ public class Login extends AppCompatActivity {
 
                         } else {
                             Toast.makeText(Login.this, "Login Failed or User not available",Toast.LENGTH_SHORT).show();
+                            loadingbar.dismiss();
                         }
                     });
         }

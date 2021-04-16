@@ -164,7 +164,7 @@
                     android:fontFamily="sans-serif-black"
                     android:text="\u20B90"
                     android:textColor="@color/btcolor"
-                    android:textSize="50sp" />
+                    android:textSize="40sp" />
             </RelativeLayout>
         </androidx.cardview.widget.CardView>
     </LinearLayout>

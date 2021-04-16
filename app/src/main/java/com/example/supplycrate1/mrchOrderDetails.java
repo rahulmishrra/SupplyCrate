@@ -61,6 +61,13 @@ public class mrchOrderDetails extends AppCompatActivity {
 
         mrchorderdetailtool.setTitle("Order #"+orderid);
 
+        mrchorderdetailtool.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
+
         DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname).child("orders").child(orderid);
         DatabaseReference dtbr = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname).child("orders").child(orderid).child("products");
 
@@ -96,12 +103,12 @@ public class mrchOrderDetails extends AppCompatActivity {
                 email.setText(snapshot.child("custEmail").getValue(String.class));
                 address.setText(snapshot.child("Address").getValue(String.class));
                 phone.setText(snapshot.child("phoneno").getValue().toString());
-                itemtotal.setText(snapshot.child("itemTotal").getValue().toString());
-                ordertotal.setText(snapshot.child("ordertotal").getValue().toString());
+                itemtotal.setText("\u20B9"+snapshot.child("itemTotal").getValue().toString());
+                ordertotal.setText("\u20B9"+snapshot.child("ordertotal").getValue().toString());
                 count = snapshot.child("products").getChildrenCount();
 
                 setHeight(count);
-                Toast.makeText(getApplicationContext(),String.valueOf(count),Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(),String.valueOf(count),Toast.LENGTH_SHORT).show();
             }
 
             private void setHeight(long count) {
@@ -117,30 +124,6 @@ public class mrchOrderDetails extends AppCompatActivity {
             }
         });
 
-        orderstatusbtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(),orderstatus,Toast.LENGTH_SHORT).show();
-                if(orderstatus.equals("Pending")){
-                    dbr.child("orderStatus").setValue("Accepted");
-                    orderstatusbtn.setText("SHIP ORDER");
-                    orderstatusbtn.setBackgroundColor(orderstatusbtn.getContext().getResources().getColor(R.color.orange));
-                }
-                if(orderstatus.equals("Accepted")){
-                    dbr.child("orderStatus").setValue("Shipped");
-                    orderstatusbtn.setText("DELIVER ORDER");
-                    orderstatusbtn.setBackgroundColor(orderstatusbtn.getContext().getResources().getColor(R.color.orderblue));
-                }
-                if(orderstatus.equals("Shipped")){
-                    dbr.child("orderStatus").setValue("Delivered");
-                    orderstatusbtn.setClickable(false);
-                    orderstatusbtn.setText("ORDER DELIVERED");
-                    orderstatusbtn.setBackgroundColor(orderstatusbtn.getContext().getResources().getColor(R.color.orderblue));
-                    cancelbtn.setVisibility(View.INVISIBLE);
-                }
-
-            }
-        });
 
         cancelbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,8 +172,59 @@ public class mrchOrderDetails extends AppCompatActivity {
         });
         productlistdetails.setAdapter(adapter);
 
+        orderstatusbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(),orderstatus,Toast.LENGTH_SHORT).show();
+                if(orderstatus.equals("Pending")){
+                    dbr.child("orderStatus").setValue("Accepted");
+                    orderstatusbtn.setText("SHIP ORDER");
+                    orderstatusbtn.setBackgroundColor(orderstatusbtn.getContext().getResources().getColor(R.color.orange));
+                }
+                if(orderstatus.equals("Accepted")){
+                    dbr.child("orderStatus").setValue("Shipped");
+                    orderstatusbtn.setText("DELIVER ORDER");
+                    orderstatusbtn.setBackgroundColor(orderstatusbtn.getContext().getResources().getColor(R.color.orderblue));
+                }
+                if(orderstatus.equals("Shipped")){
+                    dbr.child("orderStatus").setValue("Delivered");
+                    orderstatusbtn.setClickable(false);
+                    orderstatusbtn.setText("ORDER DELIVERED");
+                    setSellcount(mbname,productkey);
+                    orderstatusbtn.setBackgroundColor(orderstatusbtn.getContext().getResources().getColor(R.color.orderblue));
+                    cancelbtn.setVisibility(View.INVISIBLE);
+                }
+
+            }
+        });
 
 
 
+
+
+    }
+
+    private void setSellcount(String bname, List<String> productkey) {
+        for(int i=0;i<productkey.size();i++){
+            DatabaseReference datar = FirebaseDatabase.getInstance().getReference("Merchants").child(bname).child("Products").child(productkey.get(i));
+            datar.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if(snapshot.hasChild("sellcount")){
+                        String sellcount = snapshot.child("sellcount").getValue().toString();
+                        int sellcounter = Integer.valueOf(sellcount)+1;
+                        datar.child("sellcount").setValue(String.valueOf(sellcounter));
+                    }
+                    else{
+                        datar.child("sellcount").setValue("1");
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+        }
     }
 }

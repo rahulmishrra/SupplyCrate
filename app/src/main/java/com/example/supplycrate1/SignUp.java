@@ -89,6 +89,13 @@ public class SignUp extends AppCompatActivity {
                                    SessionManager sessionManager = new SessionManager(SignUp.this,SessionManager.SESSION_CUSTOMER);
                                    sessionManager.createLoginSession(mail,password,username);
                                    dbref.child(username).setValue(custHelper);
+                                   dbref.child(username).child("Cart").setValue("abc");
+                                   dbref.child(username).child("Latitude").setValue(0.0);
+                                   dbref.child(username).child("Locality").setValue("abc");
+                                   dbref.child(username).child("Location").setValue("abc");
+                                   dbref.child(username).child("Longitude").setValue(0.0);
+                                   dbref.child(username).child("PostalCode").setValue("abc");
+
                                    loadingbar.dismiss();
                                    Toast.makeText(SignUp.this,"Registration Complete", Toast.LENGTH_SHORT).show();
                                    startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));

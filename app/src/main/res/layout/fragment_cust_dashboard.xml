@@ -18,31 +18,88 @@
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:navigationIcon="@drawable/ic_baseline_store_24" />
 
-    <TextView
-        android:id="@+id/textviewover1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginLeft="16dp"
-        android:layout_marginTop="20dp"
-        android:fontFamily="@font/raleway_bold"
-        android:text="Shop by Category"
-        android:textColor="@color/textblack"
-        android:textSize="23sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/custdashtoolbar" />
-
-    <ListView
-        android:id="@+id/ctgrylistview"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:divider="@null"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/textviewover1" />
+        app:layout_constraintTop_toBottomOf="@id/custdashtoolbar">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textviewover"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Best offers"
+                android:textColor="@color/textblack"
+                android:textSize="23sp" />
+
+            <ListView
+                android:id="@+id/offerslistview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:divider="@null"
+                app:layout_constraintStart_toStartOf="parent">
+
+            </ListView>
+
+            <TextView
+                android:id="@+id/textviewover2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="10dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Recommended Products"
+                android:textColor="@color/textblack"
+                android:textSize="23sp" />
+
+            <ListView
+                android:id="@+id/recommendedlistview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:divider="@null"
+                app:layout_constraintStart_toStartOf="parent">
+
+            </ListView>
+
+            <TextView
+                android:id="@+id/textviewover1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="10dp"
+                android:fontFamily="@font/raleway_bold"
+                android:text="Shop by Category"
+                android:textColor="@color/textblack"
+                android:textSize="23sp" />
+
+            <ListView
+                android:id="@+id/ctgrylistview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@null">
+
+            </ListView>
+
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
