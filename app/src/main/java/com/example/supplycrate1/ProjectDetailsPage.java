@@ -211,5 +211,10 @@ public class ProjectDetailsPage extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
 
+        startActivity(new Intent(getApplicationContext(),CustomerDashboard.class));
+    }
 }

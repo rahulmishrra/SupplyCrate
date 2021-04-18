@@ -236,8 +236,8 @@ public class custorders extends Fragment {
                 int i=0;
                 for(DataSnapshot dataSnapshot: snapshot.getChildren())
                 {
-                    //quantities[i] = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
-                    //productkies[i] = dataSnapshot.getValue(CartHelper.class).getProductKey();
+                    quantities[i] = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
+                    productkies[i] = dataSnapshot.getValue(CartHelper.class).getProductKey();
                     i++;
                     String price = dataSnapshot.getValue(CartHelper.class).getProductprice();
                     String quantity = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
@@ -259,7 +259,7 @@ public class custorders extends Fragment {
             @Override
             public void onClick(View v) {
 
-                
+
                 //Toast.makeText(getContext(),String.valueOf(productkies.length),Toast.LENGTH_SHORT).show();
                 Intent orderIntent = new Intent(getActivity(),OrderDetailsPage.class);
                 orderIntent.putExtra("Item total",String.valueOf(counter));

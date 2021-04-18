@@ -115,6 +115,7 @@ public class CustSettings extends Fragment {
             public void onClick(View v) {
                 sessionManager.logoutUserFromSession();
                 startActivity(new Intent(getContext(), Login.class));
+                getActivity().finish();
             }
         });
     }
