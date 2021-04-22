@@ -99,7 +99,7 @@ public class CustSettings extends Fragment {
         dbr.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                custphone.setText(snapshot.getValue().toString());
+               // custphone.setText(snapshot.getValue().toString());
             }
 
             @Override

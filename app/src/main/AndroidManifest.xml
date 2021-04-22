@@ -18,7 +18,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.SupplyCrate1">
-        <activity android:name=".custOrderDetail"></activity>
+        <activity android:name=".DebugTest"></activity>
+        <activity android:name=".custOrderDetail" />
         <activity android:name=".mrchQueueDetails" />
         <activity android:name=".mrchOrderDetails" />
         <activity android:name=".MerchLocation" />

@@ -101,6 +101,19 @@ public class CustDashboard extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
+
+
+
+
+
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
 
@@ -360,12 +373,6 @@ public class CustDashboard extends Fragment {
         else{
             Toast.makeText(getContext(),"Please select the store first",Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-
-
 
 
     }

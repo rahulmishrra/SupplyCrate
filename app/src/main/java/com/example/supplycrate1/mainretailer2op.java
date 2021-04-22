@@ -84,7 +84,7 @@ public class mainretailer2op extends AppCompatActivity {
                             String _b_phone = snapshot.child(bname).child("phone").getValue().toString();
                             SessionManager sessionManager = new SessionManager(mainretailer2op.this,SessionManager.SESSION_MERCHANT);
                             sessionManager.createmrchLoginSession(_b_email,_b_pass,_b_name,_name,_b_phone);
-                            merchLogin(email,password);
+
                         }
                         else {
                             loadingBar.dismiss();
@@ -97,6 +97,7 @@ public class mainretailer2op extends AppCompatActivity {
 
                     }
                 });
+                merchLogin(email,password);
 
             }
 

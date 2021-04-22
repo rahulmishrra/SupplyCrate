@@ -7,6 +7,7 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.ContactsContract;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
@@ -41,6 +42,8 @@ public class Login extends AppCompatActivity {
     private ProgressDialog loadingbar;
     private String locality,location;
     private boolean dataAvailable= false;
+    private String name;
+    private SessionManager sessionManager;
 
 
 
@@ -70,9 +73,11 @@ public class Login extends AppCompatActivity {
                 String custEmail = custemail.getText().toString();
                 String password = pass.getText().toString();
                 String custName;
-                final String[] name = new String[1];
+
+
 
                 DatabaseReference dr = FirebaseDatabase.getInstance().getReference("Customers");
+
 
                 dr.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -81,18 +86,21 @@ public class Login extends AppCompatActivity {
                             String emaili = dataSnapshot.getValue(CustHelperClass.class).getEmail();
 
                             if(emaili.equals(custEmail)){
-                                String cname = dataSnapshot.getValue(CustHelperClass.class).getUsername();
-                                name[0] = cname;
-                                if(dataSnapshot.hasChild("Locality")){
+                                name = dataSnapshot.getValue(CustHelperClass.class).getUsername();
+                                /*
+                                if(dataSnapshot.hasChild("Location")){
                                     locality = dataSnapshot.child("Locality").getValue().toString();
                                     location = dataSnapshot.child("Location").getValue().toString();
                                     dataAvailable = true;
-                                }
+                                }*/
+                                break;
                                // Toast.makeText(getApplicationContext(),"Yeh chal gya" + cname,Toast.LENGTH_SHORT).show();
                             }
                         }
+                        sessionManager = new SessionManager(Login.this,SessionManager.SESSION_CUSTOMER);
+                        sessionManager.createLoginSession(custEmail,password,name);
 
-                        authorizeUser(custEmail,password,name[0]);
+
                     }
 
                     @Override
@@ -101,6 +109,8 @@ public class Login extends AppCompatActivity {
 
                     }
                 });
+                authorizeUser(custEmail,password,name);
+
             }
         });
 
@@ -123,7 +133,7 @@ public class Login extends AppCompatActivity {
 
     private void authorizeUser(String custEmail, String password, String custName) {
         firebaseAuth = FirebaseAuth.getInstance();
-        if(custEmail.equals("")||password.equals("")) {
+        if(TextUtils.isEmpty(custEmail) || TextUtils.isEmpty(password) ) {
             Toast.makeText(Login.this, "Please enter all the fields", Toast.LENGTH_SHORT).show();
             loadingbar.dismiss();
         } else{
@@ -131,15 +141,12 @@ public class Login extends AppCompatActivity {
             firebaseAuth.signInWithEmailAndPassword(custEmail, password)
                     .addOnCompleteListener(Login.this, task -> {
                         if (task.isSuccessful()) {
-                            SessionManager sessionManager = new SessionManager(Login.this,SessionManager.SESSION_CUSTOMER);
-                            sessionManager.createLoginSession(custEmail,password,custName);
                             if(dataAvailable){
                                 sessionManager.setLocation(location,locality);
                             }
                             loadingbar.dismiss();
                             startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
                             finish();
-                            Toast.makeText(getApplicationContext(),custName,Toast.LENGTH_SHORT).show();
 
 
                         } else {

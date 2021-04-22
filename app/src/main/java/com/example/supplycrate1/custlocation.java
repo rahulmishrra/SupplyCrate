@@ -63,6 +63,7 @@ import static androidx.core.content.ContextCompat.getSystemService;
  * Use the {@link custlocation#newInstance} factory method to
  * create an instance of this fragment.
  */
+
 public class custlocation extends Fragment  implements OnMapReadyCallback, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private boolean isPermissionGranted;
@@ -127,6 +128,14 @@ public class custlocation extends Fragment  implements OnMapReadyCallback, Googl
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+
+
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
 
         setlocbtn = getView().findViewById(R.id.setcustloc);
         fab = getView().findViewById(R.id.custfab);

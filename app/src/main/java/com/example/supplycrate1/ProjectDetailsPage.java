@@ -30,7 +30,6 @@ public class ProjectDetailsPage extends AppCompatActivity {
     private ImageView productImage;
     private boolean productstock;
     private TextView cratequantitytext;
-
     private Button addCratebtn,crateincbtn,cratedecbtn;
 
     @Override
@@ -38,8 +37,6 @@ public class ProjectDetailsPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_project_details_page);
         getSupportActionBar().hide();
-
-
 
         productNameText = (TextView) findViewById(R.id.pdtlname);
         productPriceText = findViewById(R.id.pdtlprice);

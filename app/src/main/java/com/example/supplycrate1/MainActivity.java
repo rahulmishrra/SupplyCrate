@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                    Intent intent = new Intent(view.getContext(), Login.class);
+                    Intent intent = new Intent(getApplicationContext(), Login.class);
                     view.getContext().startActivity(intent);
                 }
 
@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         retailSignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent= new Intent(com.example.supplycrate1.MainActivity.this, mainretailer2op.class);
+                Intent intent= new Intent(getApplicationContext(), mainretailer2op.class);
                 startActivity(intent);
             }
         });

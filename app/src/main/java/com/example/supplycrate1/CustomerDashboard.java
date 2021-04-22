@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.WindowManager;
 
@@ -22,6 +23,7 @@ public class CustomerDashboard extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_customer_dashboard);
 
+
         custnavigationview = findViewById(R.id.customernavigation);
         custnavigationview.setSelectedItemId(R.id.custDashboard);
 
@@ -37,18 +39,23 @@ public class CustomerDashboard extends AppCompatActivity {
                 {
                     case R.id.custDashboard:
                         temp = new CustDashboard();
+                        Log.i("Acivity name", "***********************************************************************************************Cust Dashbord");
                         break;
                     case R.id.custQueues:
                         temp = new CustQueues();
+                        Log.i("Acivity name", " Cust Queues");
                         break;
                     case R.id.custlocation:
                         temp = new custlocation();
+                        Log.i("Acivity name", "custlocation ");
                         break;
                     case R.id.custorders:
                         temp = new custorders();
+                        Log.i("Acivity name", "custorders ");
                         break;
                     case R.id.custSettings:
                         temp = new CustSettings();
+                        Log.i("Acivity name", "Cust Settings ");
                         break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.custFrame,temp).commit();
