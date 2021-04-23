@@ -39,7 +39,7 @@ public class custorders extends Fragment {
 
     private ListView cartlistview;
     TextView custcarttotal;
-    //long count=0;
+    long count=0;
     int counter = 0;
     DatabaseReference dtbref;
     List<String> cartprdlist = new ArrayList<>();
@@ -206,10 +206,8 @@ public class custorders extends Fragment {
         dtbref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                long count =  snapshot.getChildrenCount();
-                if(count!=0){
-                    checkout(count,storename);
-                }
+                 count =  snapshot.getChildrenCount();
+
 
             }
 
@@ -218,6 +216,9 @@ public class custorders extends Fragment {
 
             }
         });
+        if(count!=0){
+            checkout(count,storename);
+        }
 
 
     }

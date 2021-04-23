@@ -2,16 +2,24 @@ package com.example.supplycrate1;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.renderscript.Sampler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -28,6 +36,8 @@ public class custOrderDetail extends AppCompatActivity {
     private TextView date,name,email,address,phone,itemtotal,ordertotal,orderconfirm,ship,delivered,orderconfirmmark,shipmark,deliveredmark;
     private ListView productlistdetails;
     private String orderstatus;
+    private RatingBar orderReview;
+    private Button reviewbtn;
     long count;
 
     @Override
@@ -61,6 +71,8 @@ public class custOrderDetail extends AppCompatActivity {
         orderconfirmmark = findViewById(R.id.orderconfirmedmark);
         shipmark = findViewById(R.id.ordershipmark);
         deliveredmark = findViewById(R.id.orderdelivermark);
+        orderReview = findViewById(R.id.orderReview);
+        reviewbtn = findViewById(R.id.reviewbtn);
 
 
         custorderdetailtool.setTitle("Order #"+orderid);
@@ -98,6 +110,7 @@ public class custOrderDetail extends AppCompatActivity {
                     shipmark.setVisibility(View.VISIBLE);
                     delivered.setText("Order Delivered");
                     deliveredmark.setVisibility(View.VISIBLE);
+                    OrderReview(storetitle,orderid);
                 }
                 if(orderstatus.equals("Order Cancelled")){
                     orderconfirm.setText("Order Cancelled");
@@ -167,6 +180,39 @@ public class custOrderDetail extends AppCompatActivity {
             }
         });
         productlistdetails.setAdapter(adapter);
+
+
+    }
+
+    private void OrderReview(String storetitle, String orderid) {
+        orderReview.setVisibility(View.VISIBLE);
+        reviewbtn.setVisibility(View.VISIBLE);
+        DatabaseReference dbrrr = FirebaseDatabase.getInstance().getReference("Merchants").child(storetitle).child("orders").child(orderid);
+        dbrrr.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("review")){
+                    reviewbtn.setVisibility(View.INVISIBLE);
+                    String review  =  snapshot.child("review").getValue().toString();
+                    orderReview.setRating(Float.valueOf(review));
+                    orderReview.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+        reviewbtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String review = String.valueOf(orderReview.getRating());
+                dbrrr.child("review").setValue(review);
+                reviewbtn.setVisibility(View.INVISIBLE);
+            }
+        });
 
 
     }

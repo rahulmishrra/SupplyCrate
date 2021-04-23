@@ -32,18 +32,12 @@
         <activity android:name=".ProductForm" />
         <activity android:name=".RetailerDashboard" />
         <activity android:name=".dashboardopop" />
-        <activity android:name=".crate" />
-        <activity android:name=".testop" />
         <activity android:name=".opop" />
         <activity android:name=".dashop" />
         <activity android:name=".dashboardop" />
         <activity android:name=".mainretailer3op" />
         <activity android:name=".mainretailer2op" />
         <activity android:name=".mainretailerop" />
-        <activity android:name=".createcrate" />
-        <activity android:name=".blank" />
-        <activity android:name=".temp1" />
-        <activity android:name=".dash" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -63,11 +57,6 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity
-            android:name=".form22"
-            android:label="@string/title_activity_form22" />
-        <activity android:name=".form2" />
-        <activity android:name=".form1" />
         <activity android:name=".MainActivity" />
         <activity android:name=".SignUp" />
         <activity android:name=".Login" />

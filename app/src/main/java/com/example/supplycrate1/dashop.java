@@ -24,8 +24,8 @@ public class dashop extends AppCompatActivity {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(dashop.this, createcrate.class);
-                startActivity(intent);
+               // Intent intent = new Intent(dashop.this, createcrate.class);
+                //startActivity(intent);
 
             }
         });

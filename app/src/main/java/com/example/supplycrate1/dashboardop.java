@@ -29,7 +29,7 @@ public class dashboardop extends AppCompatActivity {
         profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),profile.class));
+                //startActivity(new Intent(getApplicationContext(),profile.class));
             }
         });
 
@@ -43,7 +43,7 @@ public class dashboardop extends AppCompatActivity {
         upload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(),uploadscreen.class));
+                //startActivity(new Intent(getApplicationContext(),uploadscreen.class));
             }
         });
 

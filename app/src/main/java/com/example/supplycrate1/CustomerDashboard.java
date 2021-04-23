@@ -25,9 +25,9 @@ public class CustomerDashboard extends AppCompatActivity {
 
 
         custnavigationview = findViewById(R.id.customernavigation);
-        custnavigationview.setSelectedItemId(R.id.custDashboard);
+        custnavigationview.setSelectedItemId(R.id.custlocation);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.custFrame,new CustDashboard()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.custlocation,new CustDashboard()).commit();
 
         custnavigationview.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

@@ -49,8 +49,8 @@ public class opop extends AppCompatActivity {
         create.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(opop.this, crate.class);
-                startActivity(intent);
+               // Intent intent = new Intent(opop.this, crate.class);
+                //startActivity(intent);
 
             }
         });
