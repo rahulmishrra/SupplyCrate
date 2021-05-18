@@ -109,12 +109,13 @@ public class merchantdashboard extends Fragment  {
 
         merchdashtoolbar.setTitle(mbname);
 
-        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname).child("orders");
-
+        DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname);
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                dashorders.setText(String.valueOf(snapshot.getChildrenCount()));
+                if(snapshot.hasChild("orders")){
+                    dashorders.setText(String.valueOf(snapshot.child("orders").getChildrenCount()));
+                }
             }
 
             @Override
@@ -122,6 +123,7 @@ public class merchantdashboard extends Fragment  {
 
             }
         });
+
 
 
 

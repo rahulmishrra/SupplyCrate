@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +32,7 @@ public class mrchOrderDetails extends AppCompatActivity {
     private ListView productlistdetails;
     private Button orderstatusbtn,cancelbtn;
     private String orderstatus;
+    private RatingBar ratingBar;
     long count;
 
     @Override
@@ -57,6 +59,7 @@ public class mrchOrderDetails extends AppCompatActivity {
         ordertotal = findViewById(R.id.ordertotalordertotal);
         orderstatusbtn = findViewById(R.id.orderstatusbtn);
         cancelbtn = findViewById(R.id.cancelorderbutton);
+        ratingBar = findViewById(R.id.ratingBar);
 
 
         mrchorderdetailtool.setTitle("Order #"+orderid);
@@ -91,10 +94,11 @@ public class mrchOrderDetails extends AppCompatActivity {
                     orderstatusbtn.setText("ORDER DELIVERED");
                     orderStatus.setTextColor(orderStatus.getContext().getResources().getColor(R.color.orderblue));
                     orderstatusbtn.setBackgroundColor(orderstatusbtn.getContext().getResources().getColor(R.color.orderblue));
-                    cancelbtn.setVisibility(View.INVISIBLE);
+                    cancelbtn.setVisibility(View.GONE);
+                    OrderReview(mbname,orderid);
                 }
                 if(orderstatus.equals("Order Cancelled")){
-                    orderstatusbtn.setVisibility(View.INVISIBLE);
+                    orderstatusbtn.setVisibility(View.GONE);
                     orderStatus.setTextColor(orderStatus.getContext().getResources().getColor(R.color.red));
                     cancelbtn.setClickable(false);
                 }
@@ -202,6 +206,27 @@ public class mrchOrderDetails extends AppCompatActivity {
 
 
 
+    }
+
+    private void OrderReview(String mbname, String orderid) {
+        ratingBar.setVisibility(View.VISIBLE);
+        DatabaseReference dbrrr = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname).child("orders").child(orderid);
+        dbrrr.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("review")){
+                    String review  =  snapshot.child("review").getValue().toString();
+                    ratingBar.setRating(Float.valueOf(review));
+                    ratingBar.setEnabled(false);
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
     private void setSellcount(String bname, List<String> productkey) {

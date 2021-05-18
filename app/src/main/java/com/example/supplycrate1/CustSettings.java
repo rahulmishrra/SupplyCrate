@@ -96,10 +96,10 @@ public class CustSettings extends Fragment {
         custaddress.setText(_custaddress);
 
         DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("phoneno");
-        dbr.addValueEventListener(new ValueEventListener() {
+        dbr.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-               // custphone.setText(snapshot.getValue().toString());
+               custphone.setText(snapshot.getValue().toString());
             }
 
             @Override

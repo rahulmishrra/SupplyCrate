@@ -1,6 +1,7 @@
 package com.example.supplycrate1;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -19,6 +20,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.HashMap;
 
@@ -90,6 +92,7 @@ public class merchAccount extends Fragment {
         storephone = getView().findViewById(R.id.custsettingphone);
         storelocation = getView().findViewById(R.id.custsettingaddress);
         mlogout = getView().findViewById(R.id.custacclogout);
+        merchImage = getView().findViewById(R.id.merchImage);
 
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
         HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
@@ -106,6 +109,7 @@ public class merchAccount extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 storelocation.setText(snapshot.child("Location").getValue().toString());
+                Picasso.get().load(Uri.parse(snapshot.child("merchantImageUrl").getValue().toString())).into(merchImage);
             }
 
             @Override

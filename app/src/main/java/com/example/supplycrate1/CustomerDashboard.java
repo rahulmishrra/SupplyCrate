@@ -23,11 +23,11 @@ public class CustomerDashboard extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_customer_dashboard);
 
-
+        String login = getIntent().getStringExtra("Login");
         custnavigationview = findViewById(R.id.customernavigation);
-        custnavigationview.setSelectedItemId(R.id.custlocation);
+        custnavigationview.setSelectedItemId(R.id.custDashboard);
+        getSupportFragmentManager().beginTransaction().replace(R.id.custFrame,new CustDashboard()).commit();
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.custFrame,new custlocation()).commit();
 
         custnavigationview.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override

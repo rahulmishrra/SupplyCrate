@@ -141,11 +141,13 @@ public class Login extends AppCompatActivity {
             firebaseAuth.signInWithEmailAndPassword(custEmail, password)
                     .addOnCompleteListener(Login.this, task -> {
                         if (task.isSuccessful()) {
+                            Intent loginIntent = new Intent(getApplicationContext(), CustomerDashboard.class);
                             if(dataAvailable){
                                 sessionManager.setLocation(location,locality);
                             }
                             loadingbar.dismiss();
-                            startActivity(new Intent(getApplicationContext(), CustomerDashboard.class));
+                            loginIntent.putExtra("Login","Login");
+                            startActivity(loginIntent);
                             finish();
 
 
@@ -155,5 +157,10 @@ public class Login extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }
 }

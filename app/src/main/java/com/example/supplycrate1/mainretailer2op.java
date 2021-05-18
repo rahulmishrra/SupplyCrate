@@ -210,11 +210,10 @@ public class mainretailer2op extends AppCompatActivity {
             }
         });
 
+    }
 
-
-
-
-
-
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(getApplicationContext(),MainActivity.class));
     }
 }
