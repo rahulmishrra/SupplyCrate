@@ -169,20 +169,21 @@
         </androidx.cardview.widget.CardView>
     </LinearLayout>
 
+
     <androidx.constraintlayout.widget.ConstraintLayout
 
         android:id="@+id/constraintLayout4"
         android:layout_width="0dp"
-        android:layout_height="70dp"
-        android:elevation="4dp"
+        android:layout_height="100dp"
         android:layout_marginStart="25dp"
         android:layout_marginLeft="25dp"
-        android:layout_marginTop="25dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="25dp"
         android:layout_marginRight="25dp"
         android:background="@drawable/cards"
+        android:elevation="4dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout">
 
@@ -190,32 +191,32 @@
         <TextView
             android:id="@+id/updatecategory"
             android:layout_width="216dp"
-            android:layout_height="40dp"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/raleway_bold"
             android:text="Update Categories"
             android:textColor="@color/btcolor"
-            android:textSize="22sp"
+            android:textSize="24sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.145"
+            app:layout_constraintHorizontal_bias="0.11"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.39" />
+            app:layout_constraintVertical_bias="0.351" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/lastupdatedash"
             android:layout_width="204dp"
             android:layout_height="23dp"
             android:fontFamily="@font/raleway_bold"
             android:text="Last update 24H ago"
             android:textColor="@color/textblack"
-            android:textSize="14sp"
+            android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.131"
+            app:layout_constraintHorizontal_bias="0.101"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.724" />
+            app:layout_constraintVertical_bias="0.909" />
 
         <ImageView
             android:layout_width="25dp"
@@ -230,7 +231,6 @@
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
 

@@ -16,6 +16,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -40,6 +41,8 @@ public class merchantdashboard extends Fragment  {
     View view;
 
     private Spinner dspinner;
+    long  counter = 0;
+    double reviewitr = 0.0;
 
 
     // TODO: Rename and change types of parameters
@@ -96,6 +99,8 @@ public class merchantdashboard extends Fragment  {
         dspinner.setAdapter(adapter);
 
         TextView dashorders = getView().findViewById(R.id.dashorders);
+        TextView reviews = getView().findViewById(R.id.updatecategory);
+        TextView reviewText = getView().findViewById(R.id.lastupdatedash);
         Toolbar merchdashtoolbar = getView().findViewById(R.id.merchdashtoolbar);
 
        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
@@ -110,7 +115,7 @@ public class merchantdashboard extends Fragment  {
         merchdashtoolbar.setTitle(mbname);
 
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname);
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild("orders")){
@@ -124,7 +129,32 @@ public class merchantdashboard extends Fragment  {
             }
         });
 
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if(snapshot.hasChild("orders")){
+                    reviews.setText("");
+                    reviewText.setText("");
+                    for(DataSnapshot dataSnapshot: snapshot.child("orders").getChildren()){
+                        if(dataSnapshot.hasChild("review")){
+                            String rev = dataSnapshot.child("review").getValue().toString();
+                            float review = Float.valueOf(rev);
+                            reviewitr += review;
+                            counter++;
+                        }
+                    }
+                    double overallreview = reviewitr/counter;
+                    Toast.makeText(getContext(),String.valueOf(overallreview),Toast.LENGTH_SHORT).show();
+                    reviews.setText(String.valueOf(overallreview)+"/5");
+                    reviewText.setText("Overall reviews");
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
 
 
