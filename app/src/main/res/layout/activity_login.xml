@@ -86,28 +86,6 @@
         android:textColor="@color/btcolor"
         android:textSize="15sp" />
 
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="120dp"
-        android:layout_marginTop="480dp"
-        android:fontFamily="@font/raleway_bold"
-        android:textColor="@color/textblack"
-        android:text="Sign in using"
-        android:textSize="20sp"/>
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="250dp"
-        android:layout_marginTop="480dp"
-        android:fontFamily="@font/raleway_bold"
-        android:textColor="@color/btcolor"
-        android:text="OTP"
-        android:textSize="20sp"/>
-
     <Button
         android:id="@+id/signinbutton"
         android:layout_width="226dp"

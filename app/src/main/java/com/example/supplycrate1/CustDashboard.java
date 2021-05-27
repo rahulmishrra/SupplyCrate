@@ -234,7 +234,7 @@ public class CustDashboard extends Fragment {
 
             ListSort listSort = new ListSort(custprdctoffers);
 
-            dbrefer.child("Products").addValueEventListener(new ValueEventListener() {
+            dbrefer.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(custprdctoffers.size()==0){
@@ -319,7 +319,7 @@ public class CustDashboard extends Fragment {
 
             RecommendSort recommendSort = new RecommendSort(custrecomprdctsellcount);
 
-            dbrefer.child("Products").addValueEventListener(new ValueEventListener() {
+            dbrefer.child("Products").addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(custprdctoffers.size()==0){

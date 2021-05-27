@@ -102,6 +102,7 @@ public class merchAccount extends Fragment {
         String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
         String mname = mrchDetails.get(SessionManager.KEY_MERCHANTNAME);
         String mphone = mrchDetails.get(SessionManager.KEY_MERCHANTPHONE);
+        String mlocation = mrchDetails.get(SessionManager.KEY_MERCHANTLOCATION);
 
         DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname);
 

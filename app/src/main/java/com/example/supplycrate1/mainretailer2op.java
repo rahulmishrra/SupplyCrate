@@ -83,7 +83,7 @@ public class mainretailer2op extends AppCompatActivity {
                             String _b_pass = snapshot.child(bname).child("pass").getValue().toString();
                             String _b_phone = snapshot.child(bname).child("phone").getValue().toString();
                             SessionManager sessionManager = new SessionManager(mainretailer2op.this,SessionManager.SESSION_MERCHANT);
-                            sessionManager.createmrchLoginSession(_b_email,_b_pass,_b_name,_name,_b_phone);
+                            sessionManager.createmrchLoginSession(_b_email,_b_pass,bname,_name,_b_phone);
 
                         }
                         else {
@@ -129,6 +129,7 @@ public class mainretailer2op extends AppCompatActivity {
                             if (task.isSuccessful())
                             {
                                 loadingBar.dismiss();
+
                                 Toast.makeText(com.example.supplycrate1.mainretailer2op.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(),RetailerDashboard.class));
                                 finish();

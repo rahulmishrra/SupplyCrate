@@ -121,14 +121,14 @@ public class custorders extends Fragment {
             dtbref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart").child(_storename);
             DatabaseReference adtbref = FirebaseDatabase.getInstance().getReference("Customers").child(_custname).child("Cart");
 
-            adtbref.addValueEventListener(new ValueEventListener() {
+            adtbref.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot snapshot) {
                     if(snapshot.hasChild(_storename)){
                         getCartValues(cartAdapter,_storename);
                     }
                     else{
-                        //Toast.makeText(getContext(),"NO PRODUCTS FOUND...",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getContext(),"NO PRODUCTS FOUND...",Toast.LENGTH_SHORT).show();
                     }
                 }
 
@@ -207,9 +207,9 @@ public class custorders extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                  count =  snapshot.getChildrenCount();
-                 if(count>0){
+                if(count>0){
                     checkout(count,storename);
-                 }
+                }
 
             }
 
@@ -232,20 +232,21 @@ public class custorders extends Fragment {
 
 
 
-        dtbref.addValueEventListener(new ValueEventListener() {
+        dtbref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 int i=0;
                 for(DataSnapshot dataSnapshot: snapshot.getChildren())
                 {
-                    quantities[i] = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
-                    productkies[i] = dataSnapshot.getValue(CartHelper.class).getProductKey();
-                    i++;
+                    //quantities[i] = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
+                    //productkies[i] = dataSnapshot.getValue(CartHelper.class).getProductKey();
+
                     String price = dataSnapshot.getValue(CartHelper.class).getProductprice();
                     String quantity = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
                     int _pricen = Integer.valueOf(price);
                     int _quantityn  = Integer.valueOf(quantity);
                     counter += _pricen*_quantityn;
+                    i++;
                 }
                 //Toast.makeText(getContext(),String.valueOf(counter) +"here",Toast.LENGTH_SHORT).show();
                 custcarttotal.setText("Item Total: "+"\u20B9"+String.valueOf(counter));

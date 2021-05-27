@@ -17,6 +17,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -29,7 +30,7 @@ public class OrderDetailsPage extends AppCompatActivity {
     private Button takeawaybtn,orderbtn;
     private String _custloc;
     private DatabaseReference custdb,cstdb,bdr,bdref;
-    private String[] productkeys ,Quantities;
+    private List<String> productkeys ,Quantities;
 
 
     @Override
@@ -46,8 +47,8 @@ public class OrderDetailsPage extends AppCompatActivity {
 
         _itemtotal = getIntent().getStringExtra("Item total");
         String storename = getIntent().getStringExtra("StoreName");
-        productkeys = getIntent().getStringArrayExtra("Productkey");
-        Quantities = getIntent().getStringArrayExtra("Quantity");
+        productkeys = new ArrayList<>();
+        Quantities = new ArrayList<>();
 
         int total = Integer.valueOf(_itemtotal) + 50;
         itemtotal.setText("\u20B9"+_itemtotal);
@@ -67,13 +68,13 @@ public class OrderDetailsPage extends AppCompatActivity {
         SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_CUSTOMER);
         HashMap<String,String> userDetails = sessionManager.getUserDetailFromSession();
 
-         _custemail = userDetails.get(SessionManager.KEY_EMAIL);
+        _custemail = userDetails.get(SessionManager.KEY_EMAIL);
         String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
-         _custname = userDetails.get(SessionManager.KEY_NAME);
+        _custname = userDetails.get(SessionManager.KEY_NAME);
         _custloc = userDetails.get(SessionManager.KEY_LOCATION);
 
         DatabaseReference data = FirebaseDatabase.getInstance().getReference("Customers").child(_custname);
-        data.addValueEventListener(new ValueEventListener() {
+        data.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 address.setText(snapshot.child("Location").getValue().toString());
@@ -92,12 +93,29 @@ public class OrderDetailsPage extends AppCompatActivity {
         bdr = FirebaseDatabase.getInstance().getReference("Merchants").child(storename);
         bdref = FirebaseDatabase.getInstance().getReference("Merchants").child(storename).child("Queue");
 
+        cstdb.child(storename).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for(DataSnapshot dataSnapshot: snapshot.getChildren())
+                {
+                     Quantities.add(dataSnapshot.getValue(CartHelper.class).getProductQuantity());
+                     productkeys.add(dataSnapshot.getValue(CartHelper.class).getProductKey());
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
         orderbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for(int i=0; i<productkeys.length;i++){
-                    bdr.child("orders").child(orderkey).child("products").child(String.valueOf(i)).child("Productkey").setValue(productkeys[i]);
-                    bdr.child("orders").child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities[i]);
+                for(int i=0; i<productkeys.size();i++){
+                    bdr.child("orders").child(orderkey).child("products").child(String.valueOf(i)).child("Productkey").setValue(productkeys.get(i));
+                    bdr.child("orders").child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities.get(i));
                 }
                 bdr.child("orders").child(orderkey).child("customerName").setValue(_custname);
                 bdr.child("orders").child(orderkey).child("ordertotal").setValue(String.valueOf(total));
@@ -140,9 +158,9 @@ public class OrderDetailsPage extends AppCompatActivity {
                                 String tokennum = String.valueOf(count+1);
 
                                 bdref.child(orderkey).child("token").setValue(tokennum);
-                                for(int i=0; i<productkeys.length;i++){
-                                    bdref.child(orderkey).child("products").child(String.valueOf(i)).child("Productkey").setValue(productkeys[i]);
-                                    bdref.child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities[i]);
+                                for(int i=0; i<productkeys.size();i++){
+                                    bdref.child(orderkey).child("products").child(String.valueOf(i)).child("Productkey").setValue(productkeys.get(i));
+                                    bdref.child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities.get(i));
                                 }
                                 bdref.child(orderkey).child("customerName").setValue(_custname);
                                 bdref.child(orderkey).child("ordertotal").setValue(_itemtotal);
@@ -172,9 +190,9 @@ public class OrderDetailsPage extends AppCompatActivity {
 
     private void setQueueValues(String orderkey) {
         bdr.child("Queue").child(orderkey).child("token").setValue("1");
-        for(int i=0; i<productkeys.length;i++){
-            bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Productkey").setValue(productkeys[i]);
-            bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities[i]);
+        for(int i=0; i<productkeys.size();i++){
+            bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Productkey").setValue(productkeys.get(i));
+            bdr.child("Queue").child(orderkey).child("products").child(String.valueOf(i)).child("Quantity").setValue(Quantities.get(i));
         }
         bdr.child("Queue").child(orderkey).child("customerName").setValue(_custname);
         bdr.child("Queue").child(orderkey).child("ordertotal").setValue(_itemtotal);

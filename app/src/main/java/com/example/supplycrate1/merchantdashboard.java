@@ -93,17 +93,14 @@ public class merchantdashboard extends Fragment  {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        dspinner = (Spinner) getView().findViewById(R.id.durationspin);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getContext(),R.array.duration, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        dspinner.setAdapter(adapter);
 
         TextView dashorders = getView().findViewById(R.id.dashorders);
         TextView reviews = getView().findViewById(R.id.updatecategory);
         TextView reviewText = getView().findViewById(R.id.lastupdatedash);
         Toolbar merchdashtoolbar = getView().findViewById(R.id.merchdashtoolbar);
 
-       SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
+        SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
         HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
 
         String mmail  = mrchDetails.get(SessionManager.KEY_MERCHANTEMAIL);
@@ -143,9 +140,11 @@ public class merchantdashboard extends Fragment  {
                             counter++;
                         }
                     }
+
                     double overallreview = reviewitr/counter;
-                    Toast.makeText(getContext(),String.valueOf(overallreview),Toast.LENGTH_SHORT).show();
-                    reviews.setText(String.valueOf(overallreview)+"/5");
+                    double finalreview = Math.round(overallreview*10D)/10D;
+                    //Toast.makeText(getContext(),String.valueOf(overallreview),Toast.LENGTH_SHORT).show();
+                    reviews.setText(String.valueOf(finalreview)+"/5");
                     reviewText.setText("Overall reviews");
                 }
             }
