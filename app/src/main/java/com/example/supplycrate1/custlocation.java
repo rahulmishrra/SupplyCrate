@@ -149,6 +149,7 @@ public class custlocation extends Fragment  implements OnMapReadyCallback, Googl
         String _custemail = userDetails.get(SessionManager.KEY_EMAIL);
         String _custpassword = userDetails.get(SessionManager.KEY_PASSWORD);
         String _custname = userDetails.get(SessionManager.KEY_NAME);
+        String _storename = userDetails.get(SessionManager.KEY_SELECTSTORENAME);
         //String _custloc = userDetails.get(SessionManager.KEY_LOCATION);
 
         List<String> merchnamelist = new ArrayList<>();

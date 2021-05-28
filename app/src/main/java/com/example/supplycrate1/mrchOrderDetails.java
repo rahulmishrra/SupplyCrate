@@ -60,7 +60,7 @@ public class mrchOrderDetails extends AppCompatActivity {
         orderstatusbtn = findViewById(R.id.orderstatusbtn);
         cancelbtn = findViewById(R.id.cancelorderbutton);
         ratingBar = findViewById(R.id.ratingBar);
-
+        ratingBar.setEnabled(false);
 
         mrchorderdetailtool.setTitle("Order #"+orderid);
 

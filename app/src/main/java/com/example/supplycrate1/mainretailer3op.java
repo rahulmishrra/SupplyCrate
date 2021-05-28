@@ -222,6 +222,7 @@ public class mainretailer3op extends AppCompatActivity {
                 });
             }
         });
+
     }
 
     private void SaveProductInfoToDatabase() {
@@ -238,6 +239,11 @@ public class mainretailer3op extends AppCompatActivity {
                 {
                     loadingBar.dismiss();
                     dbref.child(businessName).setValue(Bhclass);
+                    dbref.child(businessName).child("Location").setValue("");
+                    dbref.child(businessName).child("Latitude").setValue("");
+                    dbref.child(businessName).child("Longitude").setValue("");
+                    dbref.child(businessName).child("Locality").setValue("");
+                    dbref.child(businessName).child("PostalCode").setValue("");
                     //dbr.child(email).setValue(Bhclass);
                     SessionManager sessionManager = new SessionManager(mainretailer3op.this,SessionManager.SESSION_MERCHANT);
                     sessionManager.createmrchLoginSession(email,password,businessName,name,phone);
