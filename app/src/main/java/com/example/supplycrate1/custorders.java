@@ -203,13 +203,15 @@ public class custorders extends Fragment {
             }
         });
 
+        checkout(count,storename);
+
+
+        /*
         dtbref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                  count =  snapshot.getChildrenCount();
-                if(count>0){
-                    checkout(count,storename);
-                }
+
 
             }
 
@@ -217,7 +219,7 @@ public class custorders extends Fragment {
             public void onCancelled(@NonNull DatabaseError error) {
 
             }
-        });
+        });*/
         //count = cartkey.size();
 
 
@@ -235,7 +237,7 @@ public class custorders extends Fragment {
         dtbref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                int i=0;
+
                 for(DataSnapshot dataSnapshot: snapshot.getChildren())
                 {
                     //quantities[i] = dataSnapshot.getValue(CartHelper.class).getProductQuantity();
@@ -246,7 +248,7 @@ public class custorders extends Fragment {
                     int _pricen = Integer.valueOf(price);
                     int _quantityn  = Integer.valueOf(quantity);
                     counter += _pricen*_quantityn;
-                    i++;
+
                 }
                 //Toast.makeText(getContext(),String.valueOf(counter) +"here",Toast.LENGTH_SHORT).show();
                 custcarttotal.setText("Item Total: "+"\u20B9"+String.valueOf(counter));

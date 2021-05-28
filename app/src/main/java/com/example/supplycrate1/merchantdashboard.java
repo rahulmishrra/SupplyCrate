@@ -8,6 +8,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class merchantdashboard extends Fragment  {
     private Spinner dspinner;
     long  counter = 0;
     double reviewitr = 0.0;
+    long totalsales=0;
 
 
     // TODO: Rename and change types of parameters
@@ -98,6 +100,7 @@ public class merchantdashboard extends Fragment  {
         TextView dashorders = getView().findViewById(R.id.dashorders);
         TextView reviews = getView().findViewById(R.id.updatecategory);
         TextView reviewText = getView().findViewById(R.id.lastupdatedash);
+        TextView salesval = getView().findViewById(R.id.salesvalue);
         Toolbar merchdashtoolbar = getView().findViewById(R.id.merchdashtoolbar);
 
         SessionManager sessionManager = new SessionManager(getContext(),SessionManager.SESSION_MERCHANT);
@@ -111,8 +114,11 @@ public class merchantdashboard extends Fragment  {
 
         merchdashtoolbar.setTitle(mbname);
 
+        FirebaseDatabase firedb = FirebaseDatabase.getInstance();
+        DatabaseReference dataref = firedb.getReference("Merchants");
+
         DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReference("Merchants").child(mbname);
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild("orders")){
@@ -126,7 +132,7 @@ public class merchantdashboard extends Fragment  {
             }
         });
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 if(snapshot.hasChild("orders")){
@@ -139,6 +145,9 @@ public class merchantdashboard extends Fragment  {
                             reviewitr += review;
                             counter++;
                         }
+                        String sale = dataSnapshot.child("ordertotal").getValue().toString();
+                        totalsales += Long.valueOf(sale);
+
                     }
 
                     double overallreview = reviewitr/counter;
@@ -146,6 +155,9 @@ public class merchantdashboard extends Fragment  {
                     //Toast.makeText(getContext(),String.valueOf(overallreview),Toast.LENGTH_SHORT).show();
                     reviews.setText(String.valueOf(finalreview)+"/5");
                     reviewText.setText("Overall reviews");
+                    salesval.setTextSize(TypedValue.COMPLEX_UNIT_SP,35);
+                    salesval.setText("\u20B9"+String.valueOf(totalsales));
+
                 }
             }
 
@@ -154,9 +166,6 @@ public class merchantdashboard extends Fragment  {
 
             }
         });
-
-
-
     }
 
 

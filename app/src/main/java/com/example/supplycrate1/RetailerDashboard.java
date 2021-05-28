@@ -25,11 +25,6 @@ public class RetailerDashboard extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_retailer_dashboard);
 
-        SessionManager sessionManager = new SessionManager(getApplicationContext(),SessionManager.SESSION_MERCHANT);
-        HashMap<String,String> mrchDetails = sessionManager.getMerchantDetailFromSession();
-
-        String mbname = mrchDetails.get(SessionManager.KEY_MERCHANTBNAME);
-
 
         bottomNavigationView = findViewById(R.id.merchantnavigation);
         bottomNavigationView.setSelectedItemId(R.id.merchantdashboard);
@@ -89,7 +84,9 @@ public class RetailerDashboard extends AppCompatActivity {
                     case R.id.queue:
                         temp = new queue();
                         break;
-
+                    case R.id.merchAccount:
+                        temp = new merchAccount();
+                        break;
                 }
                 getSupportFragmentManager().beginTransaction().replace(R.id.framecontainer,temp).commit();
 

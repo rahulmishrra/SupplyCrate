@@ -37,6 +37,8 @@ public class mainretailer2op extends AppCompatActivity {
     FirebaseDatabase dbrootnode;
     DatabaseReference dbref;
     private ProgressDialog loadingBar;
+    private String _b_phone;
+    private boolean rd = true;
 
 
     @Override
@@ -68,12 +70,13 @@ public class mainretailer2op extends AppCompatActivity {
                 String bname = editbname.getText().toString();
                 String email = editemail.getText().toString();
                 String password = editpassword.getText().toString();
+
                 fAuth = FirebaseAuth.getInstance();
                 dbrootnode = FirebaseDatabase.getInstance();
                 dbref = dbrootnode.getReference("Merchants");
                 Query checkUser = dbref.orderByChild("bName").equalTo(bname);
 
-                checkUser.addValueEventListener(new ValueEventListener() {
+                checkUser.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if(snapshot.exists()){
@@ -81,10 +84,10 @@ public class mainretailer2op extends AppCompatActivity {
                             String _b_email = snapshot.child(bname).child("email").getValue().toString();
                             String _name = snapshot.child(bname).child("name").getValue().toString();
                             String _b_pass = snapshot.child(bname).child("pass").getValue().toString();
-                            String _b_phone = snapshot.child(bname).child("phone").getValue().toString();
+                            _b_phone = snapshot.child(bname).child("phone").getValue().toString();
                             SessionManager sessionManager = new SessionManager(mainretailer2op.this,SessionManager.SESSION_MERCHANT);
                             sessionManager.createmrchLoginSession(_b_email,_b_pass,bname,_name,_b_phone);
-
+                            rd =false;
                         }
                         else {
                             loadingBar.dismiss();
@@ -97,6 +100,7 @@ public class mainretailer2op extends AppCompatActivity {
 
                     }
                 });
+
                 merchLogin(email,password);
 
             }
@@ -123,6 +127,7 @@ public class mainretailer2op extends AppCompatActivity {
                     return;
                 }
                 else{
+
                     fAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
@@ -132,7 +137,7 @@ public class mainretailer2op extends AppCompatActivity {
 
                                 Toast.makeText(com.example.supplycrate1.mainretailer2op.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(),RetailerDashboard.class));
-                                finish();
+
                             }
                             else
                             {
